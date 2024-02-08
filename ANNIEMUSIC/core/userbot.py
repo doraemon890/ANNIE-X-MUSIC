@@ -51,7 +51,7 @@ class Userbot(Client):
         if config.STRING1:
             await self.one.start()
             try:
-                await self.one.join_chat("GLACEON_CHATS")
+                await self.one.join_chat("doraworld5")
               
                 await self.one.join_chat("universalhub8")
             except:
@@ -74,7 +74,7 @@ class Userbot(Client):
         if config.STRING2:
             await self.two.start()
             try:
-                await self.two.join_chat("GLACEON_CHATS")
+                await self.two.join_chat("doraworld5")
                 
                 await self.one.join_chat("universalhub8")
             except:
@@ -96,7 +96,7 @@ class Userbot(Client):
         if config.STRING3:
             await self.three.start()
             try:
-                await self.three.join_chat("GLACEON_CHATS")
+                await self.three.join_chat("doraworld5")
                 
                 await self.one.join_chat("universalhub8")
             except:
@@ -118,7 +118,7 @@ class Userbot(Client):
         if config.STRING4:
             await self.four.start()
             try:
-                await self.four.join_chat("GLACEON_CHATS")
+                await self.four.join_chat("doraworld5")
                 
                 await self.one.join_chat("universalhub8")
             except:
@@ -140,7 +140,7 @@ class Userbot(Client):
         if config.STRING5:
             await self.five.start()
             try:
-                await self.five.join_chat("GLACEON_CHATS")
+                await self.five.join_chat("doraworld5")
                 
                 await self.one.join_chat("universalhub8")
             except:
