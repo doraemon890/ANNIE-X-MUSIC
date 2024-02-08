@@ -6,7 +6,7 @@
 
 <p align="center"><a href="https://t.me/jarvis2O"><img src="https://telegra.ph/file/58afe55fee5ae99d6901b.jpg" width="600"></a></p>
 
-<h3> <img src="https://readme-typing-svg.herokuapp.com?color=00BFFF&width=620&lines=✨+🦋+💗+𝓣𝓗𝓘𝓢+𝓘𝓢+𝓣𝓗𝓔+𝓜𝓞𝓢𝓣+𝓐𝓓𝓥𝓐𝓝𝓒𝓔+𝓜𝓤𝓢𝓘𝓒+𝓜𝓐𝓝𝓐𝓖𝓔𝓜𝓔𝓜𝓔𝓝𝓣+𝓡𝓞𝓑𝓞𝓣+🔥+🥀"></b></h3>
+<h3> <img src="https://readme-typing-svg.herokuapp.com?color=00BFFF&width=620&lines=✨+🦋+💗+𝓣𝓗𝓘𝓢+𝓘𝓢+𝓣𝓗𝓔+𝓜𝓞𝓢𝓣+𝓐𝓓𝓥𝓐𝓝𝓒𝓔+𝓜𝓤𝓢𝓘𝓒;𝓜𝓐𝓝𝓐𝓖𝓔𝓜𝓔𝓜𝓔𝓝𝓣+𝓡𝓞𝓑𝓞𝓣+🔥+🥀"></b></h3>
 
 ## 𝐒𝐓𝐑𝐈𝐍𝐆 𝐒𝐄𝐒𝐒𝐈𝐎𝐍🥀
 
