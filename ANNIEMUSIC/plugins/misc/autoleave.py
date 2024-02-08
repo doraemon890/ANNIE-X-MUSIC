@@ -10,33 +10,30 @@ from ANNIEMUSIC.utils.database import get_client, is_active_chat, is_autoend
 
 
 async def auto_leave():
-   if config.AUTO_LEAVING_ASSISTANT == str(True):
-        while not await asyncio.sleep(
-            config.AUTO_LEAVE_ASSISTANT_TIME
-        ):
+    if config.AUTO_LEAVING_ASSISTANT:
+        while not await asyncio.sleep(900):
             from ANNIEMUSIC.core.userbot import assistants
 
             for num in assistants:
                 client = await get_client(num)
                 left = 0
                 try:
-                     async for i in client.iter_dialogs():
-                        chat_type = i.chat.type
-                        if chat_type in [
-                            "supergroup",
-                            "group",
-                            "channel",
+                    async for i in client.get_dialogs():
+                        if i.chat.type in [
+                            ChatType.SUPERGROUP,
+                            ChatType.GROUP,
+                            ChatType.CHANNEL,
                         ]:
                             if (
-                                chat_id = config.LOGGER_ID
-                                and i.chat.id != -1002073854149
-                                and i.chat.id != -1002073854149
+                                i.chat.id != config.LOGGER_ID
+                                and i.chat.id != -1001802990747
+                                and i.chat.id != -1001802990747
                             ):
                                 if left == 20:
                                     continue
-                                if not await is_active_chat(chat_id):
+                                if not await is_active_chat(i.chat.id):
                                     try:
-                                        await client.leave_chat(chat_id)
+                                        await client.leave_chat(i.chat.id)
                                         left += 1
                                     except:
                                         continue
@@ -49,7 +46,8 @@ asyncio.create_task(auto_leave())
 
 async def auto_end():
     while not await asyncio.sleep(5):
-        if not await is_autoend():
+        ender = await is_autoend()
+        if not ender:
             continue
         for chat_id in autoend:
             timer = autoend.get(chat_id)
