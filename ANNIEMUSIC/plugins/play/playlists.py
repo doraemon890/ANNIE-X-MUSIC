@@ -7,16 +7,16 @@ from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
 
 from config import BANNED_USERS
-from ANNNIEMUSIC import Carbon, YouTube, app
-from ANNNIEMUSIC.utils.database import (delete_playlist, get_playlist,
+from ANNIEMUSIC import Carbon, YouTube, app
+from ANNIEMUSIC.utils.database import (delete_playlist, get_playlist,
                                        get_playlist_names,
                                        save_playlist)
-from ANNNIEMUSIC.utils.decorators.language import language, languageCB
-from ANNNIEMUSIC.utils.inline.playlist import (botplaylist_markup,
+from ANNIEMUSIC.utils.decorators.language import language, languageCB
+from ANNIEMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
-from ANNNIEMUSIC.utils.pastebin import VIPBin
-from ANNNIEMUSIC.utils.stream.stream import stream
+from ANNIEMUSIC.utils.pastebin import VIPBin
+from ANNIEMUSIC.utils.stream.stream import stream
 
 # Command
 PLAYLIST_COMMAND = ("playlist")
