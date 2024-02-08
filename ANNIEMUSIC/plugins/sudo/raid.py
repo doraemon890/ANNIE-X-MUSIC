@@ -26,7 +26,7 @@ def spam_command(client, message):
             num_times = int(num_times)
         except ValueError:
             # If not, default to spamming 1 time
-            num_times = 1
+            num_times = 3
             text_to_spam = command_args
 
         for _ in range(num_times):
