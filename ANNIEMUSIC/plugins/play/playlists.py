@@ -15,7 +15,7 @@ from ANNIEMUSIC.utils.decorators.language import language, languageCB
 from ANNIEMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
-from ANNIEMUSIC.utils.pastebin import VIPBin
+from ANNIEMUSIC.utils.pastebin import ANNIEBin
 from ANNIEMUSIC.utils.stream.stream import stream
 
 # Command
