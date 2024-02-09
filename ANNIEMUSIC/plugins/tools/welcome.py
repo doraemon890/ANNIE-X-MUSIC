@@ -35,26 +35,28 @@ class temp:
 
 
 def circle(pfp, size=(500, 500)):
-    pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
+    pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
     bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
     mask = Image.new("L", bigsize, 0)
     draw = ImageDraw.Draw(mask)
     draw.ellipse((0, 0) + bigsize, fill=255)
-    mask = mask.resize(pfp.size, Image.ANTIALIAS)
+    mask = mask.resize(pfp.size, Image.LANCZOS)
     mask = ImageChops.darker(mask, pfp.split()[-1])
     pfp.putalpha(mask)
     return pfp
 
 def welcomepic(pic, user, chatname, id, uname):
-    background = Image.open("ANNIEMUSIC/assets/wel2.png")
+    background = Image.open("ANNIEMUSIC/assets/annie/anniewelcome.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
-    pfp = pfp.resize((825, 824))
+    pfp = pfp.resize((171, 171))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=110)
-    welcome_font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=60)
-    draw.text((2100, 1420), f'ID: {id}', fill=(12000, 12000, 12000), font=font)
-    pfp_position = (1990, 435)
+    font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=110)
+    welcome_font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=60)
+    draw.text((318, 152), f'NAME: {user}', fill=(255, 255, 255), font=font)
+    draw.text((318, 200), f'ID: {id}', fill=(255, 255, 255), font=font)
+    draw.text((318, 250), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
+    pfp_position = (77, 112)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
@@ -77,7 +79,7 @@ async def greet_group(_, member: ChatMemberUpdated):
             user.photo.big_file_id, file_name=f"pp{user.id}.png"
         )
     except AttributeError:
-        pic = "ANNIEMUSIC/assets/upic.png"
+        pic = "ANNIEMUSIC/assets/annie/annieno.png"
     if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
         try:
             await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
