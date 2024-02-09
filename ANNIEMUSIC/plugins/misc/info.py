@@ -10,10 +10,10 @@ from typing import Union, Optional
 import random
 
 anniephoto = [
-    "https://telegra.ph/file/facec75902f1b6b361a8b.jpg",
-    "https://telegra.ph/file/cd205021bf40f44ad78e4.jpg",
-    "https://telegra.ph/file/05144a16d058f9a7401e5.jpg",
-    "https://telegra.ph/file/3c9c23857075dcaea5892.jpg",
+    "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
+    "https://telegra.ph/file/3c4de59511e179018f902.jpg",
+    "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
+    "https://telegra.ph/file/3c4de59511e179018f902.jpg",
     "https://telegra.ph/file/002b98f44394097758551.jpg",
 ]
 
