@@ -5,10 +5,6 @@ from pyrogram.types import *
 from logging import getLogger
 from ANNIEMUSIC import app
 
-
-
-
-
 LOGGER = getLogger(__name__)
 
 class WelDatabase:
@@ -63,47 +59,12 @@ def welcomepic(pic, user, chatname, id, uname):
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
 
-# FUCK you bhosadiwale 
 
-
-@app.on_message(filters.command("wel") & ~filters.private)
-async def auto_state(_, message):
-    usage = "**Usage:**\n⦿/wel [on|off]\n➤ANNIE SPECIAL WELCOME.........."
-    if len(message.command) == 1:
-        return await message.reply_text(usage)
-    chat_id = message.chat.id
-    user = await app.get_chat_member(message.chat.id, message.from_user.id)
-    if user.status in (
-        enums.ChatMemberStatus.ADMINISTRATOR,
-        enums.ChatMemberStatus.OWNER,
-    ):
-        A = await wlcm.find_one(chat_id)
-        state = message.text.split(None, 1)[1].strip().lower()
-        if state == "on":
-            if A:
-                return await message.reply_text("Special Welcome Already Enabled")
-            elif not A:
-                await wlcm.add_wlcm(chat_id)
-                await message.reply_text(f"Enabled Special Welcome in {message.chat.title}")
-        elif state == "off":
-            if not A:
-                return await message.reply_text("Special Welcome Already Disabled")
-            elif A:
-                await wlcm.rm_wlcm(chat_id)
-                await message.reply_text(f"Disabled Special Welcome in {message.chat.title}")
-        else:
-            await message.reply_text(usage)
-    else:
-        await message.reply("Only Admins Can Use This Command")
-
-# ... (copy paster teri maa ki chut  )
 
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    A = await wlcm.find_one(chat_id)  # Corrected this line
-    if not A:
-        return
+    A = await wlcm.find_one(chat_id)
     if (
         not member.new_chat_member
         or member.new_chat_member.status in {"banned", "left", "restricted"}
@@ -147,7 +108,7 @@ Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
     except Exception as e:
         pass
 
-# ... (resfuxbk 
+
 
 @app.on_message(filters.new_chat_members & filters.group, group=-1)
 async def bot_wel(_, message):
