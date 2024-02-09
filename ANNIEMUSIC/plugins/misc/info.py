@@ -67,7 +67,7 @@ async def get_userinfo_img(
 # --------------------------------------------------------------------------------- #
 
 bg_path = "ANNIEMUSIC/assets/annie/jarvisinfo.png"
-font_path = "ANNIEMUSIC/assets/hiroko.ttf"
+font_path = "ANNIEMUSIC/assets/annie/jarvisinf.ttf"
 
 # --------------------------------------------------------------------------------- #
 
