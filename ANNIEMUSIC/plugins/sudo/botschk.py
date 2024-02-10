@@ -14,7 +14,7 @@ from ANNIEMUSIC.core.userbot import *
 from ANNIEMUSIC import app
 
 
-BOT_LIST = ["NexikoBot", "Annie_X_music_bot", "jarvis_string_gen_bot"]
+BOT_LIST = [ "Jarvis_X_Spam_02_bot" "Annie_X_music_bot", "jarvis_string_gen_bot"]
 
 
 
