@@ -46,13 +46,13 @@ async def get_userinfo_img(
 
         circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
         circular_img.paste(img, (0, 0), mask)
-        resized = circular_img.resize((376, 374))
-        bg.paste(resized, (181, 205), resized)
+        resized = circular_img.resize((215, 234))
+        bg.paste(resized, (260, 226), resized)
 
     img_draw = ImageDraw.Draw(bg)
 
     img_draw.text(
-        (220, 600),
+        (230, 795),
         text=str(user_id).upper(),
         font=get_font(46, font_path),
         fill=(255, 255, 255),
@@ -66,7 +66,7 @@ async def get_userinfo_img(
 
 # --------------------------------------------------------------------------------- #
 
-bg_path = "ANNIEMUSIC/assets/annie/jarvisinfo.png"
+bg_path = "ANNIEMUSIC/assets/annie/annieinfo.png"
 font_path = "ANNIEMUSIC/assets/annie/jarvisinf.ttf"
 
 # --------------------------------------------------------------------------------- #
