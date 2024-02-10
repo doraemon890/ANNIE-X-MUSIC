@@ -169,9 +169,9 @@ play_22 : "sᴇʟᴇᴄᴛ ᴛʜᴇ ᴍᴏᴅᴇ ɪɴ ᴡʜɪᴄʜ ʏᴏᴜ ᴡ�
 
 #Playlist Buttons
 PL_B_1 : "๏ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ๏"
-PL_B_2 : "๏ ᴀᴅᴅ ᴘʟᴀʏʟɪsᴛ ๏"
+PL_B_2 : "๏ ᴀᴅᴅ ɪɴ ᴜʀ ᴘʟᴀʏʟɪsᴛ ๏"
 PL_B_3 : "๏ ᴍᴏʀᴇ ๏"
-PL_B_4 : "📡 Play Mode"
+PL_B_4 : "๏ ᴘʟᴀʏ ᴍᴏᴅᴇ ๏"
 PL_B_5 : "๏ ᴅᴇʟ ᴀʟʟ ᴘʟᴀʏʟɪsᴛ ๏"
 PL_B_6 : "๏ ᴅᴇʟ ᴘʟᴀʏʟɪsᴛ ๏"
 PL_B_7 : "❗ʏᴇs ɪ ᴀᴍ sᴜʀᴇ."
@@ -199,6 +199,7 @@ playlist_15 : "[Checkout Whole Playlist]({0})"
 playlist_16 : "Queued Playlist:"
 playlist_17 : "Queued Position-"
 playlist_18 : "[Checkout Whole Queued Playlist]({0})\n\nLast Queued Position : **{1}**"
+
 
 #TopPlay
 tracks_1 : "**Processing {0} Top 10 Playlist**\nThis could take some mins(around 3-4 mins).. Please Wait...\n\n**👤Requested By:** {1}\n\nCheck Top 10 tracks by /gstats"
