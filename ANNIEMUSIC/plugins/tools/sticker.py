@@ -11,29 +11,29 @@ from pyrogram.types import InlineKeyboardButton,InlineKeyboardMarkup
 
 
 @app.on_message(filters.reply & filters.command("upscale"))
-async def upscale_image(client, message):
+async def upscale_image(app, message):
     try:
         if not message.reply_to_message or not message.reply_to_message.photo:
             await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
             return
 
         image = message.reply_to_message.photo.file_id
-        file_path = await client.download_media(image)
+        file_path = await app.download_media(image)
 
         with open(file_path, "rb") as image_file:
             f = image_file.read()
 
         b = base64.b64encode(f).decode("utf-8")
 
-        async with httpx.AsyncClient() as http_client:
-            response = await http_client.post(
+        async with httpx.Asyncapp() as http_app:
+            response = await http_app.post(
                 "https://api.qewertyy.me/upscale", data={"image_data": b}, timeout=None
             )
 
         with open("upscaled_image.png", "wb") as output_file:
             output_file.write(response.content)
 
-        await client.send_document(
+        await app.send_document(
             message.chat.id,
             document="upscaled_image.png",
             caption="**ʜᴇʀᴇ ɪs ᴛʜᴇ ᴜᴘsᴄᴀʟᴇᴅ ɪᴍᴀɢᴇ!**",
