@@ -93,11 +93,7 @@ async def ctest(_, message):
          img.paste(img1, (106, 126), img1)
          img.paste(img2, (681, 126), img2)
 
-     draw = ImageDraw.Draw(background)
-     font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=28)
-     couple_font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=9)
-     draw.text((540, 775), f"Boyfriend : {(c1_id)}", fill=(255, 0, 0), font=font)
-     draw.text((140, 960), f"Girlfriend : {(c2_id)}", fill=(255, 0, 0), font=font)
+    
 
          img.save(f'test_{cid}.png')
     
