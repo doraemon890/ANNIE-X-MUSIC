@@ -52,10 +52,10 @@ async def get_userinfo_img(
     img_draw = ImageDraw.Draw(bg)
 
     img_draw.text(
-        (230, 795),
+        (230, 810),
         text=str(user_id).upper(),
         font=get_font(46, font_path),
-        fill=(255, 255, 255),
+        fill=(0, 0, 0),
     )
 
 
