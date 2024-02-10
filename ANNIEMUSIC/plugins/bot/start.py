@@ -27,7 +27,7 @@ from strings import get_string
 
 
 
-YUMI_PICS = [
+ANNIE_PICS = [
 "https://telegra.ph/file/2e7b72279b28105607667.jpg",
 "https://telegra.ph/file/2384d114707839e01f0cb.jpg",
 "https://telegra.ph/file/754d312ff2b3839ee6756.jpg",
@@ -55,7 +55,7 @@ async def start_pm(client, message: Message, _):
         if name[0:4] == "help":
             keyboard = help_pannel(_)
             return await message.reply_photo(
-                random.choice(YUMI_PICS),
+                random.choice(ANNIE_PICS),
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
@@ -110,7 +110,7 @@ async def start_pm(client, message: Message, _):
         served_users = len(await get_served_users())
         UP, CPU, RAM, DISK = await bot_sys_stats()
         await message.reply_photo(
-            random.choice(YUMI_PICS),
+            random.choice(ANNIE_PICS),
             caption=random.choice(AMOP).format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM,served_users,served_chats),
             reply_markup=InlineKeyboardMarkup(out),
         )
@@ -127,7 +127,7 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
-        random.choice(YUMI_PICS),
+        random.choice(ANNIE_PICS),
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
@@ -162,7 +162,7 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 await message.reply_photo(
-                    random.choice(YUMI_PICS),
+                    random.choice(ANNIE_PICS),
                     caption=_["start_3"].format(
                         message.from_user.mention,
                         app.mention,
