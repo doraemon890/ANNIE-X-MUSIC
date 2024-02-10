@@ -5,7 +5,7 @@ from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
-
+from ANNIEMUSIC.utils import close_markup
 from config import BANNED_USERS
 from ANNIEMUSIC import Carbon, YouTube, app
 from ANNIEMUSIC.utils.database import (delete_playlist, get_playlist,
@@ -44,7 +44,7 @@ async def check_playlist(client, message: Message, _):
         count += 1
         msg += f"\n\n{count}- {title[:70]}\n"
         msg += _["playlist_5"].format(duration)
-    link = await VIPBin(msg)
+    link = await ANNIEBIN(msg)
     lines = msg.count("\n")
     if lines >= 17:
         car = os.linesep.join(msg.split(os.linesep)[:17])
@@ -57,6 +57,66 @@ async def check_playlist(client, message: Message, _):
     )
 
 
+import yt_dlp
+from urllib.parse import urlparse
+from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
+
+from ANNIEMUSIC import app
+from pyrogram import filters
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from youtubesearchpython import VideosSearch
+from youtubesearchpython import SearchVideos
+
+
+@app.on_message(filters.command("addplaylist"))
+async def add_to_playlist_command(client, message, song_name):
+    user_id = message.from_user.id
+    
+    # Check if the user is banned or not
+    if user_id in BANNED_USERS:
+        return
+
+    # Search for the song on YouTube
+    video = await YouTube.search(song_name)
+    
+    # Check if the video exists
+    if not video:
+        await message.reply_text("❌ Song not found!")
+        return
+    
+    videoid = video["id"]
+    
+    # Check if the song is already in the playlist
+    _check = await get_playlist(user_id, videoid)
+    if _check:
+        await message.reply_text("🎵 This song is already in the playlist!")
+        return
+
+    # Retrieve video details
+    (
+        title,
+        duration_min,
+        duration_sec,
+        thumbnail,
+        vidid,
+    ) = await YouTube.details(videoid, True)
+    title = (title[:50]).title()
+
+    # Construct playlist item
+    plist = {
+        "title": title,
+        "duration": duration_min,
+        "songs": [{"videoid": videoid}]
+    }
+
+    # Save playlist
+    await save_playlist(user_id, videoid, plist)
+
+    await message.reply_text(
+        text="❄ Successfully added to playlist.\n │\n └ Requested by: {0}".format(message.from_user.mention),
+    )
 
 
 async def get_keyboard(_, user_id):
@@ -153,21 +213,20 @@ async def play_playlist(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
 @languageCB
-async def add_playlist(client, callback_query, _):
-    callback_data = callback_query.data.strip()
-    videoid = callback_data.split(None, 1)[1]
-    user_id = callback_query.from_user.id
+async def add_playlist(client, CallbackQuery, _):
+    callback_data = CallbackQuery.data.strip()
+    videoid = callback_data.split(None, 0)[0]
+    user_id = CallbackQuery.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
-            return await callback_query.answer(
+            return await CallbackQuery.answer(
                 _["playlist_8"], show_alert=True
             )
         except:
             return
     _count = await get_playlist_names(user_id)
     count = len(_count)
-    # Retrieve video details
     (
         title,
         duration_min,
@@ -176,26 +235,20 @@ async def add_playlist(client, callback_query, _):
         vidid,
     ) = await YouTube.details(videoid, True)
     title = (title[:50]).title()
-
-    # Construct playlist item
     plist = {
+        "videoid": vidid,
         "title": title,
         "duration": duration_min,
-        "songs": [{"videoid": vidid}]
     }
-
-    # Save playlist
     await save_playlist(user_id, videoid, plist)
-
     try:
         title = (title[:30]).title()
-        return await callback_query.message.reply_text(
-            text="❄ sᴜᴄᴄᴇssғᴜʟʟʏ ᴀᴅᴅᴇᴅ ᴛᴏ ᴩʟᴀʏʟɪsᴛ.\n │\n └ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {0}".format(callback_query.from_user.mention),
-            reply_markup=close_keyboard,
+        return await CallbackQuery.answer(
+            _["playlist_10"].format(title), show_alert=True
         )
     except:
         return
-
+      
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
 async def del_plist(client, CallbackQuery, _):
