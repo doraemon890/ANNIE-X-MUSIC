@@ -16,6 +16,14 @@
 
 <p align="center"><a href="http://dashboard.heroku.com/new?template=https://github.com/doraemon890/ANNIE-X-MUSIC"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-pink?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
 
+# ＢＥＳＴ ＭＵＳＩＣ ＢＯＴ
+
+<p align="center">
+  
+  ![ezgif-7-db3a062509](https://github.com/doraemon890/trial/assets/155803358/c10daef7-1a35-4ff7-a6fb-f5eff7b9a88d)
+  
+  </p>
+
 # 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 💗🥀
 <a href="https://t.me/jarvis2O"><img title="Telegram" src="https://img.shields.io/badge/Telegram-%23000000.svg?&style=for-the-badge&logo=telegram&logoColor=61DAFB"></a>
 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hackerdoraemon2@gmail.com"><img title="GMAIL" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"></a>
