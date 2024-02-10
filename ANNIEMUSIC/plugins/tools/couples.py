@@ -2,7 +2,7 @@ import os
 import random
 from datetime import datetime 
 from telegraph import upload_file
-from PIL import Image , ImageDraw , ImageFont, ImageChops
+from PIL import Image , ImageDraw
 from pyrogram import *
 from pyrogram.types import *
 from pyrogram.enums import *
@@ -71,10 +71,10 @@ async def ctest(_, message):
          img1 = Image.open(f"{p1}")
          img2 = Image.open(f"{p2}")
 
-         img = Image.open("ANNIEMUSIC/assets/annie/anniecouple.png")
+         img = Image.open("ANNIEMUSIC/assets/cppic.png")
 
-         img1 = img1.resize((284,281))
-         img2 = img2.resize((284,281))
+         img1 = img1.resize((437,437))
+         img2 = img2.resize((437,437))
 
          mask = Image.new('L', img1.size, 0)
          draw = ImageDraw.Draw(mask) 
@@ -90,10 +90,8 @@ async def ctest(_, message):
 
          draw = ImageDraw.Draw(img)
 
-         img.paste(img1, (106, 126), img1)
-         img.paste(img2, (681, 126), img2)
-
-    
+         img.paste(img1, (116, 160), img1)
+         img.paste(img2, (789, 160), img2)
 
          img.save(f'test_{cid}.png')
     
