@@ -53,7 +53,7 @@ class Userbot(Client):
             try:
                 await self.one.join_chat("doraworld5")
               
-                await self.one.join_chat("universalhub8")
+                await self.one.join_chat("JARVIS_HUB")
             except:
                 pass
             assistants.append(1)
@@ -76,7 +76,7 @@ class Userbot(Client):
             try:
                 await self.two.join_chat("doraworld5")
                 
-                await self.one.join_chat("universalhub8")
+                await self.one.join_chat("JARVIS_HUB")
             except:
                 pass
             assistants.append(2)
@@ -98,7 +98,7 @@ class Userbot(Client):
             try:
                 await self.three.join_chat("doraworld5")
                 
-                await self.one.join_chat("universalhub8")
+                await self.one.join_chat("JARVIS_HUB")
             except:
                 pass
             assistants.append(3)
@@ -120,7 +120,7 @@ class Userbot(Client):
             try:
                 await self.four.join_chat("doraworld5")
                 
-                await self.one.join_chat("universalhub8")
+                await self.one.join_chat("JARVIS_HUB")
             except:
                 pass
             assistants.append(4)
@@ -142,7 +142,7 @@ class Userbot(Client):
             try:
                 await self.five.join_chat("doraworld5")
                 
-                await self.one.join_chat("universalhub8")
+                await self.one.join_chat("JARVIS_HUB")
             except:
                 pass
             assistants.append(5)
