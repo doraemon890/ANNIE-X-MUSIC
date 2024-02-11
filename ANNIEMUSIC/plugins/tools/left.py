@@ -108,9 +108,9 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 ])
             )
 
-            # Schedule a task to delete the message after 60 seconds
+            # Schedule a task to delete the message after 300 seconds
             async def delete_message():
-                await asyncio.sleep(60)
+                await asyncio.sleep(300)
                 await message.delete()
 
             # Run the task
