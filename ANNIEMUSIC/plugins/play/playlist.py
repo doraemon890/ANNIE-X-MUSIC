@@ -6,17 +6,70 @@ from pyrogram import filters
 from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
 from ANNIEMUSIC.utils import close_markup
-from config import BANNED_USERS
+from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
 from ANNIEMUSIC import Carbon, YouTube, app
-from ANNIEMUSIC.utils.database import (delete_playlist, get_playlist,
-                                       get_playlist_names,
-                                       save_playlist)
 from ANNIEMUSIC.utils.decorators.language import language, languageCB
 from ANNIEMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
 from ANNIEMUSIC.utils.pastebin import ANNIEBIN
 from ANNIEMUSIC.utils.stream.stream import stream
+from typing import Dict, List, Union
+
+from ANNIEMUSIC.core.mongo import mongodb
+
+playlistdb = mongodb.playlist
+playlist = []
+# Playlist Databse
+
+
+async def _get_playlists(chat_id: int) -> Dict[str, int]:
+    _notes = await playlistdb.find_one({"chat_id": chat_id})
+    if not _notes:
+        return {}
+    return _notes["notes"]
+
+
+async def get_playlist_names(chat_id: int) -> List[str]:
+    _notes = []
+    for note in await _get_playlists(chat_id):
+        _notes.append(note)
+    return _notes
+
+
+async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
+    name = name
+    _notes = await _get_playlists(chat_id)
+    if name in _notes:
+        return _notes[name]
+    else:
+        return False
+
+
+async def save_playlist(chat_id: int, name: str, note: dict):
+    name = name
+    _notes = await _get_playlists(chat_id)
+    _notes[name] = note
+    await playlistdb.update_one(
+        {"chat_id": chat_id}, {"$set": {"notes": _notes}}, upsert=True
+    )
+
+
+async def delete_playlist(chat_id: int, name: str) -> bool:
+    notesd = await _get_playlists(chat_id)
+    name = name
+    if name in notesd:
+        del notesd[name]
+        await playlistdb.update_one(
+            {"chat_id": chat_id},
+            {"$set": {"notes": notesd}},
+            upsert=True,
+        )
+        return True
+    return False
+
+
+
 
 # Command
 PLAYLIST_COMMAND = ("playlist")
@@ -57,66 +110,6 @@ async def check_playlist(client, message: Message, _):
     )
 
 
-import yt_dlp
-from urllib.parse import urlparse
-from youtube_search import YoutubeSearch
-from yt_dlp import YoutubeDL
-
-from ANNIEMUSIC import app
-from pyrogram import filters
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from youtubesearchpython import VideosSearch
-from youtubesearchpython import SearchVideos
-
-
-@app.on_message(filters.command("addplaylist"))
-async def add_to_playlist_command(client, message, song_name):
-    user_id = message.from_user.id
-    
-    # Check if the user is banned or not
-    if user_id in BANNED_USERS:
-        return
-
-    # Search for the song on YouTube
-    video = await YouTube.search(song_name)
-    
-    # Check if the video exists
-    if not video:
-        await message.reply_text("❌ Song not found!")
-        return
-    
-    videoid = video["id"]
-    
-    # Check if the song is already in the playlist
-    _check = await get_playlist(user_id, videoid)
-    if _check:
-        await message.reply_text("🎵 This song is already in the playlist!")
-        return
-
-    # Retrieve video details
-    (
-        title,
-        duration_min,
-        duration_sec,
-        thumbnail,
-        vidid,
-    ) = await YouTube.details(videoid, True)
-    title = (title[:50]).title()
-
-    # Construct playlist item
-    plist = {
-        "title": title,
-        "duration": duration_min,
-        "songs": [{"videoid": videoid}]
-    }
-
-    # Save playlist
-    await save_playlist(user_id, videoid, plist)
-
-    await message.reply_text(
-        text="❄ Successfully added to playlist.\n │\n └ Requested by: {0}".format(message.from_user.mention),
-    )
 
 
 async def get_keyboard(_, user_id):
@@ -215,7 +208,7 @@ async def play_playlist(client, CallbackQuery, _):
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split(None, 0)[0]
+    videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
@@ -227,6 +220,14 @@ async def add_playlist(client, CallbackQuery, _):
             return
     _count = await get_playlist_names(user_id)
     count = len(_count)
+    if count == SERVER_PLAYLIST_LIMIT:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
+                show_alert=True,
+            )
+        except:
+            return
     (
         title,
         duration_min,
