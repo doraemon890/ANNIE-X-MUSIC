@@ -1,9 +1,30 @@
+from ANNIEMUSIC import app
+from pyrogram import filters
+from pyrogram.errors import RPCError
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
+from os import environ
+from typing import Union, Optional
+from PIL import Image, ImageDraw, ImageFont
+from os import environ
+import random
+from pyrogram import Client, filters
+from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
+from pyrogram import *
+from pyrogram.types import *
+from logging import getLogger
+from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 import os
 from PIL import ImageDraw, Image, ImageFont, ImageChops
 from pyrogram import *
 from pyrogram.types import *
 from logging import getLogger
-from ANNIEMUSIC import app
 
 LOGGER = getLogger(__name__)
 
@@ -62,7 +83,8 @@ def welcomepic(pic, user, chatname, id, uname):
 
 @app.on_message(filters.command("wel") & ~filters.private)
 async def auto_state(_, message):
-    usage = "**\n⦿/wel [on|off]\n➤ANNIE SPECIAL WELCOME.........."
+    usage = "**Usage:**\n⦿/wel [on|off]\n➤ANNIE SPECIAL WELCOME.........."
+    if len(message.command) == 1:
         return await message.reply_text(usage)
     chat_id = message.chat.id
     user = await app.get_chat_member(message.chat.id, message.from_user.id)
@@ -90,36 +112,43 @@ async def auto_state(_, message):
         await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
 
 
+
 @app.on_chat_member_updated(filters.group, group=-3)
-async def greet_group(_, member: ChatMemberUpdated):
+async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
+    count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
-    if (
-        not member.new_chat_member
-        or member.new_chat_member.status in {"banned", "left", "restricted"}
-        or member.old_chat_member
-    ):
+    if A:
         return
+
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
-    try:
-        pic = await app.download_media(
-            user.photo.big_file_id, file_name=f"pp{user.id}.png"
-        )
-    except AttributeError:
-        pic = "ANNIEMUSIC/assets/annie/annieno.png"
-    if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
+    
+    # Add the modified condition here
+    if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
+    
         try:
-            await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
-        except Exception as e:
-            LOGGER.error(e)
-    try:
-        welcomeimg = welcomepic(
-            pic, user.first_name, member.chat.title, user.id, user.username
-        )
-        temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
-            member.chat.id,
-            photo=welcomeimg,
-            caption=f"""
+            pic = await app.download_media(
+                user.photo.big_file_id, file_name=f"pp{user.id}.png"
+            )
+        except AttributeError:
+            pic = "ANNIEMUSIC/assets/upic.png"
+        if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
+            try:
+                await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
+            except Exception as e:
+                LOGGER.error(e)
+        try:
+            welcomeimg = welcomepic(
+                pic, user.first_name, member.chat.title, user.id, user.username
+            )
+            button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
+            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
+            deep_link = f"tg://openmessage?user_id={user.id}"
+            add_link = f"https://t.me/{app.username}?startgroup=true"
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
+                member.chat.id,
+                photo=welcomeimg,
+                caption=f"""
 **Wᴇʟᴄᴏᴍᴇ Tᴏ {member.chat.title}
 ➖➖➖➖➖➖➖➖➖➖➖➖
 Nᴀᴍᴇ ✧ {user.mention}
@@ -149,5 +178,6 @@ async def bot_wel(_, message):
 NAME: {message.chat.title}
 ID: {message.chat.id}
 USERNAME: @{message.chat.username}
+**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
 ➖➖➖➖➖➖➖➖➖➖➖➖**
 """)
