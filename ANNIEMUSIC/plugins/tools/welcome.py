@@ -46,17 +46,17 @@ def circle(pfp, size=(500, 500)):
     return pfp
 
 def welcomepic(pic, user, chatname, id, uname):
-    background = Image.open("ANNIEMUSIC/assets/annie/anniewelcome.png")
+    background = Image.open("ANNIEMUSIC/assets/annie/anniewel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
-    pfp = pfp.resize((173, 173))
+    pfp = pfp.resize((889, 873))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=24)
-    welcome_font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=7)
-    draw.text((260, 149), f'NAME: {user}', fill=(255, 255, 255), font=font)
-    draw.text((260, 200), f'ID: {id}', fill=(255, 255, 255), font=font)
-    draw.text((260, 250), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
-    pfp_position = (73, 107)
+    font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=105)
+    welcome_font = ImageFont.truetype('ANNIEMUSIC/assets/annie/anniewel.ttf', size=55)
+    draw.text((1844, 1043), f': {user}', fill=(238, 130, 238), font=font)
+    draw.text((1542, 1263), f': {id}', fill=(238, 130, 238), font=font)
+    draw.text((1920, 1502), f": {uname}", fill=(238, 130, 238), font=font)
+    pfp_position = (255, 330)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
