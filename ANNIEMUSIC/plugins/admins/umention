@@ -10,7 +10,7 @@ from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 
 SPAM_CHATS = {}
 
-@app.on_message(filters.command(["utag", "uall"], prefixes=["/", "@", ".", ]) & admin_filter)
+@app.on_message(filters.command(["utag", "uall"], prefixes=["/", "@", "."]) & admin_filter)
 async def tag_all_users(_, message):
     global SPAM_CHATS
     chat_id = message.chat.id
@@ -26,7 +26,7 @@ async def tag_all_users(_, message):
     f = True
     while f:
         if SPAM_CHATS.get(chat_id) == False:
-            await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
+            await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢɢɪɴɢ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ.**")
             break
         usernum = 0
         usertxt = ""
@@ -40,7 +40,7 @@ async def tag_all_users(_, message):
                     await app.send_message(message.chat.id, f'{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stoputag ||')
                     usernum = 0
                     usertxt = ""
-                    await asyncio.sleep(3)
+                    await asyncio.sleep(5)
         except Exception as e:
             print(e)
 
@@ -50,6 +50,6 @@ async def stop_tagging(_, message):
     chat_id = message.chat.id
     if SPAM_CHATS.get(chat_id) == True:
         SPAM_CHATS[chat_id] = False
-        return await message.reply_text("**🦋ᴛᴀɢ ʀᴏᴋɴᴇ ᴡᴀʟᴇ ᴋɪ ᴍᴀᴀ ᴋᴀ ʙʜᴀʀᴏsᴀ ᴊᴇᴇᴛᴜ.....🫠!**")
+        return await message.reply_text("🦋ᴛᴀɢ ʀᴏᴋɴᴇ ᴡᴀʟᴇ ᴋɪ ᴍᴀᴀ ᴋᴀ ʙʜᴀʀᴏsᴀ ᴊᴇᴇᴛᴜ.....🫠!**")
     else:
-        await message.reply_text("**No active tagging process found!**")
+        await message.reply_text("**ᴜᴛᴀɢ ᴘʀᴏᴄᴇss ɪs ɴᴏᴛ ᴀᴄᴛɪᴠᴇ**")
