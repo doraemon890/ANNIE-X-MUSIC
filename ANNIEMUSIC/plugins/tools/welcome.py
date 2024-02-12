@@ -154,6 +154,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 Nᴀᴍᴇ ✧ {user.mention}
 Iᴅ ✧ {user.id}
 Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
+Tᴏᴛᴀʟ Mᴇᴍʙᴇʀs ✧ {count}
 ➖➖➖➖➖➖➖➖➖➖➖➖**
 """,
              reply_markup=InlineKeyboardMarkup([
