@@ -14,7 +14,7 @@ anniephoto = [
     "https://telegra.ph/file/3c4de59511e179018f902.jpg",
     "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
     "https://telegra.ph/file/3c4de59511e179018f902.jpg",
-    "https://telegra.ph/file/002b98f44394097758551.jpg",
+    "https://telegra.ph/file/002b98f44394097758551.jpg"
 ]
 
 # --------------------------------------------------------------------------------- #
@@ -46,16 +46,16 @@ async def get_userinfo_img(
 
         circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
         circular_img.paste(img, (0, 0), mask)
-        resized = circular_img.resize((215, 234))
-        bg.paste(resized, (260, 226), resized)
+        resized = circular_img.resize((833, 857))
+        bg.paste(resized, (1029, 67), resized)
 
     img_draw = ImageDraw.Draw(bg)
 
     img_draw.text(
-        (230, 810),
+        (2405, 720),
         text=str(user_id).upper(),
-        font=get_font(46, font_path),
-        fill=(0, 0, 0),
+        font=get_font(48, font_path),
+        fill=(125, 227, 230),
     )
 
 
@@ -66,7 +66,7 @@ async def get_userinfo_img(
 
 # --------------------------------------------------------------------------------- #
 
-bg_path = "ANNIEMUSIC/assets/annie/annieinfo.png"
+bg_path = "ANNIEMUSIC/assets/annie/jarvisXinfo.png"
 font_path = "ANNIEMUSIC/assets/annie/jarvisinf.ttf"
 
 # --------------------------------------------------------------------------------- #
