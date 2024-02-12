@@ -5,7 +5,6 @@ from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
 
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediavideo
 import config
 from ANNIEMUSIC import app
 from ANNIEMUSIC.misc import _boot_
@@ -28,18 +27,19 @@ from strings import get_string
 
 
 
-ANNIE_VID = [
-"https://telegra.ph/file/1726f9434ef52f54c12eb.mp4",
-"https://telegra.ph/file/a4d90b0cb759b67d68644.mp4",
-"https://telegra.ph/file/c6c1ac9aee4192a8a3747.mp4",
-"https://telegra.ph/file/2b75449612172a96d4599.mp4",
-"https://telegra.ph/file/0b53cfe4a712af439d50f.mp4",
-"https://telegra.ph/file/64291485c422535f0143d.mp4",
-"https://telegra.ph/file/30ec7c936db6cd2ce7c61.mp4",
-"https://telegra.ph/file/e8bcb814e2c52c11a0f1d.mp4",
-"https://telegra.ph/file/9b7e1b820c72a14d90be7.mp4",
-"https://telegra.ph/file/37d1815385f8244f9a282.mp4"
-
+ANNIE_PICS = [
+"https://telegra.ph/file/2e7b72279b28105607667.jpg",
+"https://telegra.ph/file/2384d114707839e01f0cb.jpg",
+"https://telegra.ph/file/754d312ff2b3839ee6756.jpg",
+"https://telegra.ph/file/fdbffdb39d20374823466.jpg",
+"https://telegra.ph/file/782e4c83729ea24ab4d3d.jpg",
+"https://telegra.ph/file/fe16c11509a1a30923702.jpg",
+"https://telegra.ph/file/51600957eaaf96ad308c7.jpg",
+"https://telegra.ph/file/5a4b3b782cb0257dca491.jpg",
+"https://telegra.ph/file/cd205021bf40f44ad78e4.jpg",
+"https://telegra.ph/file/3c9c23857075dcaea5892.jpg",
+"https://telegra.ph/file/3a35b86005e7b3c2d9310.jpg",
+"https://telegra.ph/file/f85e89871eb80c91f8a87.jpg"
 
 ]
 
@@ -54,8 +54,8 @@ async def start_pm(client, message: Message, _):
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = help_pannel(_)
-            return await message.reply_video(
-                random.choice(ANNIE_VID),
+            return await message.reply_photo(
+                random.choice(ANNIE_PICS),
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
@@ -93,9 +93,9 @@ async def start_pm(client, message: Message, _):
                 ]
             )
             await m.delete()
-            await app.send_video(
+            await app.send_photo(
                 chat_id=message.chat.id,
-                video=thumbnail,
+                photo=thumbnail,
                 caption=searched_text,
                 reply_markup=key,
             )
@@ -109,8 +109,8 @@ async def start_pm(client, message: Message, _):
         served_chats = len(await get_served_chats())
         served_users = len(await get_served_users())
         UP, CPU, RAM, DISK = await bot_sys_stats()
-        await message.reply_video(
-            random.choice(ANNIE_VID),
+        await message.reply_photo(
+            random.choice(ANNIE_PICS),
             caption=random.choice(AMOP).format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM,served_users,served_chats),
             reply_markup=InlineKeyboardMarkup(out),
         )
@@ -126,8 +126,8 @@ async def start_pm(client, message: Message, _):
 async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
-    await message.reply_video(
-        random.choice(ANNIE_VID),
+    await message.reply_photo(
+        random.choice(ANNIE_PICS),
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
@@ -161,8 +161,8 @@ async def welcome(client, message: Message):
                     return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
-                await message.reply_video(
-                    random.choice(ANNIE_VID),
+                await message.reply_photo(
+                    random.choice(ANNIE_PICS),
                     caption=_["start_3"].format(
                         message.from_user.mention,
                         app.mention,
