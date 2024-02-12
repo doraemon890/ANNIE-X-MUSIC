@@ -279,7 +279,7 @@ def panel_markup_1(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ᴘʟᴀʏʟɪsᴛ ✚",
+                text= "✚ ᴀᴅᴅ ɪɴ ᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
                 callback_data=f"add_playlist {videoid}",
             ),
         ],
