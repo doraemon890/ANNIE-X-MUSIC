@@ -54,7 +54,7 @@ async def get_userinfo_img(
     img_draw.text(
         (2405, 720),
         text=str(user_id).upper(),
-        font=get_font(48, font_path),
+        font=get_font(95, font_path),
         fill=(125, 227, 230),
     )
 
