@@ -156,28 +156,14 @@ Iᴅ ✧ {user.id}
 Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
 ➖➖➖➖➖➖➖➖➖➖➖➖**
 """,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"⦿ ᴀᴅᴅ ᴍᴇ ⦿", url=f"https://t.me/YumikooBot?startgroup=true")]])
-        )
-    except Exception as e:
-        LOGGER.error(e)
-    try:
-        os.remove(f"downloads/welcome#{user.id}.png")
-        os.remove(f"downloads/pp{user.id}.png")
-    except Exception as e:
-        pass
+             reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton(button_text, url=deep_link)],
+                    [InlineKeyboardButton(text=add_button_text, url=add_link)],
+                ])
+            )
+        except Exception as e:
+            LOGGER.error(e)
 
 
 
-@app.on_message(filters.new_chat_members & filters.group, group=-1)
-async def bot_wel(_, message):
-    for u in message.new_chat_members:
-        if u.id == app.me.id:
-            await app.send_message(LOG_CHANNEL_ID, f"""
-**NEW GROUP
-➖➖➖➖➖➖➖➖➖➖➖➖
-NAME: {message.chat.title}
-ID: {message.chat.id}
-USERNAME: @{message.chat.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
-➖➖➖➖➖➖➖➖➖➖➖➖**
-""")
+
