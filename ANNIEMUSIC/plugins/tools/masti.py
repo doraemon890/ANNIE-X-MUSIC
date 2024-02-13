@@ -22,8 +22,8 @@ async def HORNY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    suck = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏʀɴʏ!**"
-    await e.reply(suck, buttons=BUTTON, file=HORNY)
+    SUCK = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏʀɴʏ!**"
+    await e.reply(SUCK, buttons=BUTTON, file=HORNY)
 
 @app.on_message(filters.command("hot"))
 async def HOT(_, message):
@@ -31,8 +31,8 @@ async def HOT(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    hotie = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
-    await e.reply(hotie, buttons=BUTTON, file=HOT)
+    HOTIE = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
+    await e.reply(HOTIE, buttons=BUTTON, file=HOT)
 
 @app.on_message(filters.command("sexy"))
 async def SEMXY(_, message):
@@ -40,8 +40,8 @@ async def SEMXY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    rope = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
-    await e.reply(rope, buttons=BUTTON, file=SEMXY)
+    ROPE = f"**🔥** {mention} **ɪꜱ** {mm}**% sᴇxʏ!**"
+    await e.reply(ROPE, buttons=BUTTON, file=SEMXY)
 
 @app.on_message(filters.command("gay"))
 async def GAY(_, message):
@@ -49,8 +49,8 @@ async def GAY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    chal = f"**🍷** {mention} **ɪꜱ** {mm}**% ɢᴀʏ!**"
-    await e.reply(chal, buttons=BUTTON, file=GAY)
+    CHAKKA = f"**🍷** {mention} **ɪꜱ** {mm}**% ɢᴀʏ!**"
+    await e.reply(CHAKKA, buttons=BUTTON, file=GAY)
 
 @app.on_message(filters.command("lesbian"))
 async def LEZBIAN(_, message):
