@@ -22,8 +22,8 @@ async def HORNY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    SUCK = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏʀɴʏ!**"
-    await e.reply(SUCK, buttons=BUTTON, file=HORNY)
+    HORNY = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏʀɴʏ!**"
+    await message.reply_file(HORNY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 @app.on_message(filters.command("hot"))
 async def HOT(_, message):
@@ -31,8 +31,8 @@ async def HOT(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    HOTIE = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
-    await e.reply(HOTIE, buttons=BUTTON, file=HOT)
+    HOT = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
+    await message.reply_file(HOT, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 @app.on_message(filters.command("sexy"))
 async def SEMXY(_, message):
@@ -40,8 +40,9 @@ async def SEMXY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    ROPE = f"**🔥** {mention} **ɪꜱ** {mm}**% sᴇxʏ!**"
-    await e.reply(ROPE, buttons=BUTTON, file=SEMXY)
+    SEMXY = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
+    await message.reply_file(SEMXY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+
 
 @app.on_message(filters.command("gay"))
 async def GAY(_, message):
@@ -49,17 +50,18 @@ async def GAY(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    CHAKKA = f"**🍷** {mention} **ɪꜱ** {mm}**% ɢᴀʏ!**"
-    await e.reply(CHAKKA, buttons=BUTTON, file=GAY)
+    GAY = f"**🍷** {mention} **ɪꜱ** {mm}**% ɢᴀʏ!**"
+    await message.reply_file(GAY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
-@app.on_message(filters.command("lesbian"))
+
+@app.on_message(filters.command("lezbian"))
 async def LEZBIAN(_, message):
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     LEZBIAN = f"**💜** {mention} **ɪꜱ** {mm}**% ʟᴇᴢʙɪᴀɴ!**"
-   await e.reply(HORNY, buttons=BUTTON, file=LEZBIAN)
+    await message.reply_file(LEZBIAN, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("boob"))
@@ -68,8 +70,9 @@ async def BIGBALL(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    DHOODH = f"**🍒** {mention}**'ꜱ ʙᴏᴏʙꜱ ꜱɪᴢᴇ ɪᴢ** {mm}**!**"
-    await e.reply(DHODH, buttons=BUTTON, file=BIGBALL)
+    BIGBALL = f"**🍒** {mention}**'ꜱ ʙᴏᴏʙꜱ ꜱɪᴢᴇ ɪᴢ** {mm}**!**"
+    await message.reply_file(BIGBALL, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+
 
 @app.on_message(filters.command("cock"))
 async def LANGD(_, message):
@@ -77,14 +80,15 @@ async def LANGD(_, message):
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    LAMBDA = f"**🍆** {mention}**'ꜱ ᴄᴏᴄᴋ ꜱɪᴢᴇ ɪᴢ** {mm}**ᴄᴍ**"
-    await e.reply(LAMBDA, buttons=BUTTON, file=LANGD)
+    LANGD = f"**🍆** {mention}**'ꜱ ᴄᴏᴄᴋ ꜱɪᴢᴇ ɪᴢ** {mm}**ᴄᴍ**"
+    await message.reply_file(LANGD, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
-@app.on_message(filters.command("cute"))
+
+@app.on_message(filters.command("cutie"))
 async def CUTIE(_, message):
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
-    cutie = f"**🍑** {mention} {mm}**% ᴄᴜᴛᴇ**"
-    await e.reply(cutie, buttons=BUTTON, file=CUTIE)
+    CUTIE = f"**🍑** {mention} {mm}**% ᴄᴜᴛᴇ**"
+    await message.reply_file(CUTIE, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
