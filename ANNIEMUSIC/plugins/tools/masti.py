@@ -51,12 +51,12 @@ async def horny(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     HORNE = f"🔥 {mention} ɪꜱ {mm} % ʜᴏʀɴʏ!"
+    HORNE = f"🔥 {mention} ɪꜱ {mm} % ʜᴏʀɴʏ!"
 
     await app.send_document(
         chat_id=message.chat.id,
         document=HORNY,
-        caption=HORNE
+        caption=HORNE,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
     )
@@ -74,12 +74,12 @@ async def hot(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     HOTIE = f"🔥{mention} ɪꜱ {mm}% ʜᴏᴛ!"
+    HOTIE = f"🔥{mention} ɪꜱ {mm}% ʜᴏᴛ!"
 
     await app.send_document(
         chat_id=message.chat.id,
         document=HOT,
-        caption=HOTIE
+        caption=HOTIE,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
     )
@@ -97,11 +97,11 @@ async def sexy(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     SEXO = f" 🔥 {mention} ɪꜱ {mm}% sexy!"
+    SEXO = f" 🔥 {mention} ɪꜱ {mm}% sexy!"
     await app.send_document (
         chat_id=message.chat.id,
         document=SEMXY,
-        caption=SEXO
+        caption=SEXO,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
 )
@@ -118,11 +118,11 @@ async def gay(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     GAYE = f" 🍷 {mention} ɪꜱ {mm}% ɢᴀʏ!"
+    GAYE = f" 🍷 {mention} ɪꜱ {mm}% ɢᴀʏ!"
     await app.send_document (
         chat_id=message.chat.id,
         document=GAY,
-        caption=GAYE
+        caption=GAYE,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
 )
@@ -139,11 +139,11 @@ async def lesbian(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     LEZBIAN = f" 💜 {mention} ɪꜱ {mm}% ʟᴇꜱʙɪᴀɴ!"
+    LEZBIAN = f" 💜 {mention} ɪꜱ {mm}% ʟᴇꜱʙɪᴀɴ!"
     await app.send_document (
         chat_id=message.chat.id,
         document=LESBIAN,
-        caption=LEZBIAN
+        caption=LEZBIAN,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
 )
@@ -161,11 +161,11 @@ async def boob(_, message):
 
     mention = f"[{user_name}](tg://user?id={str(user_id)})"
     mm = random.randint(1, 100)
-     BALL = f" 🍒 {mention}ꜱ ʙᴏᴏʙꜱ ꜱɪᴢᴇ ɪᴢ {mm} ! "
+    BALL = f" 🍒 {mention}ꜱ ʙᴏᴏʙꜱ ꜱɪᴢᴇ ɪᴢ {mm} ! "
     await app.send_document (
         chat_id=message.chat.id,
         document=BIGBALL,
-        caption=BALL
+        caption=BALL,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
 )
@@ -187,7 +187,7 @@ async def cock(_, message):
     await app.send_document (
         chat_id=message.chat.id,
         document=LANGD,
-        caption=BAT
+        caption=BAT,
         reply_markup=InlineKeyboardMarkup(BUTTON),
         reply_to_message_id=message.reply_to_message.message_id if message.reply_to_message else None,
 )
