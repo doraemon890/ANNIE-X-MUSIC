@@ -23,7 +23,7 @@ async def HORNY(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     HORNY = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏʀɴʏ!**"
-    await message.reply_media(HORNY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(HORNY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 @app.on_message(filters.command("hot"))
 async def HOT(_, message):
@@ -32,7 +32,7 @@ async def HOT(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     HOT = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
-    await message.reply_media(HOT, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(HOT, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 @app.on_message(filters.command("sexy"))
 async def SEMXY(_, message):
@@ -41,7 +41,7 @@ async def SEMXY(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     SEMXY = f"**🔥** {mention} **ɪꜱ** {mm}**% ʜᴏT!**"
-    await message.reply_media(SEMXY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(SEMXY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("gay"))
@@ -51,7 +51,7 @@ async def GAY(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     GAY = f"**🍷** {mention} **ɪꜱ** {mm}**% ɢᴀʏ!**"
-    await message.reply_media(GAY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(GAY, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("lezbian"))
@@ -61,7 +61,7 @@ async def LEZBIAN(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     LEZBIAN = f"**💜** {mention} **ɪꜱ** {mm}**% ʟᴇᴢʙɪᴀɴ!**"
-    await message.reply_media(LEZBIAN, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(LEZBIAN, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("boob"))
@@ -71,7 +71,7 @@ async def BIGBALL(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     BIGBALL = f"**🍒** {mention}**'ꜱ ʙᴏᴏʙꜱ ꜱɪᴢᴇ ɪᴢ** {mm}**!**"
-    await message.reply_media(BIGBALL, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(BIGBALL, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("cock"))
@@ -81,7 +81,7 @@ async def LANGD(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     LANGD = f"**🍆** {mention}**'ꜱ ᴄᴏᴄᴋ ꜱɪᴢᴇ ɪᴢ** {mm}**ᴄᴍ**"
-    await message.reply_media(LANGD, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(LANGD, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
 
 
 @app.on_message(filters.command("cutie"))
@@ -91,4 +91,4 @@ async def CUTIE(_, message):
     mention = f"[{user_name}](tg://user?id={user_id})"
     mm = random.randint(1, 100)
     CUTIE = f"**🍑** {mention} {mm}**% ᴄᴜᴛᴇ**"
-    await message.reply_media(CUTIE, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
+    await message.reply_video(CUTIE, reply_markup=BUTTON, disable_web_page_preview=True, quote=True)
