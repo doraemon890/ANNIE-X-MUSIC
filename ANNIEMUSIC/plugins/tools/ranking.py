@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pymongo import MongoClient
 from ANNIEMUSIC import app
-from mongo import MONGO_DB
+from ANNIEMUSIC.mongo import MONGO_DB
 from pyrogram.types import *
 
 
