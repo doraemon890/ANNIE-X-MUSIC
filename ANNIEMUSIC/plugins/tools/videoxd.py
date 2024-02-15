@@ -58,9 +58,9 @@ def remove_media(client, message: Message):
                 # Remove video
                 file_path = app.download_media(replied_message.video)
                 os.system(f"ffmpeg -i {file_path} -c:a copy -vn output.mp4")
-                app.send_video(message.chat.id, "output.mp4")
+                app.send_video(message.chat.id, "output.mp3")
                 os.remove(file_path)
-                os.remove("output.mp3")
+                os.remove("output.mp4")
             else:
                 app.send_message(message.chat.id, "Invalid command. Please use either /remove audio or /remove video.")
         else:
