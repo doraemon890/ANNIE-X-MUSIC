@@ -53,11 +53,11 @@ channel = ["channel"]
 # ========================================= #
 
 
-@app.on_message(filters.command(["annie","jarvis"], prefixes=["a", "A"]) & admin_filter)
+@app.on_message(filters.command(["annie", "Annie"], prefixes=["!", "/"]) & admin_filter)
 async def restriction_app(app :app, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-    if len(message.text) < 2:
+    if len(message.text) < 1:
         return await message.reply(random.choice(Jarvis_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
