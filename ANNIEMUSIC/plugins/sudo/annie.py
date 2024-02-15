@@ -57,7 +57,7 @@ channel = ["channel"]
 async def restriction_app(app :app, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
-    if len(message.text) < 1:
+    if len(message.text) > 1:
         return await message.reply(random.choice(Jarvis_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
