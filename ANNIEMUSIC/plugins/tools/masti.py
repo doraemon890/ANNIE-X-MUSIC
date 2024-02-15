@@ -7,7 +7,7 @@ from config import SUPPORT_CHAT
 BUTTON = [[InlineKeyboardButton("ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}")]]
 HOT = "https://graph.org/file/745ba3ff07c1270958588.mp4"
 HORNY = "https://graph.org/file/eaa834a1cbfad29bd1fe4.mp4"
-SMEXY = "https://graph.org/file/58da22eb737af2f8963e6.mp4"
+SEMXY = "https://graph.org/file/58da22eb737af2f8963e6.mp4"
 LESBIAN = "https://graph.org/file/ff258085cf31f5385db8a.mp4"
 GAY = "https://graph.org/file/850290f1f974c5421ce54.mp4"
 BIGBALL = "https://i.gifer.com/8ZUg.gif"
