@@ -9,6 +9,24 @@ import asyncio
 
 # --------------------------------------------------------------------------------- #
 
+class leftDatabase:
+    def __init__(self):
+        self.data = {}
+
+    async def find_one(self, chat_id):
+        return chat_id in self.data
+
+    async def add_left(self, chat_id):
+        self.data[chat_id] = {"state": "on"}  # Default state is "on"
+
+    async def rm_left(self, chat_id):
+        if chat_id in self.data:
+            del self.data[chat_id]
+
+left = lefttDatabase()
+
+# --------------------------------------------------------------------------------- #
+
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
 resize_text = (
     lambda text_size, text: (text[:text_size] + "...").upper()
@@ -56,8 +74,37 @@ bg_path = "ANNIEMUSIC/assets/userinfo.png"
 font_path = "ANNIEMUSIC/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
+@app.on_message(filters.command("left") & ~filters.private)
+async def auto_state(_, message):
+    usage = "**Usage:**\n⦿/left [on|off]\n➤Annie left notification.........."
+    if len(message.command) == 1:
+        return await message.reply_text(usage)
+    chat_id = message.chat.id
+    user = await app.get_chat_member(message.chat.id, message.from_user.id)
+    if user.status in (
+        enums.ChatMemberStatus.ADMINISTRATOR,
+        enums.ChatMemberStatus.OWNER,
+    ):
+        A = await left.find_one(chat_id)
+        state = message.text.split(None, 1)[1].strip().lower()
+        if state == "off":
+            if A:
+                await message.reply_text("**ʟᴇғᴛ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !**")
+            else:
+                await left.add_left(chat_id)
+                await message.reply_text(f"**ᴅɪsᴀʙʟᴇᴅ ʟᴇғᴛ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ** {message.chat.title}")
+        elif state == "on":
+            if not A:
+                await message.reply_text("**ᴇɴᴀʙʟᴇ ʟᴇғᴛ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ.**")
+            else:
+                await left.rm_left(chat_id)
+                await message.reply_text(f"**ᴇɴᴀʙʟᴇᴅ ʟᴇғᴛ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ ** {message.chat.title}")
+        else:
+            await message.reply_text(usage)
+    else:
+        await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
 
-# -------------
+# --------------------------------------------------------------------------------- #
 
 @app.on_chat_member_updated(filters.group, group=20)
 async def member_has_left(client: app, member: ChatMemberUpdated):
