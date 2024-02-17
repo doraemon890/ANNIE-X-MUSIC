@@ -23,7 +23,7 @@ class leftDatabase:
         if chat_id in self.data:
             del self.data[chat_id]
 
-left = lefttDatabase()
+left = leftDatabase()
 
 # --------------------------------------------------------------------------------- #
 
