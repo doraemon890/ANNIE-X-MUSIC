@@ -98,7 +98,9 @@ async def auto_state(_, message):
     if len(message.command) == 1:
         return await message.reply_text(usage)
     chat_id = message.chat.id
-    user = await app.get_chat_member(message.chat.id, message.from_user.id)
+    user = member.old_chat_member.user
+        if member.old_chat_member
+        else member.from_user
     if user.status in (
         enums.ChatMemberStatus.ADMINISTRATOR,
         enums.ChatMemberStatus.OWNER,
