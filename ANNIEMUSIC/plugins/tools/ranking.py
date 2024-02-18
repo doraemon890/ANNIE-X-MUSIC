@@ -1,11 +1,11 @@
 from pyrogram import filters
 from pymongo import MongoClient
 from ANNIEMUSIC import app
-from config import MONGO_DB
+from config import MONGO_DB_URI
 from pyrogram.types import *
 
 
-mongo_client = MongoClient(MONGO_DB)
+mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client["kakire6315"]
 collection = db["ranking"]
 
