@@ -25,7 +25,7 @@ async def OpenAIchat(app: app, message):
                 'api-key': api_key,
             }
 
-            r = requests.post("https://api.openai.com/v1/chat/completions, data=data, headers=headers")
+            r = requests.post("https://api.openai.com/v1/chat/completions", data=data, headers=headers)
             response = r.json()
             answer_text = response['output']
             await message.reply_text(f"{answer_text}")
