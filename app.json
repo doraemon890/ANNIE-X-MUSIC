@@ -57,7 +57,12 @@
         "value": "",
         "required": true
       }
-    },
+     "GPT_API": {
+      "description": "Your GPT API Key open ai",
+      "value": "",
+      "required": true
+    }
+  },
     "buildpacks": [
           {
               "url": "heroku/python"
