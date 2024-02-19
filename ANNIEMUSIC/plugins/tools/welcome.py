@@ -149,13 +149,15 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                 member.chat.id,
                 photo=welcomeimg,
                 caption=f"""
-**Wᴇʟᴄᴏᴍᴇ Tᴏ {member.chat.title}
-➖➖➖➖➖➖➖➖➖➖➖➖
-Nᴀᴍᴇ ✧ {user.mention}
-Iᴅ ✧ {user.id}
-Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
-Tᴏᴛᴀʟ Mᴇᴍʙᴇʀs ✧ {count}
-➖➖➖➖➖➖➖➖➖➖➖➖**
+**❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅
+{member.chat.title}
+▰▰▰▰▰▰▰▰▰▰▰▰▰
+➻ Nᴀᴍᴇ ✧ {user.mention}
+➻ Iᴅ ✧ {user.id}
+➻ Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
+➻ Tᴏᴛᴀʟ Mᴇᴍʙᴇʀs ✧ {count}
+▰▰▰▰▰▰▰▰▰▰▰▰▰**
+**❅─────✧❅✦❅✧─────❅**
 """,
              reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
