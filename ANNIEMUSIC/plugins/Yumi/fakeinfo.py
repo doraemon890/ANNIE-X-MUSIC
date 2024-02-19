@@ -10,7 +10,7 @@ async def address(_, message):
     
     if len(words) > 1:
         query = words[1].strip()
-    url = f"https://randomuser.me/api/?nat={query}"
+        url = f"https://randomuser.me/api/?nat={query}"
     response = requests.get(url)
     data = response.json()
 
