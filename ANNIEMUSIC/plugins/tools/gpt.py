@@ -7,7 +7,7 @@ from gtts import gTTS
 import requests, config
 import requests as r
 # ----------------------------------------
-openai.api_key = "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"
+openai.api_key = config.GPT_API
 
 API_URL = "https://sugoi-api.vercel.app/search"
 
