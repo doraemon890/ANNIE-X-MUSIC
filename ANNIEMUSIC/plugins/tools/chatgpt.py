@@ -5,13 +5,39 @@ from ANNIEMUSIC import app
 from pyrogram.enums import ChatAction, ParseMode
 from gtts import gTTS
 import requests, config
+import requests as r
+# ----------------------------------------
+# ----------------------------------------
+openai.api_key = config.GPT_API
 
-openai.api_key = "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"#chatgpt
-
-api_key ="bcbddea0-f2bd-4b4e-af1d-225b30893fcd" #deepai
+api_key = 
 
 
-@app.on_message(filters.command(["chatgpt","ai","ask"],  prefixes=["+", ".", "/"]))
+# ----------------------------------------
+# ----------------------------------------
+@app.on_message(filters.command(["nnie","arvis","ask"],  prefixes=["+", ".", "/", "!", "A", "a","j","J"]))
+async def chat(app :app, message):
+    
+    try:
+        start_time = time.time()
+        await app.send_chat_action(message.chat.id, ChatAction.TYPING)
+        if len(message.command) < 2:
+            await message.reply_text(
+            "**ʜᴇʟʟᴏ sɪʀ**\n**ᴇxᴀᴍᴘʟᴇ:-**`.ask How to set girlfriend ?`")
+        else:
+            a = message.text.split(' ', 1)[1]
+            MODEL = "gpt-3.5-turbo"
+            resp = openai.ChatCompletion.create(model=MODEL,messages=[{"role": "user", "content": a}],
+    temperature=0.2)
+            x=resp['choices'][0]["message"]["content"]
+            await message.reply_text(f"{x}")     
+    except Exception as e:
+        await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
+
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+
+@app.on_message(filters.command(["arvis" , ],  prefixes=["j","J"]))
 async def chat(app :app, message):
     
     try:
@@ -31,30 +57,10 @@ async def chat(app :app, message):
         await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
 
 
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 
-@app.on_message(filters.command(["aan" , ],  prefixes=["j","J"]))
-async def chat(app :app, message):
-    
-    try:
-        start_time = time.time()
-        await app.send_chat_action(message.chat.id, ChatAction.TYPING)
-        if len(message.command) < 2:
-            await message.reply_text(
-            "**ʜᴇʟʟᴏ sɪʀ**\n**ᴇxᴀᴍᴘʟᴇ:-**`.ask How to set girlfriend ?`")
-        else:
-            a = message.text.split(' ', 1)[1]
-            MODEL = "gpt-3.5-turbo"
-            resp = openai.ChatCompletion.create(model=MODEL,messages=[{"role": "user", "content": a}],
-    temperature=0.2)
-            x=resp['choices'][0]["message"]["content"]
-            await message.reply_text(f"{x}")     
-    except Exception as e:
-        await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ")        
-
-
-# voice chatgpt ai
-
-@app.on_message(filters.command(["assis"],  prefixes=["+", ".", "/"]))
+@app.on_message(filters.command(["assis"],  prefixes=["+", ".", "/", "!"]))
 async def chat(app :app, message):
     
     try:
@@ -79,15 +85,16 @@ async def chat(app :app, message):
         await message.reply_text(f"**ᴇʀʀᴏʀ**: {e} ") 
         
         
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 
-
-@app.on_message(filters.command(["deep" , ],  prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
+@app.on_message(filters.command(["deep"],  prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]))
 async def deepchat(app: app, message):
     name = message.from_user.first_name
     try:
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         if len(message.command) < 2:
-            await message.reply_text(f"Hello {name}\nPlease provide text after the /deep command.")
+            await message.reply_text(f"Hello {name}\nHow can I assist you today?.")
         else:
             a = message.text.split(' ', 1)[1]
 
@@ -107,15 +114,16 @@ async def deepchat(app: app, message):
         await message.reply_text(f"**ᴇʀʀᴏʀ**: {e}")
 
 
-#####
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 
-@app.on_message(filters.command(["aby" , ],  prefixes=["b","B"]))
+@app.on_message(filters.command(["nnie" , ],  prefixes=["A","a"]))
 async def deepchat(app: app, message):
     name = message.from_user.first_name
     try:
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         if len(message.command) < 2:
-            await message.reply_text(f"Hello {name}\nPlease provide text after the /deep command.")
+            await message.reply_text(f"Hello {name}\n How can I assist you today?.")
         else:
             a = message.text.split(' ', 1)[1]
 
@@ -134,5 +142,5 @@ async def deepchat(app: app, message):
     except Exception as e:
         await message.reply_text(f"ᴇʀʀᴏʀ: {e}")
 
+# -----------------------------------------------------------------------------------
 
-##       
