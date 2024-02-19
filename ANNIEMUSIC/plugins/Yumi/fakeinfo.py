@@ -5,7 +5,11 @@ from pyrogram import filters
 
 @Checker.on_message(filters.command("fake"))
 async def address(_, message):
-    query = message.text.split(maxsplit=1)[1].strip()
+    message_text = message.text.strip()
+    words = message_text.split()
+    
+    if len(words) > 1:
+        query = words[1].strip()
     url = f"https://randomuser.me/api/?nat={query}"
     response = requests.get(url)
     data = response.json()
