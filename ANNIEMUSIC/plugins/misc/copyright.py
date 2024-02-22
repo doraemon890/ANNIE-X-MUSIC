@@ -1,7 +1,7 @@
 from ANNIEMUSIC import app
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ANNIEMUSIC.misc import CP
+from ANNIEMUSIC.plugins.misc.CP import CP
 
 
 keywords_to_delete = CP
