@@ -1,6 +1,6 @@
-from ANNIEMUSIC import ANNIEMUSIC as app
+from ANNIEMUSIC import app
 from pyrogram import Client, filters
-
+from pyrogram.types import Message
 
 
 async def delete_links(message):
