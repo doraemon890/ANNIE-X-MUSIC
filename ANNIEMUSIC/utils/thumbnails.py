@@ -8,10 +8,8 @@ import aiohttp
 from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
                  ImageFont, ImageOps)
 from youtubesearchpython.__future__ import VideosSearch
-
-from ANNIEMUSIC import app
-
-from config import YOUTUBE_IMG_URL, BOT_NAME
+import numpy as np
+from config import YOUTUBE_IMG_URL
 
 def make_col():
     return (random.randint(0,255),random.randint(0,255),random.randint(0,255))
