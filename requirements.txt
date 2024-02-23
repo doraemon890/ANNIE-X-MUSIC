@@ -2,8 +2,8 @@ aiofiles
 bard
 SpeechRecognition
 pornhub-api==0.2.0
-aiohttp 
-asyncio 
+aiohttp
+asyncio
 beautifulsoup4
 daxxhub
 deepai
