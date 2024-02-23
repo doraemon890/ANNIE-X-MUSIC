@@ -92,7 +92,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 profile_path=photo,
             )
         
-            caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʙᴀᴀᴘ ᴋᴀ ᴀᴋᴇʟᴀ ᴄʜᴏʀ ᴋᴇ ᴄʜʟᴀ ɢʏᴀ🥺**\n**๏ ᴊᴀʟᴅɪ ᴡᴀᴘᴀs ᴀᴀɴᴀ ᴍᴇʀᴀ ʙᴀᴄʜᴀ 🫠..!**"
+            caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
             button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
 
             # Generate a deep link to open the user's profile
@@ -108,9 +108,9 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 ])
             )
 
-            # Schedule a task to delete the message after 3 seconds
+            # Schedule a task to delete the message after 30 seconds
             async def delete_message():
-                await asyncio.sleep(3)
+                await asyncio.sleep(30)
                 await message.delete()
 
             # Run the task

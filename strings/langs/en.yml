@@ -167,6 +167,44 @@ play_20 : "Queued Position-"
 play_21 : "ᴀᴅᴅᴇᴅ {0} ᴛʀᴀᴄᴋs ᴛᴏ ǫᴜᴇᴜᴇ.\n\n<b>ᴄʜᴇᴄᴋ :</b> <a href={1}>ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>"
 play_22 : "sᴇʟᴇᴄᴛ ᴛʜᴇ ᴍᴏᴅᴇ ɪɴ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ ᴛʜᴇ ǫᴜᴇʀɪᴇs ɪɴsɪᴅᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ : {0}"
 
+#Playlist Buttons
+PL_B_1 : "๏ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ๏"
+PL_B_2 : "๏ ᴀᴅᴅ ɪɴ ᴜʀ ᴘʟᴀʏʟɪsᴛ ๏"
+PL_B_3 : "๏ ᴍᴏʀᴇ ๏"
+PL_B_4 : "๏ ᴘʟᴀʏ ᴍᴏᴅᴇ ๏"
+PL_B_5 : "๏ ᴅᴇʟ ᴀʟʟ ᴘʟᴀʏʟɪsᴛ ๏"
+PL_B_6 : "๏ ᴅᴇʟ ᴘʟᴀʏʟɪsᴛ ๏"
+PL_B_7 : "❗ʏᴇs ɪ ᴀᴍ sᴜʀᴇ."
+PL_B_8 : "๏ ᴘʟᴀʏ ᴛᴏᴘ 10 ๏"
+PL_B_9 : "๏ ᴘʟᴀʏ ɢʟᴏʙᴀʟ ᴛᴏᴘ 10 ๏"
+PL_B_10 : "๏ ᴘʟᴀʏ ɢʀᴏᴜᴘ ᴛᴏᴘ 10 ๏"
+PL_B_11 : "๏ ᴘʟᴀʏ ᴘᴇʀsᴏɴᴀʟ ᴛᴏᴘ 10 ๏"
+
+#Playlist
+playlist_1 : "**Usage:** /play [Music Name or Youtube Link or Reply to Audio]\n\nIf you want to play Bot's Server Playlist! Press the button below."
+playlist_2 : "**ɢᴇᴛᴛɪɴɢ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**"
+playlist_3 : "You have no playlist on Bot's Server.\nTo add a song in playlist, Just  Play your song by /play [ song name ] and click on Add Playlist Button."
+playlist_4 : "Fetched Playlist:\n\n"
+playlist_5 :  "    Duration- {0} Mins"
+playlist_6 : "Contact me in PM for deletion of Playlists."
+playlist_7 : "Tracks Inside Playlist: {0}\n\nPress the Buttons to delete a particular track in your playlist.\n\nTo delete whole playlist: Press Del Whole Playlist button."
+playlist_8 : "Already Exists\n\nThis track exists in your playlist."
+playlist_9 : "Sorry! You can only have {0} music in a playlist."
+playlist_10 : "Playlist Addition\n\n{0}\nadded to your playlist."
+playlist_11 : "Successfully deleted your track."
+playlist_12 : "Failed to delete your track."
+playlist_13 : "Deleted your whole playlists from the server. "
+playlist_14 : "**Are you Sure you want to delete your whole playlist?**\n\nYou'll lost your playlist and this can't be recovered later."
+playlist_15 : "[Checkout Whole Playlist]({0})"
+playlist_16 : "Queued Playlist:"
+playlist_17 : "Queued Position-"
+playlist_18 : "[Checkout Whole Queued Playlist]({0})\n\nLast Queued Position : **{1}**"
+
+
+#TopPlay
+tracks_1 : "**Processing {0} Top 10 Playlist**\nThis could take some mins(around 3-4 mins).. Please Wait...\n\n**👤Requested By:** {1}\n\nCheck Top 10 tracks by /gstats"
+tracks_2 : "**Error**\n\nThere's no **{0} Top 10 Playlist** on bot's servers. Please try any other playlist"
+
 str_1 : "ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍ3ᴜ8 ᴏʀ ɪɴᴅᴇx ʟɪɴᴋs."
 str_2 : "➻ ᴠᴀʟɪᴅ sᴛʀᴇᴀᴍ ᴠᴇʀɪғɪᴇᴅ.\n\nᴘʀᴏᴄᴇssɪɴɢ..."
 str_3 : "ғᴀɪʟᴇᴅ ᴛᴏ sᴛʀᴇᴀᴍ ʏᴏᴜᴛᴜʙᴇ ʟɪᴠᴇ sᴛʀᴇᴀᴍ, ɴᴏ ʟɪᴠᴇ ꜰᴏʀᴍᴀᴛ ꜰᴏᴜɴᴅ."
@@ -334,3 +372,21 @@ gban_9 : "» ʟɪғᴛᴇᴅ ɢʟᴏʙᴀʟ ʙᴀɴ ғʀᴏᴍ {0}.\n\nᴜɴʙ�
 gban_10 : "» ɴᴏ ᴏɴᴇ ɪs ɢʟᴏʙᴀʟʟʏ ʙᴀɴɴᴇᴅ ғʀᴏᴍ ᴛʜᴇ ʙᴏᴛ."
 gban_11 : "» ғᴇᴛᴄʜɪɴɢ ɢʙᴀɴɴᴇᴅ ᴜsᴇʀs ʟɪsᴛ..."
 gban_12 : "🙂 <b>ɢʟᴏʙᴀʟʟʏ ʙᴀɴɴᴇᴅ ᴜsᴇʀs :</b>\n\n"
+
+#Song
+SG_B_1 : "• ᴄʟɪᴄᴋ ʜᴇʀᴇ •"
+SG_B_2 : "🎧 ᴀᴜᴅɪᴏ 🎧"
+SG_B_3 : "🎥 ᴠɪᴅᴇᴏ 🎥"
+
+# Song
+song_1 : "ʏᴏᴜ ᴄᴀɴ ᴅᴏᴡɴʟᴏᴀᴅ ᴍᴜsɪᴄ ᴏʀ ᴠɪᴅᴇᴏ ꜰʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ ᴏɴʟʏ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ. ᴘʟᴇᴀsᴇ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ."
+song_2 : "**ᴜsᴀɢᴇ:**\n\n/song [ᴍᴜsɪᴄ ɴᴀᴍᴇ] ᴏʀ [ʏᴏᴜᴛᴜʙᴇ ʟɪɴᴋ]"
+song_3 : "ʟɪᴠᴇ ʟɪɴᴋ ᴅᴇᴛᴇᴄᴛᴇᴅ. ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪᴠᴇ ʏᴏᴜᴛᴜʙᴇ ᴠɪᴅᴇᴏs. "
+song_4 : "📌**ᴛɪᴛʟᴇ**:- {0}\n\nsᴇʟᴇᴄᴛ ᴛʜᴇ ᴛʏᴘᴇ ɪɴ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ."
+song_5 : "ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ ʏᴏᴜᴛᴜʙᴇ ʟɪɴᴋ."
+song_6 : "ɢᴇᴛᴛɪɴɢ ꜰᴏʀᴍᴀᴛs...\n\nᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..."
+song_7 : "ꜰᴀɪʟᴇᴅ ᴛᴏ ɢᴇᴛ ᴀᴠᴀɪʟᴀʙʟᴇ ꜰᴏʀᴍᴀᴛs ꜰᴏʀ ᴛʜᴇ ᴠɪᴅᴇᴏ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɴʏ ᴏᴛʜᴇʀ ᴛʀᴀᴄᴋ."
+song_8 : "ᴅᴏᴡɴʟᴏᴀᴅ sᴛᴀʀᴛᴇᴅ\n\nᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ ғᴏʀ ғᴇᴡ sᴇᴄᴏɴᴅs..."
+song_9 : "ꜰᴀɪʟᴇᴅ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ sᴏɴɢ ꜰʀᴏᴍ ʏᴛ-ᴅʟ\n\n**ʀᴇᴀsᴏɴ:** {0}"
+song_10 : "ꜰᴀɪʟᴇᴅ ᴛᴏ ᴜᴘʟᴏᴀᴅ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ sᴇʀᴠᴇʀs."
+song_11 : "ᴜᴘʟᴏᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ ʙᴀʙʏ\n\nᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ..."

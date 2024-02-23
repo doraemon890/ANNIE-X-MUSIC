@@ -9,12 +9,12 @@ from pyrogram.types import *
 from typing import Union, Optional
 import random
 
-random_photo = [
-    "https://telegra.ph/file/facec75902f1b6b361a8b.jpg",
-    "https://telegra.ph/file/cd205021bf40f44ad78e4.jpg",
-    "https://telegra.ph/file/05144a16d058f9a7401e5.jpg",
-    "https://telegra.ph/file/3c9c23857075dcaea5892.jpg",
-    "https://telegra.ph/file/002b98f44394097758551.jpg",
+anniephoto = [
+    "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
+    "https://telegra.ph/file/3c4de59511e179018f902.jpg",
+    "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
+    "https://telegra.ph/file/3c4de59511e179018f902.jpg",
+    "https://telegra.ph/file/002b98f44394097758551.jpg"
 ]
 
 # --------------------------------------------------------------------------------- #
@@ -46,16 +46,16 @@ async def get_userinfo_img(
 
         circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
         circular_img.paste(img, (0, 0), mask)
-        resized = circular_img.resize((400, 400))
-        bg.paste(resized, (440, 160), resized)
+        resized = circular_img.resize((833, 857))
+        bg.paste(resized, (1029, 67), resized)
 
     img_draw = ImageDraw.Draw(bg)
 
     img_draw.text(
-        (529, 627),
+        (2405, 720),
         text=str(user_id).upper(),
-        font=get_font(46, font_path),
-        fill=(255, 255, 255),
+        font=get_font(95, font_path),
+        fill=(125, 227, 230),
     )
 
 
@@ -66,8 +66,8 @@ async def get_userinfo_img(
 
 # --------------------------------------------------------------------------------- #
 
-bg_path = "ANNIEMUSIC/assets/userinfo.png"
-font_path = "ANNIEMUSIC/assets/hiroko.ttf"
+bg_path = "ANNIEMUSIC/assets/annie/jarvisXinfo.png"
+font_path = "ANNIEMUSIC/assets/annie/jarvisinf.ttf"
 
 # --------------------------------------------------------------------------------- #
 
@@ -141,8 +141,8 @@ async def userinfo(_, message):
                     profile_path=photo,
                 )
             else:
-                # User doesn't have a profile photo, use random_photo directly
-                welcome_photo = random.choice(random_photo)
+                # User doesn't have a profile photo, use anniephoto directly
+                welcome_photo = random.choice(anniephoto)
                 
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
@@ -172,8 +172,8 @@ async def userinfo(_, message):
                     profile_path=photo,
                 )
             else:
-                # User doesn't have a profile photo, use random_photo directly
-                welcome_photo = random.choice(random_photo)
+                # User doesn't have a profile photo, use anniephoto directly
+                welcome_photo = random.choice(anniephoto)
                 
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
@@ -204,8 +204,8 @@ async def userinfo(_, message):
                     profile_path=photo,
                 )
             else:
-                # User doesn't have a profile photo, use random_photo directly
-                welcome_photo = random.choice(random_photo)
+                # User doesn't have a profile photo, use anniephoto directly
+                welcome_photo = random.choice(anniephoto)
                 
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)

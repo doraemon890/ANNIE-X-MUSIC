@@ -71,10 +71,10 @@ async def ctest(_, message):
          img1 = Image.open(f"{p1}")
          img2 = Image.open(f"{p2}")
 
-         img = Image.open("ANNIEMUSIC/assets/cppic.png")
+         img = Image.open("ANNIEMUSIC/assets/annie/ANNIECP.png")
 
-         img1 = img1.resize((437,437))
-         img2 = img2.resize((437,437))
+         img1 = img1.resize((486,486))
+         img2 = img2.resize((486,486))
 
          mask = Image.new('L', img1.size, 0)
          draw = ImageDraw.Draw(mask) 
@@ -90,16 +90,16 @@ async def ctest(_, message):
 
          draw = ImageDraw.Draw(img)
 
-         img.paste(img1, (116, 160), img1)
-         img.paste(img2, (789, 160), img2)
+         img.paste(img1, (410, 500), img1)
+         img.paste(img2, (1395, 500), img2)
 
          img.save(f'test_{cid}.png')
     
          TXT = f"""
 **𝐓ᴏᴅᴀʏ's 𝐒ᴇʟᴇᴄᴛᴇᴅ 𝐂ᴏᴜᴘʟᴇs 🎉 :
-➖➖➖➖➖➖➖➖➖➖➖➖
-{N1} + {N2} = ❣️
-➖➖➖➖➖➖➖➖➖➖➖➖
+✧══════•❁♡︎❁•══════✧
+{N1} + {N2} = 💗
+✧══════•❁♡︎❁•══════✧
 𝐍ᴇxᴛ 𝐂ᴏᴜᴘʟᴇs 𝐖ɪʟʟ 𝐁ᴇ 𝐒ᴇʟᴇᴄᴛᴇᴅ 𝐎ɴ {tomorrow} !!**
 """
     

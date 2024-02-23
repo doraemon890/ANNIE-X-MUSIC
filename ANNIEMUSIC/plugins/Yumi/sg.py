@@ -16,7 +16,7 @@ async def sg(client: Client, message: Message):
         args = message.reply_to_message.from_user.id
     else:
         args = message.text.split()[1]
-    lol = await message.reply("<code>🦋</code>")
+    lol = await message.reply("👀")
     if args:
         try:
             user = await client.get_users(f"{args}")
