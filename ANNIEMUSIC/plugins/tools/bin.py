@@ -21,16 +21,18 @@ async def check_ccbin(client, message):
         resp = await api.bininfo(bin)
         await aux.edit(f"""
 <b> 𝗩𝗔𝗟𝗜𝗗 𝗕𝗜𝗡 ✅</b>
-
-<b>🏦 𝗕𝗔𝗡𝗞➪</b> <tt>{resp.bank}</tt>
-<b>💳 𝗕𝗜𝗡➪</b> <tt>{resp.bin}</tt>
-<b>🏡 𝗖𝗢𝗨𝗡𝗧𝗥𝗬➪</b> <tt>{resp.country}</tt>
-<b>🇮🇳 𝗙𝗟𝗔𝗚➪</b> <tt>{resp.flag}</tt>
-<b>🧿 𝗜𝗦𝗢➪</b> <tt>{resp.iso}</tt>
-<b>⏳ 𝗟𝗘𝗩𝗘𝗟➪</b> <tt>{resp.level}</tt>
-<b>🔴 𝗣𝗥𝗘𝗣𝗔𝗜𝗗➪</b> <tt>{resp.prepaid}</tt>
-<b>🆔 𝗧𝗬𝗣𝗘➪</b> <tt>{resp.type}</tt>
-<b>ℹ️ 𝗩𝗘𝗡𝗗𝗢𝗥➪</b> <tt>{resp.vendor}</tt>"""
+<b>┏━◆</b>
+<b>┣〖🏦 ʙᴀɴᴋ</b> ⇾<tt>{resp.bank}</tt>
+<b>┣〖💳 ʙɪɴ</b> ⇾<tt>{resp.bin}</tt>
+<b>┣〖🏡 ᴄᴏᴜɴᴛʀʏ</b> ⇾<tt>{resp.country}</tt>
+<b>┣〖🇮🇳 ғʟᴀɢ</b> ⇾<tt>{resp.flag}</tt>
+<b>┣〖🧿 ɪsᴏ</b> ⇾<tt>{resp.iso}</tt>
+<b>┣〖⏳ ʟᴇᴠᴇʟ</b> ⇾<tt>{resp.level}</tt>
+<b>┣〖🔴 ᴘʀᴇᴘᴀɪᴅ</b> ⇾<tt>{resp.prepaid}</tt>
+<b>┣〖🆔 ᴛʏᴘᴇ</b> ⇾<tt>{resp.type}</tt>
+<b>┣〖ℹ️ ᴠᴇɴᴅᴏʀ</b> ⇾<tt>{resp.vendor}</tt>
+<b>┗━━━◆</b>
+"""
         )
     except:
         return await aux.edit(f"""
