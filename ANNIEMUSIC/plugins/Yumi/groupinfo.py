@@ -23,7 +23,7 @@ async def get_group_status(_, message: Message):
     response_text = (
         f"➖➖➖➖➖➖➖\n"
         f"➲ GROUP NAME : {group.title} ✅\n"
-        f"➲ GROUP ID : {group.id}\n"
+        f"➲ GROUP ID : `{group.id}`\n"
         f"➲ TOTAL MEMBERS : {total_members}\n"
         f"➲ DESCRIPTION : {group_description or 'N/A'}\n"
         f"➲ USERNAME : @{group_username}\n"
