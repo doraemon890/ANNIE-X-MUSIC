@@ -338,7 +338,50 @@ async def add_playlist(client, message: Message, _):
         await adding.delete()
         return await message.reply_text(text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**", reply_markup=keyboardes)
         pass
+    if "youtube.com/@" in query:
+        addin = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+        try:
+            from pytube import YouTube
 
+            channel_username = query
+            videos = YouTube_videos(f"{query}/videos")
+            video_urls = [video['url'] for video in videos]
+
+        except Exception as e:
+            # Handle exception
+            return await message.reply_text(f"Error: {e}")
+
+        if not video_urls:
+            return await message.reply_text("**➻ ɴᴏ sᴏɴɢs ғᴏᴜɴᴅ ɪɴ ᴛʜᴇ YouTube channel.\n\n**➥ ᴛʀʏ ᴏᴛʜᴇʀ YouTube channel ʟɪɴᴋ**")
+
+        user_id = message.from_user.id
+        for video_url in video_urls:
+            videosid = query.split("/")[-1].split("?")[0]
+
+            try:
+                yt = YouTube(f"https://youtu.be/{videosid}")
+                title = yt.title
+                duration = yt.length
+            except Exception as e:
+                return await message.reply_text(f"ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴠɪᴅᴇᴏ ɪɴғᴏ: {e}")
+
+            plist = {
+                "videoid": video_id,
+                "title": title,
+                "duration": duration,
+            }
+
+            await save_playlist(user_id, video_id, plist)
+            keyboardes = InlineKeyboardMarkup(
+            [            
+                [
+                    InlineKeyboardButton("๏ ᴡᴀɴᴛ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢs? ๏", callback_data=f"open_playlist {user_id}")
+                ]
+            ]
+        )
+        await addin.delete()
+        return await message.reply_text(text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ channel ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**", reply_markup=keyboardes)
+        pass
     # Check if the provided input is a YouTube video link
     if "https://youtu.be" in query:
         try:
