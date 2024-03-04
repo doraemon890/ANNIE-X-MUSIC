@@ -44,7 +44,7 @@ youtube-search
 youtube-search-python
 gtts
 git+https://github.com/AsmSafone/SafoneAPI
-lexica-api==1.5.5
+lexica-api
 httpx==0.25.2
 gpytranslate
 openai==0.28.0
@@ -54,3 +54,4 @@ img2pdf
 cloudscraper
 pycryptodome
 opencv-python
+bs4
