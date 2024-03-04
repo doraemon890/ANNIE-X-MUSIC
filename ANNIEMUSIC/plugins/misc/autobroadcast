@@ -25,6 +25,8 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
+CELEBRATION_VID_URL = "https://github.com/doraemon890/ANNIE-X-MUSIC/assets/155803358/dcbec346-bb98-4818-9a1c-683e9c3107b0"
+
 async def send_message_to_chats():
     try:
         chats = await get_served_chats()
