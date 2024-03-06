@@ -55,5 +55,3 @@ cloudscraper
 pycryptodome
 opencv-python
 bs4
-libgl1-mesa-glx==1.3.0
-
