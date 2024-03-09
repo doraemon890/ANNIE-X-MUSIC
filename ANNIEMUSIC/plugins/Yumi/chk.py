@@ -10,7 +10,7 @@ from config import BOT_USERNAME
 PREFIX = "/"
 ANTISPAM = 5 
 BLACKLISTED = [] 
-UA = "MR DAXX"
+UA = "DORAEMON"
 
 
 @app.on_message(filters.command("chk", prefixes=PREFIX))
