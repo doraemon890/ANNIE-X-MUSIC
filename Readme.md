@@ -17,7 +17,7 @@
 <details>
 <summary><b>sᴛʀɪɴɢ sᴇssɪᴏɴ</b></summary>
 <br>
-<p align="center"><a href="https://t.me/jarvis_string_gen_bot"> <img src="https://img.shields.io/badge/String%20Session-black?style=for-the-badge&logo=replit" width="220" height="38.45"/></a></p>
+<p align="center"><a href="https://t.me/JARVIS_SESSION_ROBOT"> <img src="https://img.shields.io/badge/String%20Session-black?style=for-the-badge&logo=replit" width="220" height="38.45"/></a></p>
 </details>
 
 <h2 align="center">
