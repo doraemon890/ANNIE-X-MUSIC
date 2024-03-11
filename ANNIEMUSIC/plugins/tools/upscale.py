@@ -4,15 +4,13 @@ import base64
 import os
 import requests
 from pyrogram import filters
-from config import BOT_USERNAME
+from config import BOT_USERNAME, GPT_API  
 from ANNIEMUSIC import app
 from uuid import uuid4
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import config
-from config import GPT_API
 
 # Set up OpenAI API
-openai.api_key = config.GPT_API
+openai.api_key = GPT_API  
 
 # Upscale image functionality
 @app.on_message(filters.reply & filters.command("upscale"))
