@@ -4,13 +4,13 @@ import base64
 import os
 import requests
 from pyrogram import filters
-from config import BOT_USERNAME, GPT_API  
+from config import BOT_USERNAME, GPT_API  # Importing GPT_API directly
 from ANNIEMUSIC import app
 from uuid import uuid4
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Set up OpenAI API
-openai.api_key = GPT_API  
+openai.api_key = GPT_API  # Using GPT_API directly
 
 # Upscale image functionality
 @app.on_message(filters.reply & filters.command("upscale"))
@@ -29,11 +29,8 @@ async def upscale_image_command_handler(_, message):
 
         # Upscale image using DALL-E-3 model
         response = openai.Image.create(
-            inputs={"image": encoded_image},
-            model="text-dalle-3",
-            max_tokens=100,
-            token_max_length=1024,
-            prompt="This is an upscaled image:"
+            image=encoded_image,
+            model="text-dalle-3"
         )
 
         # Get upscaled image URL
