@@ -1,5 +1,5 @@
+import aiohttp
 import base64
-import httpx
 import os
 import requests
 from pyrogram import filters
@@ -14,38 +14,44 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def upscale_image_command_handler(_, message):
     try:
         if not message.reply_to_message or not message.reply_to_message.photo:
-            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
+            await message.reply_text("**Please reply to an image to upscale it.**")
             return
 
         image = message.reply_to_message.photo.file_id
         file_path = await app.download_media(image)
 
+        # Read image bytes
         with open(file_path, "rb") as image_file:
             image_bytes = image_file.read()
 
         # Encode image bytes to base64
-        encoded_image = base64.b64encode(image_bytes).decode("utf-8")
+        encoded_image = base64.b64encode(image_bytes)
 
         # Send request to image upscaling API
-        async with httpx.AsyncClient() as http_client:
-            response = await http_client.post(
-                "https://api.qewertyy.me/upscale", data={"image_data": encoded_image}, timeout=None
+        async with aiohttp.ClientSession() as session:
+            response = await session.post(
+                "https://api.qewertyy.me/upscale", data={"image_data": encoded_image}
             )
 
-        # Save the upscaled image
-        with open("upscaled_image.png", "wb") as output_file:
-            output_file.write(response.content)
+            if response.status != 200:
+                await message.reply_text("Failed to upscale the image.")
+                return
+
+            # Save the upscaled image
+            content = await response.read()
+            with open("upscaled_image.png", "wb") as output_file:
+                output_file.write(content)
 
         # Send the upscaled image as a document
         await app.send_document(
             message.chat.id,
             document="upscaled_image.png",
-            caption="**ʜᴇʀᴇ ɪs ᴛʜᴇ ᴜᴘsᴄᴀʟᴇᴅ ɪᴍᴀɢᴇ!**",
+            caption="**Here is the upscaled image!**",
         )
 
     except Exception as e:
         print(f"Failed to upscale the image: {e}")
-        await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.**")
+        await message.reply_text("**Failed to upscale the image. Please try again later.**")
 
 # Waifu image functionality
 @app.on_message(filters.command("waifu"))
@@ -78,4 +84,3 @@ def get_waifu_data(tags):
         return response.json()
     else:
         return None
-
