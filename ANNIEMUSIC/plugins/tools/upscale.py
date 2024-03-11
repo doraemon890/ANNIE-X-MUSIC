@@ -1,3 +1,4 @@
+import openai
 import aiohttp
 import base64
 import os
@@ -7,7 +8,11 @@ from config import BOT_USERNAME
 from ANNIEMUSIC import app
 from uuid import uuid4
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import config
+from config import GPT_API
 
+# Set up OpenAI API
+openai.api_key = config.GPT_API
 
 # Upscale image functionality
 @app.on_message(filters.reply & filters.command("upscale"))
@@ -17,36 +22,30 @@ async def upscale_image_command_handler(_, message):
             await message.reply_text("**Please reply to an image to upscale it.**")
             return
 
-        image = message.reply_to_message.photo.file_id
-        file_path = await app.download_media(image)
-
-        # Read image bytes
-        with open(file_path, "rb") as image_file:
-            image_bytes = image_file.read()
+        image = await app.download_media(message.reply_to_message.photo.file_id)
 
         # Encode image bytes to base64
-        encoded_image = base64.b64encode(image_bytes)
+        with open(image, "rb") as image_file:
+            image_bytes = image_file.read()
+            encoded_image = base64.b64encode(image_bytes).decode("utf-8")
 
-        # Send request to image upscaling API
-        async with aiohttp.ClientSession() as session:
-            response = await session.post(
-                "https://api.qewertyy.me/upscale", data={"image_data": encoded_image}
-            )
+        # Upscale image using DALL-E-3 model
+        response = openai.Image.create(
+            inputs={"image": encoded_image},
+            model="text-dalle-3",
+            max_tokens=100,
+            token_max_length=1024,
+            prompt="This is an upscaled image:"
+        )
 
-            if response.status != 200:
-                await message.reply_text("Failed to upscale the image.")
-                return
+        # Get upscaled image URL
+        upscaled_image_url = response.generated_images[0].url
 
-            # Save the upscaled image
-            content = await response.read()
-            with open("upscaled_image.png", "wb") as output_file:
-                output_file.write(content)
-
-        # Send the upscaled image as a document
-        await app.send_document(
+        # Send the upscaled image
+        await app.send_photo(
             message.chat.id,
-            document="upscaled_image.png",
-            caption="**Here is the upscaled image!**",
+            photo=upscaled_image_url,
+            caption="**Here is the upscaled image!**"
         )
 
     except Exception as e:
