@@ -29,12 +29,12 @@ async def upscale_image_command_handler(_, message):
 
         # Upscale image using DALL-E-3 model
         response = openai.Image.create(
-            image=encoded_image,
+            image={"image": encoded_image},  # Pass image data as dictionary
             model="text-dalle-3"
         )
 
         # Get upscaled image URL
-        upscaled_image_url = response.generated_images[0].url
+        upscaled_image_url = response.url
 
         # Send the upscaled image
         await app.send_photo(
