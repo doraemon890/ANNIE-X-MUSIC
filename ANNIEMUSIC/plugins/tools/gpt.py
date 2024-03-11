@@ -37,13 +37,13 @@ async def chat(app :app, message):
 
 @app.on_message(filters.command(["arvis" , ],  prefixes=["j","J"]))
 async def chat(app :app, message):
-    
+    name = message.from_user.first_name
     try:
         start_time = time.time()
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         if len(message.command) < 2:
             await message.reply_text(
-             "**ʜᴇʟʟᴏ sɪʀ ɪ ᴀᴍ ᴊᴀʀᴠɪs & ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏᴅᴀʏ**")
+             "**ʜᴇʟʟᴏ {name} ɪ ᴀᴍ ᴊᴀʀᴠɪs & ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏᴅᴀʏ**")
         else:
             a = message.text.split(' ', 1)[1]
             MODEL = "gpt-3.5-turbo"
@@ -57,15 +57,15 @@ async def chat(app :app, message):
 
 # --------------------------------------------------------------------------------
 
-@app.on_message(filters.command(["ssis"],  prefixes=["a", "A"]))
+@app.on_message(filters.command(["ora"],  prefixes=["d", "D"]))
 async def chat(app :app, message):
-    
+    name = message.from_user.first_name
     try:
         start_time = time.time()
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         if len(message.command) < 2:
             await message.reply_text(
-            "**ʜᴇʟʟᴏ sɪʀ ɪ ᴀᴍ ᴀɴɴɪᴇ & ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏᴅᴀʏ**")
+            "**ʜᴇʟʟᴏ {name} ɪ ᴀᴍ ᴀɴɴɪᴇ & ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏᴅᴀʏ**")
         else:
             a = message.text.split(' ', 1)[1]
             MODEL = "gpt-3.5-turbo"
