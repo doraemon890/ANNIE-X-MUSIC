@@ -4,7 +4,7 @@ from gtts import gTTS
 import openai
 import requests
 from pyrogram import filters
-from pyrogram.types import ChatAction
+from pyrogram.enums import ChatAction, ParseMode
 from ANNIEMUSIC import app
 import config
 from config import GPT_API
