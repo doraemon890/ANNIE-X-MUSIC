@@ -55,3 +55,4 @@ cloudscraper
 pycryptodome
 opencv-python
 bs4
+pyttsx3
