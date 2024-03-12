@@ -4,8 +4,10 @@ from ANNIEMUSIC import app
 import pyttsx3
 import os
 
-@app.on_message(filters.command('tts'))
-def text_to_speech(client, message):
+
+@app.on_message(filters.command('tts') & ~filters.edited)
+async def text_to_speech(client, message):
+    # Check if text exists after the command
     if len(message.text.split(' ', 1)) > 1:
         text = message.text.split(' ', 1)[1]
         
@@ -18,12 +20,13 @@ def text_to_speech(client, message):
         reply_markup = InlineKeyboardMarkup(keyboard)
         
         # Send message with voice selection buttons
-        client.send_message(message.chat.id, "Select voice:", reply_markup=reply_markup)
+        await message.reply_text("Select voice:", reply_markup=reply_markup)
 
 @app.on_callback_query()
-def voice_selection(client, callback_query):
-    text = callback_query.message.text
+async def voice_selection(client, callback_query):
+    # Extract relevant information from callback query
     voice = callback_query.data
+    text = callback_query.message.reply_to_message.text
     
     # Initialize engine
     engine = pyttsx3.init()
@@ -43,7 +46,7 @@ def voice_selection(client, callback_query):
     engine.runAndWait()
     
     # Send the file
-    client.send_audio(callback_query.message.chat.id, speech_file)
+    await callback_query.message.reply_audio(audio=speech_file)
     
     # Remove temporary file
     os.remove(speech_file)
