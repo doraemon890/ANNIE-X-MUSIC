@@ -5,7 +5,7 @@ import pyttsx3
 import os
 
 
-@app.on_message(filters.command('tts') & ~filters.edited)
+@app.on_message(filters.command('tts'))
 async def text_to_speech(client, message):
     # Check if text exists after the command
     if len(message.text.split(' ', 1)) > 1:
