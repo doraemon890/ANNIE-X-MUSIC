@@ -1,52 +1,29 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from gtts import gTTS
+import speech_recognition as sr
 from ANNIEMUSIC import app
-import pyttsx3
-import os
-
 
 @app.on_message(filters.command('tts'))
-async def text_to_speech(client, message):
-    # Check if text exists after the command
+def text_to_speech(client, message):
     if len(message.text.split(' ', 1)) > 1:
         text = message.text.split(' ', 1)[1]
-        
-        # Create inline keyboard for voice selection
-        keyboard = [
-            [InlineKeyboardButton("Robot Voice", callback_data='robot')],
-            [InlineKeyboardButton("Girl Voice", callback_data='girl')],
-            [InlineKeyboardButton("Man Voice", callback_data='man')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        
-        # Send message with voice selection buttons
-        await message.reply_text("Select voice:", reply_markup=reply_markup)
+        tts = gTTS(text=text, lang='hi')
+        tts.save('speech.mp3')
+        client.send_audio(message.chat.id, 'speech.mp3')
 
-@app.on_callback_query()
-async def voice_selection(client, callback_query):
-    # Extract relevant information from callback query
-    voice = callback_query.data
-    text = callback_query.message.reply_to_message.text
-    
-    # Initialize engine
-    engine = pyttsx3.init()
-    
-    # Set voice based on user selection
-    if voice == 'robot':
-        engine.setProperty('voice', 'english_rp+f4')
-    elif voice == 'girl':
-        engine.setProperty('voice', 'english+f3')
-    elif voice == 'man':
-        engine.setProperty('voice', 'english+m3')
-    
-    # Generate speech and send
-    speech_file = f'speech_{voice}.mp3'
-    engine.save_to_file(text, speech_file)
-    engine.stop()
-    engine.runAndWait()
-    
-    # Send the file
-    await callback_query.message.reply_audio(audio=speech_file)
-    
-    # Remove temporary file
-    os.remove(speech_file)
+@app.on_message(filters.command('stt'))
+def speech_to_text(client, message):
+    if message.voice:
+        voice_file = client.download_media(message.voice)
+        recognizer = sr.Recognizer()
+        with sr.AudioFile(voice_file) as source:
+            audio_data = recognizer.record(source)
+            try:
+                text = recognizer.recognize_google(audio_data)
+                client.send_message(message.chat.id, text)
+            except sr.UnknownValueError:
+                client.send_message(message.chat.id, "Sorry, I couldn't understand the audio.")
+            except sr.RequestError as e:
+                client.send_message(message.chat.id, f"Sorry, an error occurred: {e}")
+    else:
+        client.send_message(message.chat.id, "Please send a voice message for speech-to-text conversion.")
