@@ -29,19 +29,13 @@ def text_to_speech(text, voice):
 def start(client, message):
     message.reply_text("Welcome! Select a voice model to convert text to speech:")
     
-    # Create inline keyboard with voice models
+    # Voice models
     voices = [
-        "Joanna",
-        "Matthew",
-        "Ivy",
-        "Brian",
-        "Emma",
-        "Justin",
-        "Kendra",
-        "Kimberly",
-        "Salli",
-        "Joey"
+        "Joanna", "Matthew", "Ivy", "Brian", "Emma", "Justin", "Kendra", "Kimberly", "Salli", "Joey",
+        "Nicole", "Russell", "Amy", "Marlene", "Hans", "Conchita", "Jan", "Miguel", "Penelope", "Chantal",
+        "Naja", "Mads", "Lotte", "Ruben", "Gwyneth"
     ]
+    
     buttons = [
         [InlineKeyboardButton(voice, callback_data=voice)] for voice in voices
     ]
