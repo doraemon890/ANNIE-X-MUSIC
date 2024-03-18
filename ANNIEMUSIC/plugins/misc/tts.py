@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from ANNIEMUSIC import app
 # Your Play.ht API key
-PLAYHT_API_KEY = '53be44590ea344e3906e212e3d38835e'
+PLAYHT_API_KEY = "36cae2c9a1954e118c38a07a0e908fa5"
 
 
 
