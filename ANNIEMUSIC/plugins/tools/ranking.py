@@ -9,7 +9,7 @@ from pyrogram.types import *
 
 
 mongo_client = MongoClient(MONGO_DB_URI)
-db = mongo_client["kakire6315"]
+db = mongo_client["jarvisxd45"]
 collection = db["ranking"]
 
 user_data = {}
