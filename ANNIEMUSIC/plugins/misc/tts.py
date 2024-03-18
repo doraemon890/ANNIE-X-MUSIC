@@ -2,8 +2,10 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from ANNIEMUSIC import app
+import config
+from config import PLAYHT_API
 # Your Play.ht API key
-PLAYHT_API_KEY = "36cae2c9a1954e118c38a07a0e908fa5"
+PLAYHT_API_KEY = CONFIG.PLAYHT_API
 
 
 
