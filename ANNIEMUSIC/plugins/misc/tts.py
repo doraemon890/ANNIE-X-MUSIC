@@ -54,4 +54,5 @@ def callback(client, callback_query):
     if audio_url:
         message.reply_voice(audio_url)
     else:
-        message.reply_text("Failed to convert text to speech.")
+        app.send_message(message.chat.id, "Failed to convert text to speech. Please try again later.")
+        app.send_message(message.chat.id, f"Failed voice model: {voice}")
