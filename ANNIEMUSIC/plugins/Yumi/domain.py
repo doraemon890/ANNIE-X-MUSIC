@@ -30,4 +30,4 @@ async def get_domain_info(client, message):
 
         await message.reply(response)
     else:
-        await message.reply("Please provide a domain name after the /domain command.")
+        await message.reply("Please provide a site link or name after the /domain command.")
