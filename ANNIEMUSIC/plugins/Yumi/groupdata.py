@@ -15,7 +15,7 @@ async def instatus(app, message):
         enums.ChatMemberStatus.ADMINISTRATOR,
         enums.ChatMemberStatus.OWNER,
     ):
-        sent_message = await message.reply_text("Annie's Gathering Information...")
+        sent_message = await message.reply_text("💻")
         deleted_acc = 0
         premium_acc = 0
         banned = 0
