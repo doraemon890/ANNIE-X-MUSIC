@@ -21,9 +21,10 @@ async def check_ccbin(client, message):
         resp = await api.bininfo(bin)
         await aux.edit(f"""
 <b> 𝗩𝗔𝗟𝗜𝗗 𝗕𝗜𝗡 ✅</b>
+
 <b>┏━◆</b>
 <b>┣〖🏦 ʙᴀɴᴋ</b> ⇾<tt>{resp.bank}</tt>
-<b>┣〖💳 ʙɪɴ</b> ⇾<tt>{resp.bin}</tt>
+<b>┣〖💳 ʙɪɴ</b> ⇾<tt>`{resp.bin}`</tt>
 <b>┣〖🏡 ᴄᴏᴜɴᴛʀʏ</b> ⇾<tt>{resp.country}</tt>
 <b>┣〖🇮🇳 ғʟᴀɢ</b> ⇾<tt>{resp.flag}</tt>
 <b>┣〖🧿 ɪsᴏ</b> ⇾<tt>{resp.iso}</tt>
