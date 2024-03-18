@@ -13,11 +13,11 @@ API_HASH = getenv("API_HASH")
 BOT_TOKEN = getenv("BOT_TOKEN")
 # Add Owner Username without @ 
 OWNER_USERNAME = getenv("OWNER_USERNAME","JARVIS_V2")
-# Get Your bot username
+# Get Your bot username without @ 
 BOT_USERNAME = getenv("BOT_USERNAME" , "Annie_X_Music_Robot")
 # Don't Add style font 
 BOT_NAME = getenv("BOT_NAME" , "˹𝐀ɴɴɪᴇ ✘ 𝙼ᴜsɪᴄ˼ ♪")
-#get Your Assistant User name
+#get Your Assistant User name without @ 
 ASSUSERNAME = getenv("ASSUSERNAME" , "musicXannie")
 EVALOP = list(map(int, getenv("EVALOP", "6797202080").split()))
 # Get your mongo url from cloud.mongodb.com
@@ -26,7 +26,7 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 
 # Chat id of a group for logging bot's activities
-LOGGER_ID = int(getenv("LOGGER_ID", -1002024677280))
+LOGGER_ID = int(getenv("LOGGER_ID", -1002059718978))
 
 # ------------------------------------------------
 GPT_API = getenv("GPT_API")
@@ -79,7 +79,7 @@ TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", "5242880000"))
 TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", "5242880000"))
 # Checkout https://www.gbmb.org/mb-to-bytes for converting mb to bytes
 
-# Ge@STRINGSEASO_NBOT2 session from @STRINGSEASO_NBOT
+# Get pyrogramv2 session from @Strings_Gen_Robot
 STRING1 = getenv("STRING_SESSION", None)
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
