@@ -31,9 +31,7 @@ def start(client, message):
     
     # Voice models
     voices = [
-        "Joanna", "Matthew", "Ivy", "Brian", "Emma", "Justin", "Kendra", "Kimberly", "Salli", "Joey",
-        "Nicole", "Russell", "Amy", "Marlene", "Hans", "Conchita", "Jan", "Miguel", "Penelope", "Chantal",
-        "Naja", "Mads", "Lotte", "Ruben", "Gwyneth"
+        "larry"
     ]
     
     buttons = [
