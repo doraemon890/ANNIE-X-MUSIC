@@ -5,7 +5,7 @@ from ANNIEMUSIC import app
 import config
 from config import PLAYHT_API
 # Your Play.ht API key
-PLAYHT_API_KEY = CONFIG.PLAYHT_API
+PLAYHT_API_KEY = config.PLAYHT_API
 
 
 
