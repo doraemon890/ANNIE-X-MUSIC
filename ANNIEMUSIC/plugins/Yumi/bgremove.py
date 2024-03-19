@@ -5,6 +5,8 @@ from aiohttp import ContentTypeError
 from ANNIEMUSIC import app as app
 from pyrogram import filters
 
+API_KEY = "23nfCEipDijgVv6SH14oktJe"
+
 def check_filename(filroid):
     if os.path.exists(filroid):
         no = 1
@@ -17,7 +19,7 @@ def check_filename(filroid):
     return filroid
 
 async def RemoveBG(input_file_name):
-    headers = {"X-API-Key": "P6oDw1YNnMdkoMXxmWJinHQK"}
+    headers = {"X-API-Key": API_KEY}
     files = {"image_file": open(input_file_name, "rb").read()}
     async with aiohttp.ClientSession() as ses:
         async with ses.post(
@@ -36,21 +38,22 @@ async def RemoveBG(input_file_name):
 
 @app.on_message(filters.command("rmbg"))
 async def rmbg(bot, message):
-  rmbg = await message.reply("Processing...") 
-  replied = message.reply_to_message
-  if not replied:
-      return await rmbg.edit("Reply to a photo to Remove it's Backgroud")
+    rmbg = await message.reply("Processing...") 
+    replied = message.reply_to_message
+    if not replied:
+        return await rmbg.edit("Reply to a photo to remove its background")
 
-  if replied.photo:
-      photo = await bot.download_media(replied)
-      x, y = await RemoveBG(photo)
-      os.remove(photo)
-      if not x:
-          bruh = y["errors"][0]
-          details = bruh.get("detail", "")
-          return await rmbg.edit(f"ERROR ~ {bruh['title']},\n{details}")
-      await message.reply_photo(photo=y,caption="Here is your Image without Background")
-      await message.reply_document(document=y)
-      await rmbg.delete()
-      return os.remove(y)
-  await rmbg.edit("Reply only to a photo to Remove it's Background")
+    if replied.photo:
+        photo = await bot.download_media(replied)
+        x, y = await RemoveBG(photo)
+        os.remove(photo)
+        if not x:
+            bruh = y["errors"][0]
+            details = bruh.get("detail", "")
+            return await rmbg.edit(f"ERROR ~ {bruh['title']},\n{details}")
+        await message.reply_photo(photo=y, caption="Here is your image without background")
+        await message.reply_document(document=y)
+        await rmbg.delete()
+        os.remove(y)
+    else:
+        await rmbg.edit("Reply only to a photo to remove its background")
