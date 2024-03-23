@@ -1,4 +1,6 @@
-import asyncio, os, time, aiohttp
+import asyncio
+import os
+import time
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from asyncio import sleep
@@ -9,6 +11,7 @@ from pyrogram.types import *
 from typing import Union, Optional
 import random
 
+# List of Annie's photos
 anniephoto = [
     "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
     "https://telegra.ph/file/3c4de59511e179018f902.jpg",
@@ -17,18 +20,15 @@ anniephoto = [
     "https://telegra.ph/file/002b98f44394097758551.jpg"
 ]
 
-# --------------------------------------------------------------------------------- #
-
-
+# Function to get font
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
+
+# Function to resize text if too long
 resize_text = (
     lambda text_size, text: (text[:text_size] + "...").upper()
     if len(text) > text_size
     else text.upper()
 )
-
-# --------------------------------------------------------------------------------- #
-
 
 async def get_userinfo_img(
     bg_path: str,
@@ -46,13 +46,13 @@ async def get_userinfo_img(
 
         circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
         circular_img.paste(img, (0, 0), mask)
-        resized = circular_img.resize((833, 857))
-        bg.paste(resized, (1029, 67), resized)
+        resized = circular_img.resize((955, 967))
+        bg.paste(resized, (1687, 304), resized)
 
     img_draw = ImageDraw.Draw(bg)
 
     img_draw.text(
-        (2405, 720),
+        (460, 1055),
         text=str(user_id).upper(),
         font=get_font(95, font_path),
         fill=(125, 227, 230),
@@ -62,16 +62,12 @@ async def get_userinfo_img(
     path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
-   
 
-# --------------------------------------------------------------------------------- #
-
-bg_path = "ANNIEMUSIC/assets/annie/jarvisXinfo.png"
+# Path to background image and font
+bg_path = "ANNIEMUSIC/assets/annie/AnnieNinfo.png"
 font_path = "ANNIEMUSIC/assets/annie/jarvisinf.ttf"
 
-# --------------------------------------------------------------------------------- #
-
-
+# Text template for user info
 INFO_TEXT = """**
 ❅─────✧❅✦❅✧─────❅
             ✦ ᴜsᴇʀ ɪɴғᴏ ✦
@@ -88,25 +84,23 @@ INFO_TEXT = """**
 **❅─────✧❅✦❅✧─────❅**
 """
 
-# --------------------------------------------------------------------------------- #
-
+# Function to get user's status
 async def userstatus(user_id):
-   try:
-      user = await app.get_users(user_id)
-      x = user.status
-      if x == enums.UserStatus.RECENTLY:
-         return "Recently."
-      elif x == enums.UserStatus.LAST_WEEK:
-          return "Last week."
-      elif x == enums.UserStatus.LONG_AGO:
-          return "Long time ago."
-      elif x == enums.UserStatus.OFFLINE:
-          return "Offline."
-      elif x == enums.UserStatus.ONLINE:
-         return "Online."
-   except:
+    try:
+        user = await app.get_users(user_id)
+        x = user.status
+        if x == enums.UserStatus.RECENTLY:
+            return "Recently."
+        elif x == enums.UserStatus.LAST_WEEK:
+            return "Last week."
+        elif x == enums.UserStatus.LONG_AGO:
+            return "Long time ago."
+        elif x == enums.UserStatus.OFFLINE:
+            return "Offline."
+        elif x == enums.UserStatus.ONLINE:
+            return "Online."
+    except:
         return "**sᴏᴍᴇᴛʜɪɴɢ ᴡʀᴏɴɢ ʜᴀᴘᴘᴇɴᴇᴅ !**"
-    
 
 # --------------------------------------------------------------------------------- #
 
