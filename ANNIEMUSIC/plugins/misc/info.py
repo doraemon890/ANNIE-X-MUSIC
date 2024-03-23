@@ -16,8 +16,7 @@ anniephoto = [
     "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
     "https://telegra.ph/file/3c4de59511e179018f902.jpg",
     "https://telegra.ph/file/07fd9e0e34bc84356f30d.jpg",
-    "https://telegra.ph/file/3c4de59511e179018f902.jpg",
-    "https://telegra.ph/file/002b98f44394097758551.jpg"
+    "https://telegra.ph/file/3c4de59511e179018f902.jpg"
 ]
 
 # Function to get font
@@ -46,8 +45,8 @@ async def get_userinfo_img(
 
         circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
         circular_img.paste(img, (0, 0), mask)
-        resized = circular_img.resize((955, 967))
-        bg.paste(resized, (1687, 304), resized)
+        resized = circular_img.resize((977, 979))
+        bg.paste(resized, (1673, 293), resized)
 
     img_draw = ImageDraw.Draw(bg)
 
