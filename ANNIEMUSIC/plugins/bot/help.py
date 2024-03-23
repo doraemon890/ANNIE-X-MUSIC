@@ -120,7 +120,7 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(helpers.HELP_30, reply_markup=keyboard)
 
 
-@app.on_callback_query(filters.regex("dilXaditi") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("AYUSHI") & ~BANNED_USERS)
 @languageCB
 async def first_pagexx(client, CallbackQuery, _):
     menu_next = second_page(_)
@@ -129,6 +129,3 @@ async def first_pagexx(client, CallbackQuery, _):
         return
     except:
         return
-
-
-        
