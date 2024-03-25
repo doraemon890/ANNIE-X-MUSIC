@@ -19,7 +19,7 @@ async def search_command(_, message):
             result = ""
 
             if not response.get("items"):
-                return await msg.edit("No results found!")
+                return await msg.edit("No results!")
 
             for item in response["items"]:
                 title = item["title"]
