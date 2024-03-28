@@ -11,7 +11,7 @@ dnspython
 emojis
 ffmpeg-python
 Faker
-future==0.18.3
+future==1.0.0
 git+https://github.com/AsmSafone/SafoneAPI
 gitpython
 gpytranslate
