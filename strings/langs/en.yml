@@ -183,7 +183,8 @@ PL_B_11 : "๏ ᴘʟᴀʏ ᴘᴇʀsᴏɴᴀʟ ᴛᴏᴘ 10 ๏"
 #Playlist
 playlist_1 : "**ᴜsᴀɢᴇ:** /play [ᴍᴜsɪᴄ ɴᴀᴍᴇ ᴏʀ ʏᴏᴜᴛᴜʙᴇ ʟɪɴᴋ ᴏʀ ʀᴇᴘʟʏ ᴛᴏ ᴀᴜᴅɪᴏ]\n\nɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ ʙᴏᴛ's sᴇʀᴠᴇʀ ᴘʟᴀʏʟɪsᴛ! ᴛʏᴘᴇ /play ᴀɴᴅ ᴘʀᴇss ᴏɴ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙᴜᴛᴛᴏɴ.."
 playlist_2 : "**ɢᴇᴛᴛɪɴɢ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**"
-playlist_3 :playlist_3 : "**➻ ʏᴏᴜ ʜᴀᴠᴇ ɴᴏ ᴘʟᴀʏʟɪsᴛ ᴏɴ ʙᴏᴛ's sᴇʀᴠᴇʀ.**\n\n**➥ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ,ᴊᴜsᴛ ᴛʏᴘᴇ » /addplaylist [ song name / song link / YouTube playlist link ]**\n\n**➥ ʟɪᴋᴇ »** `/addplaylist Baarish`."
+playlist_3 : "**➻ ʏᴏᴜ ʜᴀᴠᴇ ɴᴏ ᴘʟᴀʏʟɪsᴛ ᴏɴ ʙᴏᴛ's sᴇʀᴠᴇʀ.**\n\n**➥ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ,ᴊᴜsᴛ ᴛʏᴘᴇ » /addplaylist [ song name / song link / YouTube playlist link ]**\n\n**➥ʟɪᴋᴇ »** `/addplaylist Baarish`."
+playlist_4 : "➻ ғᴇᴛᴄʜᴇᴅ ᴘʟᴀʏʟɪsᴛ:\n\n➥"
 playlist_5 :  "    Duration- {0} Mins"
 playlist_6 : "Contact me in PM for deletion of Playlists."
 playlist_7 : "**➻ ᴛʀᴀᴄᴋs ɪɴsɪᴅᴇ ᴘʟᴀʏʟɪsᴛ: {0}**\n\n**ᴘʀᴇss ᴛʜᴇ ʙᴜᴛᴛᴏɴs ᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀ ᴘᴀʀᴛɪᴄᴜʟᴀʀ ᴛʀᴀᴄᴋ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.**\n\n**ᴛᴏ ᴅᴇʟᴇᴛᴇ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ: ᴘʀᴇss ᴅᴇʟ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ ʙᴜᴛᴛᴏɴ.**"
@@ -198,6 +199,7 @@ playlist_15 : "**ᴄʜᴇᴄᴋᴏᴜᴛ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ �
 playlist_16 : "**ǫᴜᴇᴜᴇᴅ ᴘʟᴀʏʟɪsᴛ:**"
 playlist_17 : "**ǫᴜᴇᴜᴇᴅ ᴘᴏsɪᴛɪᴏɴ-**"
 playlist_18 : "➻ [ᴄʜᴇᴄᴋᴏᴜᴛ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇᴅ ᴘʟᴀʏʟɪsᴛ]({0})\n\n➥ ʟᴀsᴛ ǫᴜᴇᴜᴇᴅ ᴘᴏsɪᴛɪᴏɴ : **{1}**"
+
 
 #TopPlay
 tracks_1 : "**Processing {0} Top 10 Playlist**\nThis could take some mins(around 3-4 mins).. Please Wait...\n\n**👤Requested By:** {1}\n\nCheck Top 10 tracks by /gstats"
@@ -223,8 +225,8 @@ stream_1 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ Tɪ�
 stream_2 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ Sᴛʀᴇᴀᴍ ᴛʏᴘᴇ :</b> ʟɪᴠᴇ sᴛʀᴇᴀᴍ [ᴜʀʟ]\n<b>‣ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ :</b> {0}"
 
 
-CLOSE_BUTTON  : "✧ ¢ℓσѕє ✧"
-CLOSEMENU_BUTTON  : "✧ ¢ℓσѕє ✧"
+CLOSE_BUTTON  : "✧ᴄʟᴏsᴇ ✧"
+CLOSEMENU_BUTTON  : "✧ᴄʟᴏsᴇ ✧"
 BACK_BUTTON : "✧ вα¢к ✧"
 
 S_B_1 : "˹ᴋɪᴅɴᴀᴘ ᴍᴇ ʙᴀʙᴇs˼"
