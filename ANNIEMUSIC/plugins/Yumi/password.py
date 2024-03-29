@@ -2,7 +2,7 @@ import random, os
 from pyrogram import Client, filters, enums 
 from ANNIEMUSIC import app
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
+from config import BOT_USERNAME
 
 @app.on_message(filters.command(["genpassword", 'genpw']))
 async def password(bot, update):
@@ -16,5 +16,5 @@ async def password(bot, update):
     limit = int(qw)
     random_value = "".join(random.sample(password, limit))
     txt = f"<b>Lɪᴍɪᴛ:</b> {str(limit)} \n<b>Pᴀꜱꜱᴡᴏʀᴅ: <code>{random_value}</code>"
-    btn = InlineKeyboardMarkup([[InlineKeyboardButton('𝗔𝗗𝗗 𝗠𝗘', url='https://t.me/Annie_X_Music_Robot?startgroup=true')]])
+    btn = InlineKeyboardMarkup([[InlineKeyboardButton('𝗔𝗗𝗗 𝗠𝗘', url=f"https://t.me/{BOT_USERNAME}?startgroup=true")]])
     await message.edit_text(text=txt, reply_markup=btn, parse_mode=enums.ParseMode.HTML)
