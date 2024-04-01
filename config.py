@@ -30,7 +30,7 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/doraemon890/ANNIE-X-MUSIC")
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "Master")
-GIT_TOKEN = getenv("GIT_TOKEN", None)
+GIT_TOKEN = getenv("GIT_TOKEN", "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")
 
 # Support and contact information - Provide your own support channels
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/JARVIS_X_SUPPORT")
