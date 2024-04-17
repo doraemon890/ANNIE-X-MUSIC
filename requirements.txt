@@ -23,7 +23,7 @@ img2pdf
 lexica-api
 motor 
 numpy
-openai==0.28.0
+openai==1.21.1
 opencv-python
 pillow==10.2.0
 psutil
