@@ -126,32 +126,36 @@ def download_song(_, message):
 ###### INSTAGRAM REELS DOWNLOAD
 
 @app.on_message(filters.command("insta"))
-async def download_instagram_reel(client, message):
+async def download_instagram_content(client, message):
     try:
         if len(message.text.split(" ")) == 1:
             await message.reply_text("Please provide an Instagram link after the command.")
             return
         
         url = message.text.split(" ", 1)[1]
+        payload = {"url": url}
         headers = {
+            "content-type": "application/json",
             "X-RapidAPI-Key": "923bca7ccdmsh620363d2a9cf295p15f78bjsnfa1040c941aa",
-            "X-RapidAPI-Host": "instagram-reels-downloader2.p.rapidapi.com"
+            "X-RapidAPI-Host": "instagram120.p.rapidapi.com"
         }
-        querystring = {"url": url}
-        response = requests.get("https://instagram-reels-downloader2.p.rapidapi.com/.netlify/functions/api/getLink", headers=headers, params=querystring)
+        
+        response = requests.post("https://instagram120.p.rapidapi.com/api/instagram/links", json=payload, headers=headers)
 
         if response.status_code == 200:
             data = response.json()
             if "video_url" in data:
                 video_url = data["video_url"]
                 await message.reply_video(video_url)
+            elif "image_url" in data:
+                image_url = data["image_url"]
+                await message.reply_photo(image_url)
             else:
-                await message.reply_text("No video URL found in the response.")
+                await message.reply_text("No video or image URL found in the response.")
         else:
             await message.reply_text(f"Request failed with status code: {response.status_code}")
     except Exception as e:
         await message.reply_text(f"Something went wrong: {e}")
-
 
 # --------------
 
