@@ -73,7 +73,7 @@ async def ping_com(client, message: Message, _):
                 text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/BWANDARLOK",
             ),
             InlineKeyboardButton(
-                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/JARVIS_X_SUPPORT",
+                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/JARVIS_V_SUPPORT",
             )
         ],
         [

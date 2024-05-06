@@ -32,11 +32,11 @@ async def start(_, msg):
      
             [
              InlineKeyboardButton("ᴏᴡɴᴇʀ", url="https://t.me/JARVIS_V2"),
-             InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/JARVIS_X_SUPPORT"),
+             InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/JARVIS_V_SUPPORT"),
              ],
      
              [
-             InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ", url="https://t.me/CHATTING_2024"),          
+             InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ", url="https://t.me/Dora_Hub"),          
              InlineKeyboardButton("︎ᴍᴜsɪᴄ", url=f"https://github.com/doraemon890/ANNIE-X-MUSIC"),
              ],
      
