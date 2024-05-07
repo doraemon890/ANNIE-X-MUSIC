@@ -18,11 +18,11 @@ from ANNIEMUSIC import app
 
 # Initialize Instaloader
 loader = instaloader.Instaloader()
+
 # ------------------------------------------------------------------------------- #
 
 ###### INSTAGRAM REELS DOWNLOAD
 
- Define the command handler
 @app.on_message(filters.command("insta"))
 async def download_instagram_video(client, message):
     # Extract the URL from the message
