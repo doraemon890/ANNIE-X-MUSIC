@@ -129,26 +129,19 @@ def download_song(_, message):
 async def download_instagram_reel(client, message):
     try:
         if len(message.text.split(" ")) == 1:
-            await message.reply_text("Please provide an Instagram reel link after the command.")
+            await message.reply_text("Please provide an Instagram link after the command.")
             return
         
         url = message.text.split(" ", 1)[1]
-        payload = {"url": url}
-        headers = {
-            "content-type": "application/json",
-            "X-RapidAPI-Key": "923bca7ccdmsh620363d2a9cf295p15f78bjsnfa1040c941aa",
-            "X-RapidAPI-Host": "instagram120.p.rapidapi.com"
-        }
+        response = requests.post(f"https://api.qewertyy.dev/download/instagram?url={url}")
         
-        response = requests.post("https://instagram120.p.rapidapi.com/api/instagram/links", json=payload, headers=headers)
-
         if response.status_code == 200:
             data = response.json()
-            if "video_url" in data:
-                video_url = data["video_url"]
+            if "content" in data and len(data["content"]) > 0:
+                video_url = data["content"][0]["url"]
                 await message.reply_video(video_url)
             else:
-                await message.reply_text("No video URL found in the response for the provided Instagram reel link.")
+                await message.reply_text("No content found in the response.")
         else:
             await message.reply_text(f"Request failed with status code: {response.status_code}")
     except Exception as e:
