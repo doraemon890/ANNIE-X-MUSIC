@@ -23,6 +23,7 @@ img2pdf
 instaloader
 lexica-api
 motor 
+MukeshAPI
 numpy
 openai==0.28.0
 opencv-python
