@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from ANNIEMUSIC import app
 from config import SUPPORT_CHAT
 
-BUTTON = [[InlineKeyboardButton("ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}")]]
+BUTTON = [[InlineKeyboardButton("ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/JARVIS_V_SUPPORT")]]
 HOT = "https://graph.org/file/745ba3ff07c1270958588.mp4"
 HORNY = "https://graph.org/file/eaa834a1cbfad29bd1fe4.mp4"
 SEMXY = "https://graph.org/file/58da22eb737af2f8963e6.mp4"
