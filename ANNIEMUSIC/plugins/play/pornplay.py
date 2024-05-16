@@ -47,7 +47,7 @@ async def get_video_stream(session, link):
     x.download([link])
     return video
 
-@app.on_message(filters.command(["porn", "xnxx"]))
+@app.on_message(filter.command(["porn", "xnxx"]))
 async def get_random_video_info(client, message):
     if len(message.command) == 1:
         await message.reply("Please provide a title to search.")
