@@ -24,7 +24,7 @@ from ANNIEMUSIC.utils.database import (
 from ANNIEMUSIC.utils.decorators.language import LanguageStart
 from ANNIEMUSIC.utils.formatters import get_readable_time
 from ANNIEMUSIC.utils.inline import help_pannel, private_panel, start_panel
-from config import BANNED_USERS, AMOP
+from config import BANNED_USERS, AYUV
 from strings import get_string
 
 ANNIE_VID = [
@@ -120,7 +120,7 @@ async def start_pm(client, message: Message, _):
         UP, CPU, RAM, DISK = await bot_sys_stats()
         await message.reply_video(
             random.choice(ANNIE_VID),
-            caption=random.choice(AMOP).format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM, served_users, served_chats),
+            caption=random.choice(AYUV).format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM, served_users, served_chats),
             reply_markup=InlineKeyboardMarkup(out),
         )
         if await is_on_off(2):

@@ -4,7 +4,7 @@ from ANNIEMUSIC import YouTube, app
 from ANNIEMUSIC.utils.channelplay import get_channeplayCB
 from ANNIEMUSIC.utils.decorators.language import languageCB
 from ANNIEMUSIC.utils.stream.stream import stream
-from config import BANNED_USERS, AMBOT
+from config import BANNED_USERS, AYU
 
 
 @app.on_callback_query(filters.regex("LiveStream") & ~BANNED_USERS)
@@ -30,7 +30,7 @@ async def play_live_stream(client, CallbackQuery, _):
     except:
         pass
     mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else random.choice(AMBOT)
+        _["play_2"].format(channel) if channel else random.choice(AYU)
     )
     try:
         details, track_id = await YouTube.track(vidid, True)

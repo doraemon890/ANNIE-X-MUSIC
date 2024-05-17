@@ -30,7 +30,7 @@ from ANNIEMUSIC.utils.database import (
 )
 from ANNIEMUSIC.utils.logger import play_logs
 from ANNIEMUSIC.utils.stream.stream import stream
-from config import BANNED_USERS, lyrical, AMBOT
+from config import BANNED_USERS, lyrical, AYU
 
 
 @app.on_message(
@@ -52,7 +52,7 @@ async def play_commnd(
     fplay,
 ):
     mystic = await message.reply_text(
-        _["play_2"].format(channel) if channel else random.choice(AMBOT)
+        _["play_2"].format(channel) if channel else random.choice(AYU)
     )
     plist_id = None
     slider = None
@@ -479,7 +479,7 @@ async def play_music(client, CallbackQuery, _):
     except:
         pass
     mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else random.choice(AMBOT)
+        _["play_2"].format(channel) if channel else random.choice(AYU)
     )
     try:
         details, track_id = await YouTube.track(vidid, True)
@@ -566,7 +566,7 @@ async def play_playlists_command(client, CallbackQuery, _):
     except:
         pass
     mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else random.choice(AMBOT)
+        _["play_2"].format(channel) if channel else random.choice(AYU)
     )
     videoid = lyrical.get(videoid)
     video = True if mode == "v" else None
