@@ -48,6 +48,7 @@ py-tgcalls==0.9.7
 pyyaml==6.0.1
 qrcode
 requests
+SafoneAPI
 search_engine_parser
 speedtest-cli
 SpeechRecognition
