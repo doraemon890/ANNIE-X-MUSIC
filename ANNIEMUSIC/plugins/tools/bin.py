@@ -22,7 +22,7 @@ async def check_ccbin(client, message):
     querystring = {"bin": bin}
     headers = {
         "content-type": "application/json",
-        "X-RapidAPI-Key": "923bca7ccdmsh620363d2a9cf295p15f78bjsnfa1040c941aa",
+        "X-RapidAPI-Key": "693ecdde8emshdf345b92e75f9f7p1b7768jsn73d829ff3e5b",
         "X-RapidAPI-Host": "bin-ip-checker.p.rapidapi.com"
     }
     
