@@ -106,6 +106,7 @@ pprint "\nOWNER ID:"; color_reset; read ownid
 pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING SESSION: "; color_reset; read string_session
+pprint "\nGPT API: "; color_reset; read gpt_api
 
 pprint "\n\nProcessing your vars, wait a while !" "cgreen"
 
@@ -119,7 +120,8 @@ BOT_TOKEN = $bot_token
 MONGO_DB_URI = $mongo_db
 LOGGER_ID = $logger
 STRING_SESSION = $string_session
-OWNER_ID = $ownid""" > .env
+OWNER_ID = $ownid
+GPT_API = $gpt_api""" > .env
 clear
 
 pprint "\n\n\nThanks for using ANNIEMUSIC installer, your vars have been saved successfully ! \nIf you wanna add more variables add them in your env by : vi .env"
