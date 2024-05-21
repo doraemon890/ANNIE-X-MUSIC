@@ -41,4 +41,4 @@ def spam_command(client, message):
             message.reply_to_message.reply_text(f"{user_to_tag} **SPAM!**")
             time.sleep(0.5)  # Add a delay between spam messages
     else:
-        message.reply_text("Reply to a message and use the .raid command to spam.")
+        message.reply_text("Reply to a message and use the +raid command to spam.")
