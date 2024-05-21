@@ -15,7 +15,7 @@ async def chat_gpt(bot, message):
 
         if len(message.command) < 2:
             await message.reply_text(
-                "**Hello {name}, I am Jarvis. How can I help you today?**"
+                "**Hello Sir, I am Jarvis. How can I help you today?**"
             )
         else:
             a = message.text.split(' ', 1)[1]
