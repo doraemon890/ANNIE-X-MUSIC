@@ -55,7 +55,7 @@ async def chat_arvis(app, message):
         await message.reply_text(f"**Error**: {e}")
 
 # Command for ANNIE with user's name
-@app.on_message(filters.command(["ora"], prefixes=["d", "D"]))
+@app.on_message(filters.command(["iri"], prefixes=["s", "S"]))
 async def chat_annie(app, message):
     try:
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)

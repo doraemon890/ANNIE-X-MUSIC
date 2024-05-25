@@ -1,95 +1,117 @@
-from typing import BinaryIO, Dict, List
-import time, os, httpx
-from uuid import uuid4
-from ANNIEMUSIC import app
+import asyncio
+import os
+import uuid
+
+import httpx
 from pyrogram.enums import MessageMediaType
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import (
+    Message,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
+    )
 from pyrogram import Client, filters
 
 
+from ANNIEMUSIC import app
 
+ENDPOINT = "https://sasta-api.vercel.app/googleImageSearch"
+httpx_client = httpx.AsyncClient(timeout=60)
 
-API_URL: str = "https://sasta-api.vercel.app/googleLensSearch"
-
-
-
-async_client: httpx.AsyncClient = httpx.AsyncClient(timeout=120)
+COMMANDS = [
+    "reverse",
+    "grs"
+    "gis",
+    "pp"
+    ]
 
 class STRINGS:
-    REPLY_TO_MEDIA: str = "**ᴘʟᴇᴡsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛʜᴀᴛ ᴄᴏɴᴛᴀɪɴs ᴏɴᴇ ᴏғ ᴛʜᴇ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇs, sᴜᴄʜ ᴀs ᴀ ᴘʜᴏᴛᴏ ᴏʀ ɪᴍᴀɢᴇ ᴀɴᴅ ғɪʟᴇ.**"
-    UNSUPPORTED_MEDIA_TYPE: str = "⚠️ **ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇ !**\n**ᴘʟᴇᴡsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛʜᴀᴛ ᴄᴏɴᴛᴀɪɴs ᴏɴᴇ ᴏғ ᴛʜᴇ sᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ ᴛʏᴘᴇs, sᴜᴄʜ ᴀs ᴀ ᴘʜᴏᴛᴏ ᴏʀ ɪᴍᴀɢᴇ ᴀɴᴅ ғɪʟᴇ.**"
+    REPLY_TO_MEDIA = "ℹ️ Please reply to a message that contains one of the supported media types, such as a photo, sticker, or image file."
+    UNSUPPORTED_MEDIA_TYPE = "⚠️ <b>Unsupported media type!</b>\nℹ️ Please reply with a supported media type: image, sticker, or image file."
     
-    DOWNLOADING_MEDIA: str = "⏳ **ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴍᴇᴅɪᴀ...**"
-    UPLOADING_TO_API_SERVER: str = "**ᴜᴘʟᴏᴀᴅɪɴɢ ᴍᴇᴅɪᴀ ᴛᴏ ᴀᴘɪ sᴇʀᴠᴇʀ**"
-    PARSING_RESULT: str = "💻 **ᴘᴀʀsɪɴɢ ʀᴇsᴜʟᴛ...**"
+    REQUESTING_API_SERVER = "📡 Requesting to <b>API Server</b>... 📶"
     
-    EXCEPTION_OCCURRED: str = "❌ **ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀʀᴇᴅ !**\n\n**ᴇxᴄᴇᴘᴛɪᴏɴ :** {}"
+    DOWNLOADING_MEDIA = "⏳ Downloading media..."
+    UPLOADING_TO_API_SERVER = "📡 Uploading media to <b>API Server</b>... 📶"
+    PARSING_RESULT = "💻 Parsing result..."
     
-    RESULT: str = """
-✒️ <b>ǫᴜᴇʀʏ** :</b> <code>{query}</code>
-⛓ <b>ᴘᴀɢᴇ ʟɪɴᴋ :</b> <a href="{page_url}">ᴄʟɪᴄᴋ </a>
+    EXCEPTION_OCCURRED = "❌ <b>Exception occurred!</b>\n\n<b>Exception:</b> {}"
+    
+    RESULT = """
+🔤 <b>Query:</b> {query}
+🔗 <b>Page Link:</b> <a href="{search_url}">Link</a>
 
-⏱️ <b>ᴛɪᴍᴇ ᴛᴀᴋᴇɴ :</b> <code>{time_taken}</code> **sᴇᴄᴏɴᴅs**"""
-    OPEN_PAGE: str = "ᴏᴘᴇɴ ᴘᴀɢᴇ"
+⌛️ <b>Time Taken:</b> <code>{time_taken}</code> ms.
+🧑‍💻 <b>Credits:</b> @KangersNetwork
+    """
+    OPEN_SEARCH_PAGE = "↗️ Open Search Page"
 
-
-@app.on_message(filters.command(["pp","reverse","sauce"]))
-async def on_reverse(app: app, message: Message) -> None:
-    if not message.reply_to_message:
-        await message.reply(STRINGS.REPLY_TO_MEDIA)
-        return
-    elif message.reply_to_message.media not in (MessageMediaType.PHOTO, MessageMediaType.STICKER, MessageMediaType.DOCUMENT):
-        await message.reply(STRINGS.UNSUPPORTED_MEDIA_TYPE)
-        return
-    
-    start_time: float = time.time()
-    status_msg: Message = await message.reply(STRINGS.DOWNLOADING_MEDIA)
-    file_path: str = f"temp_download/{uuid4()}"
-    try:
-        await message.reply_to_message.download(file_path)
-    except Exception as exc:
-        text: str = STRINGS.EXCEPTION_OCCURRED.format(exc)
-        await message.reply(text)
+@app.on_message(filters.command(COMMANDS))
+async def on_google_lens_search(client: Client, message: Message) -> None:
+    if len(message.command) > 1:
+        image_url = message.command[1]
+        params = {
+            "image_url": image_url
+        }
+        status_msg = await message.reply(STRINGS.REQUESTING_API_SERVER)
+        start_time = asyncio.get_event_loop().time()
+        response = await httpx_client.get(ENDPOINT, params=params)
+        
+    elif (reply := message.reply_to_message):
+        if reply.media not in (MessageMediaType.PHOTO, MessageMediaType.STICKER, MessageMediaType.DOCUMENT):
+            await message.reply(STRINGS.UNSUPPORTED_MEDIA_TYPE)
+            return
+        
+        status_msg = await message.reply(STRINGS.DOWNLOADING_MEDIA)
+        file_path = f"temp/{uuid.uuid4()}"
+        try:
+            await reply.download(file_path)
+        except Exception as exc:
+            text = STRINGS.EXCEPTION_OCCURRED.format(exc)
+            await message.reply(text)
+            
+            try:
+                os.remove(file_path)
+            except FileNotFoundError:
+                pass
+            return
+        
+        with open(file_path, "rb") as image_file:
+            start_time = asyncio.get_event_loop().time()
+            files = {"file": image_file}
+            await status_msg.edit(STRINGS.UPLOADING_TO_API_SERVER)
+            response = await httpx_client.post(ENDPOINT, files=files)
+        
         try:
             os.remove(file_path)
         except FileNotFoundError:
             pass
-        return
-    
-    await status_msg.edit(STRINGS.UPLOADING_TO_API_SERVER)
-    files: Dict[str, BinaryIO] = {"file": open(file_path, "rb")}
-    response: httpx.Response = await async_client.post(API_URL, files=files)
-    os.remove(file_path)
     
     if response.status_code == 404:
-        text: str = STRINGS.EXCEPTION_OCCURRED.format(response.json()["error"])
+        text = STRINGS.EXCEPTION_OCCURRED.format(response.json()["error"])
         await message.reply(text)
         await status_msg.delete()
         return
     elif response.status_code != 200:
-        text: str = STRINGS.EXCEPTION_OCCURRED.format(response.text)
+        text = STRINGS.EXCEPTION_OCCURRED.format(response.text)
         await message.reply(text)
         await status_msg.delete()
         return
     
     await status_msg.edit(STRINGS.PARSING_RESULT)
-    response_json: Dict[str, str] = response.json()
-    query: str = response_json["query"]
-    page_url: str = response_json["url"]
+    response_json = response.json()
+    query = response_json["query"]
+    search_url = response_json["search_url"]
     
-    end_time: float = time.time() - start_time
-    time_taken: str = "{:.2f}".format(end_time)
+    end_time = asyncio.get_event_loop().time() - start_time
+    time_taken = "{:.2f}".format(end_time)
     
-    text: str = STRINGS.RESULT.format(
-        query=query,
-        page_url=page_url,
+    text = STRINGS.RESULT.format(
+        query=f"<code>{query}</code>" if query else "<i>Name not found</i>",
+        search_url=search_url,
         time_taken=time_taken
         )
-    buttons: List[List[InlineKeyboardButton]] = [
-        [InlineKeyboardButton(STRINGS.OPEN_PAGE, url=page_url)]
+    buttons = [
+        [InlineKeyboardButton(STRINGS.OPEN_SEARCH_PAGE, url=search_url)]
         ]
     await message.reply(text, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(buttons))
     await status_msg.delete()
-
-
-
