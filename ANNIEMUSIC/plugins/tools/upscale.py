@@ -1,44 +1,52 @@
 import base64
-import os
-import requests
-from uuid import uuid4
-import aiohttp
 import httpx
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from ANNIEMUSIC import app
+import os
+import config 
+from config import BOT_USERNAME
+from ANNIEMUSIC  import app
+from pyrogram import Client, filters
 import pyrogram
+from uuid import uuid4
+from pyrogram.types import InlineKeyboardButton,InlineKeyboardMarkup
 
 
-@app.on_message(filters.reply & filters.command(["upscale"]))
+import aiofiles, aiohttp, requests
+
+
+async def image_loader(image: str, link: str):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(link) as resp:
+            if resp.status == 200:
+                f = await aiofiles.open(image, mode="wb")
+                await f.write(await resp.read())
+                await f.close()
+                return image
+            return image
+            
+
+@app.on_message(filters.command("upscale", prefixes="/"))
 async def upscale_image(client, message):
-    try:
-        if not message.reply_to_message or not message.reply_to_message.photo:
-            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
-            return
+    chat_id = message.chat.id
+    replied = message.reply_to_message
+    if not config.DEEP_API:
+        return await message.reply_text("I can't upscale !")
+    if not replied:
+        return await message.reply_text("Please Reply To An Image ...")
+    if not replied.photo:
+        return await message.reply_text("Please Reply To An Image ...")
+    aux = await message.reply_text("Upscaling Please Wait ...")
+    image = await replied.download()
+    data = requests.post(
+        "https://api.deepai.org/api/torch-srgan",
+        files={
+            'image': open(image, 'rb'),
+        },
+        headers={'api-key': config.DEEP_API}
+    ).json()
+    image_link = data["output_url"]
+    downloaded_image = await image_loader(image, image_link)
+    await aux.delete()
+    return await message.reply_document(downloaded_image)
 
-        image = message.reply_to_message.photo.file_id
-        file_path = await client.download_media(image)
 
-        with open(file_path, "rb") as image_file:
-            f = image_file.read()
-
-        b = base64.b64encode(f).decode("utf-8")
-
-        async with httpx.AsyncClient() as http_client:
-            response = await http_client.post(
-                "https://api.qewertyy.me/upscale", data={"image_data": b}, timeout=None
-            )
-
-        with open("upscaled_image.png", "wb") as output_file:
-            output_file.write(response.content)
-
-        await client.send_document(
-            message.chat.id,
-            document="upscaled_image.png",
-            caption="**ʜᴇʀᴇ ɪs ᴛʜᴇ ᴜᴘsᴄᴀʟᴇᴅ ɪᴍᴀɢᴇ!**",
-        )
-
-    except Exception as e:
-        print(f"**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ**: {e}")
-        await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ**.")
+# ---------------------------------------------------------------------------------------------------------------------------------------------
