@@ -1,6 +1,6 @@
 {
     "name": "ANNIE X MUSIC",
-    "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
+    "description": "ANNIE X MUSIC is a Telegram Music Player Bot built using Python, leveraging Pyrogram and Py-Tgcalls for seamless music streaming.",
     "logo": "https://telegra.ph/file/2c6d1a6f78eba6199933a.jpg",
     "keywords": [
         "python3",
@@ -13,17 +13,17 @@
     ],
     "env": {
         "API_ID": {
-            "description": "Get this value from https://my.telegram.org",
+            "description": "Retrieve this value from https://my.telegram.org.",
             "value": "",
             "required": true
         },
         "API_HASH": {
-            "description": "Get this value from https://my.telegram.org",
+            "description": "Retrieve this value from https://my.telegram.org.",
             "value": "",
             "required": true
         },
         "BOT_TOKEN": {
-            "description": "A Bot's token from Botfather",
+            "description": "Obtain a bot token from Botfather on Telegram.",
             "value": "",
             "required": true
         },
@@ -33,32 +33,37 @@
             "required": true
         },
         "OWNER_ID": {
-            "description": "The user ID of the user whom you would like to add as OWNER.",
+            "description": "The user ID of the owner you want to add.",
             "value": "",
             "required": true
         },
         "STRING_SESSION": {
-            "description": "A Pyrogram v2 String Session from @Strings_Gen_Robot on Telegram.",
+            "description": "Generate a Pyrogram v2 String Session using @Strings_Gen_Robot on Telegram.",
             "value": "",
             "required": true
         },
         "HEROKU_API_KEY": {
-            "description": "Your Heroku account's API key",
+            "description": "Your Heroku account's API key.",
             "value": "",
             "required": false
         },
         "HEROKU_APP_NAME": {
-            "description": "Your Heroku app name",
+            "description": "The name of your Heroku app.",
             "value": "",
             "required": false
         },
         "LOGGER_ID": {
-            "description": "Your Log Group ID. Add your bot and promote as an admin with full rights!",
+            "description": "Your Log Group ID. Add your bot and promote it to admin with full rights.",
             "value": "",
             "required": true
         },
         "GPT_API": {
-            "description": "Your GPT API Key from OpenAI.",
+            "description": "Your OpenAI GPT API key.",
+            "value": "",
+            "required": false
+        },
+        "DEEP_API": {
+            "description": "Your DEEP API key from https://deepai.org/",
             "value": "",
             "required": false
         }
