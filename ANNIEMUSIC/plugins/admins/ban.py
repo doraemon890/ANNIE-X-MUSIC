@@ -23,7 +23,7 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
     try:
         await app.ban_chat_member(chat_id, user_id)
     except ChatAdminRequired:
-        return "Ban rights? Nah, I'm just here for the digital high-fives 🙌\nGive me ban rights! 😡🥺", False
+        return "Make sure that you have given me that right", False
     except UserAdminInvalid:
         return "I won't ban an admin bruh!!", False
     except Exception as e:
@@ -44,7 +44,7 @@ async def unban_user(user_id, first_name, admin_id, admin_name, chat_id):
     try:
         await app.unban_chat_member(chat_id, user_id)
     except ChatAdminRequired:
-        return "Ban rights? Nah, I'm just here for the digital high-fives 🙌\nGive me ban rights! 😡🥺"
+        return "Make sure that you have given me that right"
     except Exception as e:
         return f"Oops!!\n{e}"
     user_mention = mention(user_id, first_name)
@@ -59,7 +59,7 @@ async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, 
         else:
             await app.restrict_chat_member(chat_id, user_id, ChatPermissions())
     except ChatAdminRequired:
-        return "Mute rights? Nah, I'm just here for the digital high-fives 🙌\nGive me mute rights! 😡🥺", False
+        return "Make sure that you have given me that right", False
     except UserAdminInvalid:
         return "I won't mute an admin bruh!!", False
     except Exception as e:
@@ -91,7 +91,7 @@ async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id):
             )
         )
     except ChatAdminRequired:
-        return "Mute rights? Nah, I'm just here for the digital high-fives 🙌\nGive me unmute rights! 😡🥺"
+        return "Make sure that you have given me that right"
     except Exception as e:
         return f"Oops!!\n{e}"
     user_mention = mention(user_id, first_name)
