@@ -23,14 +23,14 @@ def get_ip_info(ip_address):
         if response.status_code == 200:
             data = response.json()
             info = (
-                f"IP: {data.get('ip', 'N/A')}\n"
-                f"City: {data.get('city', 'N/A')}\n"
-                f"Region: {data.get('region', 'N/A')}\n"
-                f"Country: {data.get('country', 'N/A')}\n"
-                f"Location: {data.get('loc', 'N/A')}\n"
-                f"Organization: {data.get('org', 'N/A')}\n"
-                f"Postal Code: {data.get('postal', 'N/A')}\n"
-                f"Timezone: {data.get('timezone', 'N/A')}"
+                f"**IP**: {data.get('ip', 'N/A')}\n"
+                f"**City**: {data.get('city', 'N/A')}\n"
+                f"**Region**: {data.get('region', 'N/A')}\n"
+                f"**Country**: {data.get('country', 'N/A')}\n"
+                f"**Location**: {data.get('loc', 'N/A')}\n"
+                f"**Organization**: {data.get('org', 'N/A')}\n"
+                f"**Postal Code**: {data.get('postal', 'N/A')}\n"
+                f"**Timezone**: {data.get('timezone', 'N/A')}"
             )
             return info
     except Exception as e:
