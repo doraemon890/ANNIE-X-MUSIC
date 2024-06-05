@@ -24,7 +24,11 @@ async def gps(bot, message):
         latitude = location.latitude
         longitude = location.longitude
 
+
         url = [[IKB("View it", url=f"https://www.google.com/maps/search/{latitude},{longitude}")]]
+
+        url = [[IKB("Open with:🌏ɢᴏᴏɢʟᴇ ᴍᴀᴘs", url=f"https://www.google.com/maps/search/{latitude},{longitude}")]]
+
         
         await message.reply_venue(latitude, longitude, f"{city}", f"{state}, {country}", reply_markup=IKM(url))
     except Exception as e:
