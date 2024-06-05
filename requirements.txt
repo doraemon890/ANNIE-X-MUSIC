@@ -14,6 +14,7 @@ Faker
 future==1.0.0
 git+https://github.com/AsmSafone/SafoneAPI
 gitpython
+geopy
 gpytranslate
 gtts
 hachoir
