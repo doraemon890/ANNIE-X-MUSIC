@@ -5,11 +5,9 @@ from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboa
 from os import environ
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
-from os import environ
 import random
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
 import asyncio, os, time, aiohttp
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
@@ -20,11 +18,7 @@ from pyrogram import *
 from pyrogram.types import *
 from logging import getLogger
 from ANNIEMUSIC.utils.jarvis_ban import admin_filter
-import os
-from PIL import ImageDraw, Image, ImageFont, ImageChops
-from pyrogram import *
-from pyrogram.types import *
-from logging import getLogger
+from PIL import ImageChops
 
 LOGGER = getLogger(__name__)
 
@@ -33,7 +27,7 @@ class WelDatabase:
         self.data = {}
 
     async def find_one(self, chat_id):
-        return chat_id in self.data
+        return self.data.get(chat_id, {"state": "off"})  # Default state is "off"
 
     async def add_wlcm(self, chat_id):
         self.data[chat_id] = {"state": "off"}  # Default state is "off"
@@ -51,8 +45,6 @@ class temp:
     MELCOW = {}
     U_NAME = None
     B_NAME = None
-
-
 
 def circle(pfp, size=(500, 500)):
     pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -95,13 +87,13 @@ async def auto_state(_, message):
         A = await wlcm.find_one(chat_id)
         state = message.text.split(None, 1)[1].strip().lower()
         if state == "off":
-            if A:
+            if A.get("state") == "off":
                 await message.reply_text("**ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !**")
             else:
                 await wlcm.add_wlcm(chat_id)
                 await message.reply_text(f"**ᴅɪsᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ** {message.chat.title}")
         elif state == "on":
-            if not A:
+            if A.get("state") == "on":
                 await message.reply_text("**ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ.**")
             else:
                 await wlcm.rm_wlcm(chat_id)
@@ -111,14 +103,12 @@ async def auto_state(_, message):
     else:
         await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
 
-
-
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
-    if A:
+    if A.get("state") == "off":
         return
 
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
