@@ -8,17 +8,17 @@ IPQUALITYSCORE_API_KEY = 'Y0OZMypz71dEF9HxxQd21J2xvqUE0BVS'
 @app.on_message(filters.command(["ip"]))
 def ip_info_and_score(_, message):
     if len(message.command) != 2:
-        message.reply_text("ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀɴ **ɪᴘ** ᴀᴅᴅʀᴇss ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ. ᴇxᴀᴍᴘʟᴇ**:** /ip 8.8.8.8")
+        message.reply_text("ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀɴ **ɪᴘ** ᴀᴅᴅʀᴇss ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ. ᴇxᴀᴍᴘʟᴇ**:** /ipinfo 8.8.8.8")
         return
 
     ip_address = message.command[1]
     ip_info = get_ip_info(ip_address)
-    ip_score = get_ip_score(ip_address, IPQUALITYSCORE_API_KEY)
+    ip_score, score_description, emoji = get_ip_score(ip_address, IPQUALITYSCORE_API_KEY)
 
     if ip_info is not None and ip_score is not None:
         response_message = (
-            f"{ip_info}\n"
-            f"**ɪᴘ sᴄᴏʀᴇ**➪ {ip_score}"
+            f"{ip_info}\n\n"
+            f"**𝗜ᴘ sᴄᴏʀᴇ** ➪ {ip_score} {emoji} ({score_description})"
         )
         message.reply_text(response_message)
     else:
@@ -31,14 +31,14 @@ def get_ip_info(ip_address):
         if response.status_code == 200:
             data = response.json()
             info = (
-                f"**ɪᴘ**➪ {data.get('ip', 'N/A')}\n"
-                f"**ᴄɪᴛʏ**➪ {data.get('city', 'N/A')}\n"
-                f"**ʀᴇɢɪᴏɴ**➪ {data.get('region', 'N/A')}\n"
-                f"**ᴄᴏᴜɴᴛʀʏ**➪ {data.get('country', 'N/A')}\n"
-                f"**ʟᴏᴀᴛɪᴏɴ**➪ {data.get('loc', 'N/A')}\n"
-                f"**ᴏʀɢᴀɴɪsᴀᴛɪᴏɴ**➪ {data.get('org', 'N/A')}\n"
-                f"**ᴘᴏsᴛᴀʟ ᴄᴏᴅᴇ**➪ {data.get('postal', 'N/A')}\n"
-                f"**ᴛɪᴍᴇᴢᴏɴᴇ**➪ {data.get('timezone', 'N/A')}"
+                f"🌐 **𝗜ᴘ** ➪ {data.get('ip', 'N/A')}\n"
+                f"🏙️ **𝗖ɪᴛʏ** ➪ {data.get('city', 'N/A')}\n"
+                f"📍 **𝗥ᴇɢɪᴏɴ** ➪ {data.get('region', 'N/A')}\n"
+                f"🌍 **𝗖ᴏᴜɴᴛʀʏ** ➪ {data.get('country', 'N/A')}\n"
+                f"📌 **𝗟ᴏᴄᴀᴛɪᴏɴ** ➪ {data.get('loc', 'N/A')}\n"
+                f"🏢 **𝗢ʀɢᴀɴɪᴢᴀᴛɪᴏɴ** ➪ {data.get('org', 'N/A')}\n"
+                f"📮 **𝗣ᴏsᴛᴀʟ ᴄᴏᴅᴇ** ➪ {data.get('postal', 'N/A')}\n"
+                f"⏰ **𝗧ɪᴍᴇᴢᴏɴᴇ** ➪ {data.get('timezone', 'N/A')}"
             )
             return info
     except Exception as e:
@@ -51,7 +51,19 @@ def get_ip_score(ip_address, api_key):
         response = requests.get(api_url)
         if response.status_code == 200:
             data = response.json()
-            return data.get('fraud_score', 'N/A')
+            fraud_score = data.get('fraud_score', 'N/A')
+            if fraud_score != 'N/A':
+                fraud_score = int(fraud_score)
+                if fraud_score <= 20:
+                    score_description = 'Good'
+                    emoji = '✅'
+                elif fraud_score <= 60:
+                    score_description = 'Moderate'
+                    emoji = '⚠️'
+                else:
+                    score_description = 'Bad'
+                    emoji = '❌'
+                return fraud_score, score_description, emoji
     except Exception as e:
         print(f"Error fetching IP score: {e}")
-    return None
+    return None, None, None
