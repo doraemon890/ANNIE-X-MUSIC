@@ -8,7 +8,7 @@ IPQUALITYSCORE_API_KEY = 'Y0OZMypz71dEF9HxxQd21J2xvqUE0BVS'
 @app.on_message(filters.command(["ip"]))
 def ip_info_and_score(_, message):
     if len(message.command) != 2:
-        message.reply_text("ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀɴ **ɪᴘ** ᴀᴅᴅʀᴇss ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ. ᴇxᴀᴍᴘʟᴇ**:** /ipinfo 8.8.8.8")
+        message.reply_text("ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀɴ **ɪᴘ** ᴀᴅᴅʀᴇss ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ. ᴇxᴀᴍᴘʟᴇ**:** /ip 8.8.8.8")
         return
 
     ip_address = message.command[1]
