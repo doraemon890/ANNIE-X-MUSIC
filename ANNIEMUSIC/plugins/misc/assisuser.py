@@ -1,10 +1,10 @@
 import asyncio
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
-from ANNIMUSIC import app
-from ANNIMUSIC.misc import SUDOERS
-from ANNIMUSIC.utils.database import get_assistant
-from ANNIMUSIC.utils.jarvis_ban import admin_filter
+from ANNIEMUSIC import app
+from ANNIEMUSIC.misc import SUDOERS
+from ANNIEMUSIC.utils.database import get_assistant
+from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 
 @app.on_message(filters.group & filters.command(["userbotjoin", "assistantjoin"], prefixes=["."]) & ~filters.private)
 async def join_group(app, message):
