@@ -35,7 +35,7 @@ async def invite_userbot(app, chat_id):
     except Exception as e:
         return str(e)
 
-@app.on_message(filters.command(["userbotjoin", "assistantjoin"], prefixes=[".", "/"]) & filters.group & ~filters.private)
+@app.on_message(filters.command(["userbotjoin", "assistantjoin"], prefixes=[".", "/"]) & filters.group & admin_filter)
 async def join_group(app, message):
     chat_id = message.chat.id
     a = await app.get_me()
