@@ -6,7 +6,7 @@ from ANNIEMUSIC.misc import SUDOERS
 from ANNIEMUSIC.utils.database import get_assistant
 from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 
-@app.on_message(filters.group & filters.command(["userbotjoin", "assistantjoin"], prefixes=["."]) & ~filters.private)
+@app.on_message(filters.group & filters.command(["userbotjoin", "assistantjoin"], prefixes=[".", "/"]) & ~filters.private)
 async def join_group(app, message):
     a = await app.get_me()
     chat_id = message.chat.id
@@ -80,7 +80,7 @@ async def join_group(app, message):
             )
         return
 
-@app.on_message(filters.command("userbotleave", prefixes=["."]) & filters.group & admin_filter)
+@app.on_message(filters.command("userbotleave", prefixes=[".", "/"]) & filters.group & admin_filter)
 async def leave_one(app, message):
     try:
         userbot = await get_assistant(message.chat.id)
@@ -100,7 +100,7 @@ async def leave_all(app, message):
     try:
         userbot = await get_assistant(message.chat.id)
         async for dialog in userbot.get_dialogs():
-            if dialog.chat.id == -1001733534088:
+            if dialog.chat.id == -1002014167331:
                 continue
             try:
                 await userbot.leave_chat(dialog.chat.id)
