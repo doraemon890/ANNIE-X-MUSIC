@@ -40,30 +40,59 @@
  `` ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʟᴏᴄᴀʟ ʜᴏsᴛ/ ᴠᴘs 」─`` 
 
 - Get your [Necessary Variables](https://github.com/doraemon890/ANNIE-X-MUSIC/blob/Master/sample.env)
-- Upgrade and Update by :
- `sudo apt-get update && sudo apt-get upgrade -y`
-- Install Ffmpeg by :
-  `sudo apt-get install python3-pip ffmpeg -y`
-- Install required packages by :
- `sudo apt-get install python3 python3-pip -y`
-- Install pip by :
- `sudo pip3 install -U pip`
-- Install Node js by :
- `curl -fssL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install nodejs -y && npm i -g npm`
-- Clone the repository by :
- `git clone https://github.com/doraemon890/ANNIE-X-MUSIC && cd ANNIE-X-MUSIC`
-- Install requirements by :
- `pip3 install -U -r requirements.txt`
-- Fill your variables in the env by :
- `vi sample.env`<br>
-Press `I` on the keyboard for editing env<br>
-Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
-- Rename the env file by :
- `mv sample.env .env`
-- Install tmux to keep running your bot when you close the terminal by :
- `sudo apt install tmux && tmux`
-- Finally run the bot by :
- `bash start`
+- Update and install necessary packages :
+`sudo apt update && sudo apt install git curl python3-pip ffmpeg -y`
+
+- Install NVM (Node Version Manager) :
+`curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash`
+
+- Source the bashrc to add nvm to the terminal session :
+`source ~/.bashrc`
+
+- Install Node.js using NVM :
+`nvm install node`
+
+- Update and upgrade the system packages :
+`sudo apt-get update && sudo apt-get upgrade -y`
+
+- Install FFmpeg and Python pip :
+`sudo apt-get install python3-pip ffmpeg -y`
+
+- Ensure Python pip is installed :
+`sudo apt-get install python3-pip -y`
+
+- Upgrade pip to the latest version :
+`sudo pip3 install -U pip`
+
+- Install Node.js from NodeSource :
+`curl -fssL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install nodejs -y && npm i -g npm`
+
+- Clone the ANNIE-X-MUSIC repository :
+`git clone https://github.com/doraemon890/ANNIE-X-MUSIC`
+
+- Change directory to ANNIE-X-MUSIC :
+`cd ANNIEMUSIC`
+
+- Install required Python packages :
+`pip3 install -U -r requirements.txt`
+
+- Install tmux to keep the bot running in the background :
+`sudo apt install tmux && tmux`
+
+- Install nano text editor :
+`apt install nano`
+
+- Run the setup script :
+`sudo bash setup`
+
+- Fill in your environment variables :
+ `(Open and edit the necessary files as prompted)`
+
+- Start a new tmux session :
+`tmux`
+
+- Start the bot :
+`bash start`
 - For getting out from tmux session : Press `Ctrl+b` and then `d`<br>
 ━━━━━━━━━━━━━━━━━━━━
 - ɪғ ʏᴏᴜ'ʀᴇ ʜᴀᴠɪɴɢ ᴀɴʏ ɪssᴜᴇs ɪɴ ᴀɴʏ ᴏғ ᴛʜᴇsᴇ ᴄᴏᴍᴍᴀɴᴅs, ᴘʟᴇᴀsᴇ sʜᴀʀᴇ ɪᴛ ᴡɪᴛʜ ᴜs
