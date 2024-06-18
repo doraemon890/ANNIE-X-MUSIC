@@ -1,78 +1,47 @@
-import json
-import aiohttp
-import requests
+import os
+import shutil
+from re import findall
+from bing_image_downloader import downloader
 from pyrogram import Client, filters
 from pyrogram.types import InputMediaPhoto, Message
 from ANNIEMUSIC import app
 
-UNSPLASH_API_KEY = 'UwPT7-Of5XQgwxHx-GfcXa4sK0O_38Pbi-6FrQ5f7AY'
-
-async def fetch(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            if response.status != 200:
-                raise Exception(f"HTTP request failed with status code {response.status} for URL: {url}")
-            return await response.text()
-
-@app.on_message(filters.command("img"))
-async def bingimg_search(client: Client, message: Message):
-    try:
-        text = message.text.split(None, 1)[1]
-    except IndexError:
-        return await message.reply_text("Provide me a query to search!")
-
-    search_message = await message.reply_text("🔎")
-
-    bingimg_url = "https://sugoi-api.vercel.app/bingimg?keyword=" + text
-    try:
-        resp_text = await fetch(bingimg_url)
-        images = json.loads(resp_text)
-    except Exception as e:
-        await message.reply_text(f"Error fetching images: {str(e)}")
-        await search_message.delete()
-        return
-
-    media = [InputMediaPhoto(media=img) for img in images[:7]]
-
-    await message.reply_media_group(media=media)
-    await search_message.delete()
-    await message.delete()
-
-@app.on_message(filters.command(["image"], prefixes=["/", "!"]))
-async def pinterest(_, message: Message):
+@app.on_message(filters.command(["googleimg"], prefixes=["/", "!"]))
+async def google_img_search(client: Client, message: Message):
     chat_id = message.chat.id
 
     try:
         query = message.text.split(None, 1)[1]
     except IndexError:
-        return await message.reply("ɢɪᴠᴇ ɪᴍᴀɢᴇ ɴᴀᴍᴇ ғᴏʀ sᴇᴀʀᴄʜ 🔍")
+        return await message.reply("Provide an image query to search!")
 
-    response = requests.get(f"https://api.unsplash.com/search/photos?query={query}&client_id={UNSPLASH_API_KEY}")
+    lim = findall(r"lim=\d+", query)
+    try:
+        lim = int(lim[0].replace("lim=", ""))
+        query = query.replace(f"lim={lim}", "")
+    except IndexError:
+        lim = 5  # Default limit to 5 images
 
-    if response.status_code != 200:
-        return await message.reply(f"Error: Received status code {response.status_code} from API")
+    download_dir = "downloads"
 
     try:
-        images = response.json()
-    except ValueError as e:
-        return await message.reply(f"Error decoding JSON: {e}\nResponse content: {response.content}")
+        downloader.download(query, limit=lim, output_dir=download_dir, adult_filter_off=True, force_replace=False, timeout=60)
+        images_dir = os.path.join(download_dir, query)
+        if not os.listdir(images_dir):
+            raise Exception("No images were downloaded.")
+        lst = [os.path.join(images_dir, img) for img in os.listdir(images_dir)][:lim]  # Ensure we only take the number of images specified by lim
+    except Exception as e:
+        return await message.reply(f"Error in downloading images: {e}")
 
-    media_group = []
-    count = 0
-
-    msg = await message.reply("Annie sᴄʀᴀᴘɪɴɢ ɪᴍᴀɢᴇs...")
-    for result in images.get("results", [])[:6]:
-        media_group.append(InputMediaPhoto(media=result["urls"]["regular"]))
-        count += 1
-        await msg.edit(f"=> Annie ᴏᴡᴏ sᴄʀᴀᴘᴇᴅ ɪᴍᴀɢᴇs {count}")
-
+    msg = await message.reply("Annie Scrapping images...")
     try:
         await app.send_media_group(
             chat_id=chat_id,
-            media=media_group,
+            media=[InputMediaPhoto(media=img) for img in lst],
             reply_to_message_id=message.id
         )
-        return await msg.delete()
+        shutil.rmtree(images_dir)
+        await msg.delete()
     except Exception as e:
         await msg.delete()
-        return await message.reply(f"ᴇʀʀᴏʀ : {e}")
+        return await message.reply(f"Error in sending images: {e}")
