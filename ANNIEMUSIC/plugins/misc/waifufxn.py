@@ -42,7 +42,7 @@ def animation_command(client, message):
         }
 
         command = message.command[0].lower()
-        api_token = "MTI0OTIwNDM0NjM3ODUyMjcyOQ--.MTcxNzkwNDA0Mg--.d9bec742139"
+        api_token = "MTI1MjQ0NTcwNDE2OTk4NDAzMw--.MTcxODY3NjgxMw--.3a4c1d7f53"
         gif_url = get_animation(api_token, command)
 
         if gif_url:
