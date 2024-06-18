@@ -5,6 +5,7 @@ asyncio
 bard
 beautifulsoup4
 bs4
+bing_image_downloader 
 cloudscraper
 deepai
 dnspython
