@@ -41,7 +41,7 @@ class STRINGS:
 🔗 <b>Page Link:</b> <a href="{search_url}">Link</a>
 
 ⌛️ <b>Time Taken:</b> <code>{time_taken}</code> ms.
-🧑‍💻 <b>Credits:</b> @KangersNetwork
+🧑‍💻 <b>Credits:</b> Bhoot
     """
     OPEN_SEARCH_PAGE = "↗️ Open Search Page"
 
