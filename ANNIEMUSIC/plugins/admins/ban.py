@@ -40,7 +40,7 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
         msg_text += f"Time: `{time}`\n"
     return msg_text, True
 
-async def unban_user(user_id, first_name, admin_id, admin_name, chat_id, reason):
+async def unban_user(user_id, first_name, admin_id, admin_name, chat_id):
     try:
         await app.unban_chat_member(chat_id, user_id)
     except ChatAdminRequired:
@@ -49,10 +49,7 @@ async def unban_user(user_id, first_name, admin_id, admin_name, chat_id, reason)
         return f"Oops!!\n{e}"
     user_mention = mention(user_id, first_name)
     admin_mention = mention(admin_id, admin_name)
-    msg_text = f"{user_mention} was unbanned by {admin_mention}\n"
-    if reason:
-        msg_text += f"Reason: `{reason}`\n"
-    return msg_text
+    return f"{user_mention} was unbanned by {admin_mention}"
 
 async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, time=None):
     try:
@@ -79,7 +76,7 @@ async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, 
         msg_text += f"Time: `{time}`\n"
     return msg_text, True
 
-async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id, reason):
+async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id):
     try:
         await app.restrict_chat_member(
             chat_id,
@@ -99,10 +96,7 @@ async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id, reason
         return f"Oops!!\n{e}"
     user_mention = mention(user_id, first_name)
     admin_mention = mention(admin_id, admin_name)
-    msg_text = f"{user_mention} was unmuted by {admin_mention}\n"
-    if reason:
-        msg_text += f"Reason: `{reason}`\n"
-    return msg_text
+    return f"{user_mention} was unmuted by {admin_mention}"
 
 @app.on_message(filters.command(["ban"]))
 async def ban_command_handler(client, message):
@@ -128,7 +122,7 @@ async def ban_command_handler(client, message):
                         return await message.reply_text("I can't find that user")
                     user_id = user_obj[0]
                     first_name = user_obj[1]
-                reason = message.text.partition(message.command[1])[2].strip() or None
+                reason = message.text.partition(message.command[1])[2] or None
         elif message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
             first_name = message.reply_to_message.from_user.first_name
@@ -160,15 +154,13 @@ async def unban_command_handler(client, message):
                     return await message.reply_text("I can't find that user")
                 user_id = user_obj[0]
                 first_name = user_obj[1]
-            reason = message.text.partition(message.command[1])[2].strip() or None
         elif message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
             first_name = message.reply_to_message.from_user.first_name
-            reason = None
         else:
             return await message.reply_text("Please specify a valid user or reply to that user's message")
         
-        msg_text = await unban_user(user_id, first_name, admin_id, admin_name, chat_id, reason)
+        msg_text = await unban_user(user_id, first_name, admin_id, admin_name, chat_id)
         await message.reply_text(msg_text)
     else:
         await message.reply_text("You don't have permission to unban someone")
@@ -197,7 +189,7 @@ async def mute_command_handler(client, message):
                         return await message.reply_text("I can't find that user")
                     user_id = user_obj[0]
                     first_name = user_obj[1]
-                reason = message.text.partition(message.command[1])[2].strip() or None
+                reason = message.text.partition(message.command[1])[2] or None
         elif message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
             first_name = message.reply_to_message.from_user.first_name
@@ -229,15 +221,13 @@ async def unmute_command_handler(client, message):
                     return await message.reply_text("I can't find that user")
                 user_id = user_obj[0]
                 first_name = user_obj[1]
-            reason = message.text.partition(message.command[1])[2].strip() or None
         elif message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
             first_name = message.reply_to_message.from_user.first_name
-            reason = None
         else:
             return await message.reply_text("Please specify a valid user or reply to that user's message")
         
-        msg_text = await unmute_user(user_id, first_name, admin_id, admin_name, chat_id, reason)
+        msg_text = await unmute_user(user_id, first_name, admin_id, admin_name, chat_id)
         await message.reply_text(msg_text)
     else:
         await message.reply_text("You don't have permission to unmute someone")
