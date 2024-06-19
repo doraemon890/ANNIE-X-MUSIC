@@ -19,8 +19,6 @@ from pyrogram.types import *
 from logging import getLogger
 from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 from PIL import ImageChops
-from collections import deque
-from time import time as current_time
 
 LOGGER = getLogger(__name__)
 
@@ -46,7 +44,6 @@ class temp:
     MELCOW = {}
     U_NAME = None
     B_NAME = None
-    JOIN_TIMESTAMPS = {}  # Added to track join times
 
 def circle(pfp, size=(500, 500)):
     pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -108,33 +105,16 @@ async def auto_state(_, message):
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    current_ts = current_time()
-    if chat_id not in temp.JOIN_TIMESTAMPS:
-        temp.JOIN_TIMESTAMPS[chat_id] = deque()
-    join_timestamps = temp.JOIN_TIMESTAMPS[chat_id]
-
-    # Remove timestamps older than 10 seconds
-    while join_timestamps and current_ts - join_timestamps[0] > 10:
-        join_timestamps.popleft()
-
-    # Check if more than 5 users joined in the last 10 seconds
-    if len(join_timestamps) >= 5:
-        await wlcm.rm_wlcm(chat_id)
-        await app.send_message(chat_id, "**ᴅɪsᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴅᴜᴇ ᴛᴏ ʜɪɢʜ ᴊᴏɪɴ ʀᴀᴛᴇ!**")
-        return
-
+    count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
     if A.get("state") == "off":
         return
 
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
-
+    
+    # Add the modified condition here
     if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
-        join_timestamps.append(current_ts)
-
-        # Define count here
-        count = await app.get_chat_members_count(chat_id)
-
+    
         try:
             pic = await app.download_media(
                 user.photo.big_file_id, file_name=f"pp{user.id}.png"
@@ -168,7 +148,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 ▰▰▰▰▰▰▰▰▰▰▰▰▰**
 **❅─────✧❅✦❅✧─────❅**
 """,
-                reply_markup=InlineKeyboardMarkup([
+             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
