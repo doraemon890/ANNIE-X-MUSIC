@@ -6,7 +6,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InputMediaPhoto, Message
 from ANNIEMUSIC import app
 
-@app.on_message(filters.command(["googleimg"], prefixes=["/", "!"]))
+@app.on_message(filters.command(["img", "image"], prefixes=["/", "!"]))
 async def google_img_search(client: Client, message: Message):
     chat_id = message.chat.id
 
