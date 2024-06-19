@@ -131,6 +131,10 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 
     if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
         join_timestamps.append(current_ts)
+
+        # Define count here
+        count = await app.get_chat_members_count(chat_id)
+
         try:
             pic = await app.download_media(
                 user.photo.big_file_id, file_name=f"pp{user.id}.png"
