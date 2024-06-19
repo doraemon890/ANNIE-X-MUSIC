@@ -27,7 +27,7 @@ class WelDatabase:
         self.data = {}
 
     async def find_one(self, chat_id):
-        return self.data.get(chat_id, {"state": "off"})  # Default state is "off"
+        return self.data.get(chat_id, {"state": "on"})  # Default state is on
 
     async def add_wlcm(self, chat_id):
         self.data[chat_id] = {"state": "on"}  # Set state to "on"
