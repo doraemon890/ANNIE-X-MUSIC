@@ -34,6 +34,12 @@ async def google_img_search(client: Client, message: Message):
         return await message.reply(f"Error in downloading images: {e}")
 
     msg = await message.reply("Annie Scrapping images...")
+
+    count = 0
+    for img in lst:
+        count += 1
+        await msg.edit(f"=> Annie owo scrapped images {count}")
+
     try:
         await app.send_media_group(
             chat_id=chat_id,
