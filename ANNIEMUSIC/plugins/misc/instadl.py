@@ -1,6 +1,5 @@
 # <============================================== IMPORTS =========================================================>
 from telegram import Update, Bot
-from telegram.ext import ContextTypes
 import httpx
 
 from ANNIEMUSIC import app
