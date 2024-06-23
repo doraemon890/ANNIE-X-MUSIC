@@ -18,7 +18,7 @@ def ip_info_and_score(_, message):
     if ip_info is not None and ip_score is not None:
         response_message = (
             f"{ip_info}\n\n"
-            f"**𝗜ᴘ sᴄᴏʀᴇ** ➪ {ip_score} {emoji} ({score_description})"
+            f"**ɪᴘ sᴄᴏʀᴇ** ➪ {ip_score} {emoji} ({score_description})"
         )
         message.reply_text(response_message)
     else:
@@ -31,14 +31,14 @@ def get_ip_info(ip_address):
         if response.status_code == 200:
             data = response.json()
             info = (
-                f"🌐 **𝗜ᴘ** ➪ {data.get('ip', 'N/A')}\n"
-                f"🏙️ **𝗖ɪᴛʏ** ➪ {data.get('city', 'N/A')}\n"
-                f"📍 **𝗥ᴇɢɪᴏɴ** ➪ {data.get('region', 'N/A')}\n"
-                f"🌍 **𝗖ᴏᴜɴᴛʀʏ** ➪ {data.get('country', 'N/A')}\n"
-                f"📌 **𝗟ᴏᴄᴀᴛɪᴏɴ** ➪ {data.get('loc', 'N/A')}\n"
-                f"🏢 **𝗢ʀɢᴀɴɪᴢᴀᴛɪᴏɴ** ➪ {data.get('org', 'N/A')}\n"
-                f"📮 **𝗣ᴏsᴛᴀʟ ᴄᴏᴅᴇ** ➪ {data.get('postal', 'N/A')}\n"
-                f"⏰ **𝗧ɪᴍᴇᴢᴏɴᴇ** ➪ {data.get('timezone', 'N/A')}"
+                f"🌐 **ɪᴘ** ➪ {data.get('ip', 'N/A')}\n"
+                f"🏙️ **ᴄɪᴛʏ** ➪ {data.get('city', 'N/A')}\n"
+                f"📍 **ʀᴇɢɪᴏɴ** ➪ {data.get('region', 'N/A')}\n"
+                f"🌍 **ᴄᴏᴜɴᴛʀʏ** ➪ {data.get('country', 'N/A')}\n"
+                f"📌 **ʟᴏᴄᴀᴛɪᴏɴ** ➪ {data.get('loc', 'N/A')}\n"
+                f"🏢 **ᴏʀɢᴀɴɪᴢᴀᴛɪᴏɴ** ➪ {data.get('org', 'N/A')}\n"
+                f"📮 **ᴘᴏsᴛᴀʟ ᴄᴏᴅᴇ** ➪ {data.get('postal', 'N/A')}\n"
+                f"⏰ **ᴛɪᴍᴇᴢᴏɴᴇ** ➪ {data.get('timezone', 'N/A')}"
             )
             return info
     except Exception as e:
