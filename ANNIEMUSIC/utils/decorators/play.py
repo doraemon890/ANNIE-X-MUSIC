@@ -26,7 +26,6 @@ from strings import get_string
 
 links = {}
 
-
 def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
@@ -114,21 +113,24 @@ def PlayWrapper(command):
             fplay = None
 
         if not await is_active_chat(chat_id):
-            userbot = await get_assistant(chat_id)
             try:
-                try:
-                    get = await app.get_chat_member(chat_id, userbot.id)
-                except ChatAdminRequired:
-                    return await message.reply_text(_["call_1"])
-                if (
-                    get.status == ChatMemberStatus.BANNED
-                    or get.status == ChatMemberStatus.RESTRICTED
-                ):
-                    return await message.reply_text(
-                        _["call_2"].format(
-                            app.mention, userbot.id, userbot.name, userbot.username
-                        ), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text= "๏ 𝗨ɴʙᴀɴ 𝗔ssɪsᴛᴀɴᴛ ๏", callback_data=f"unban_assistant")]])
+                userbot = await get_assistant(chat_id)
+            except ValueError as e:
+                return await message.reply_text(str(e))
+
+            try:
+                get = await app.get_chat_member(chat_id, userbot.id)
+            except ChatAdminRequired:
+                return await message.reply_text(_["call_1"])
+            if get.status == ChatMemberStatus.BANNED or get.status == ChatMemberStatus.RESTRICTED:
+                return await message.reply_text(
+                    _["call_2"].format(
+                        app.mention, userbot.id, userbot.name, userbot.username
+                    ), 
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton(text="๏ 𝗨ɴʙᴀɴ 𝗔ssɪsᴛᴀɴᴛ ๏", callback_data=f"unban_assistant")]]
                     )
+                )
             except UserNotParticipant:
                 if chat_id in links:
                     invitelink = links[chat_id]
