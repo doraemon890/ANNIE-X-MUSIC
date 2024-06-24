@@ -6,7 +6,7 @@ from pyrogram import __version__ as pyrover
 from pyrogram import Client, filters
 from pyrogram.errors import MessageIdInvalid
 from pyrogram.types import InputMediaVideo, Message, ChatMemberUpdated
-from pytgcalls.__version__ import __version__ as pytgver
+from pytgcalls import __version__ as pytgver
 
 import config
 from ANNIEMUSIC import app
@@ -18,7 +18,12 @@ from ANNIEMUSIC.utils.decorators.language import language, languageCB
 from ANNIEMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
 from config import BANNED_USERS
 
-@app.on_message(filters.command(["stats", "gstats"]) & filters.group & filters.group & ~BANNED_USERS)
+# Custom filter for banned users
+def not_banned_users_filter(_, __, message):
+    return message.from_user.id not in BANNED_USERS
+
+
+@app.on_message(filters.command(["stats", "gstats"]) & filters.group & filters.create(not_banned_users_filter))
 @language
 async def stats_global(client, message: Message, _):
     upl = stats_buttons(_, message.from_user.id in SUDOERS)
@@ -28,7 +33,7 @@ async def stats_global(client, message: Message, _):
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("stats_back") & filters.group & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("stats_back") & filters.create(not_banned_users_filter))
 @languageCB
 async def home_stats(client, CallbackQuery, _):
     upl = stats_buttons(_, CallbackQuery.from_user.id in SUDOERS)
@@ -37,7 +42,7 @@ async def home_stats(client, CallbackQuery, _):
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("TopOverall") & filters.group & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("TopOverall") & filters.create(not_banned_users_filter))
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
     await CallbackQuery.answer()
@@ -63,7 +68,7 @@ async def overall_stats(client, CallbackQuery, _):
             video=config.STATS_VID_URL, caption=text, reply_markup=upl
         )
 
-@app.on_callback_query(filters.regex("bot_stats_sudo"))
+@app.on_callback_query(filters.regex("bot_stats_sudo") & filters.create(not_banned_users_filter))
 @languageCB
 async def bot_stats(client, CallbackQuery, _):
     if CallbackQuery.from_user.id not in SUDOERS:
@@ -76,7 +81,7 @@ async def bot_stats(client, CallbackQuery, _):
         cpu_freq = psutil.cpu_freq().current
         cpu_freq = f"{round(cpu_freq / 1000, 2)} GHz" if cpu_freq >= 1000 else f"{round(cpu_freq, 2)} MHz"
     except:
-        cpu_freq = "ғᴀɪʟᴇᴅ ᴛᴏ ғᴇᴛᴄʜ"
+        cpu_freq = "Failed to fetch"
     hdd = psutil.disk_usage("/")
     total = hdd.total / (1024.0 ** 3)
     used = hdd.used / (1024.0 ** 3)
@@ -118,7 +123,7 @@ async def bot_stats(client, CallbackQuery, _):
         )
 
 @app.on_chat_member_updated()
-async def chat_member_update_handler(client: Client, chat_member_updated: ChatMemberUpdated):
+async def chat_member_update_handler(client, chat_member_updated: ChatMemberUpdated):
     if chat_member_updated.new_chat_member.user.id == client.me.id:
         # Bot was added to a group
         if chat_member_updated.new_chat_member.status in ("member", "administrator"):
