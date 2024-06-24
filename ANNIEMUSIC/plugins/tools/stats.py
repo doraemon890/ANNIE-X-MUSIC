@@ -18,7 +18,7 @@ from ANNIEMUSIC.utils.decorators.language import language, languageCB
 from ANNIEMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
 from config import BANNED_USERS
 
-@app.on_message(filters.command(["stats", "gstats"]) & filters.group & ~filters.user(BANNED_USERS))
+@app.on_message(filters.command(["stats", "gstats"]) & filters.group & filters.group & ~BANNED_USERS)
 @language
 async def stats_global(client, message: Message, _):
     upl = stats_buttons(_, message.from_user.id in SUDOERS)
@@ -28,7 +28,7 @@ async def stats_global(client, message: Message, _):
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("stats_back") & ~filters.user(BANNED_USERS))
+@app.on_callback_query(filters.regex("stats_back") & filters.group & ~BANNED_USERS)
 @languageCB
 async def home_stats(client, CallbackQuery, _):
     upl = stats_buttons(_, CallbackQuery.from_user.id in SUDOERS)
@@ -37,7 +37,7 @@ async def home_stats(client, CallbackQuery, _):
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("TopOverall") & ~filters.user(BANNED_USERS))
+@app.on_callback_query(filters.regex("TopOverall") & filters.group & ~BANNED_USERS)
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
     await CallbackQuery.answer()

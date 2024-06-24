@@ -1,7 +1,9 @@
 import socket
 from asyncio import get_running_loop
 from functools import partial
+from ANNIEMUSIC.mongo.filtersdb import resp
 
+Ava = resp
 
 def _netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -1,6 +1,9 @@
 from pyrogram import Client, filters
 import requests
 from ANNIEMUSIC import app
+from ANNIEMUSIC.utils.showbin import Ava
+
+Annie = Ava
 
 # Function to retrieve animation URL from the API
 def get_animation(api_token, animation_type):
@@ -19,7 +22,7 @@ def get_animation(api_token, animation_type):
         return None
 
 # Command handlers for various animations
-@app.on_message(filters.command(["punch", "slap", "lick", "kill", "kick", "hug", "bite", "kiss", "highfive", "die", "run", "shoot", "dance"]) & ~filters.forwarded & ~filters.via_bot)
+@app.on_message(filters.command(["punch", "slap", "lick", "kill", "hug", "bite", "kiss", "highfive", "die", "run", "shoot", "dance"]) & ~filters.forwarded & ~filters.via_bot)
 def animation_command(client, message):
     try:
         sender = message.from_user.mention(style='markdown')
@@ -30,7 +33,6 @@ def animation_command(client, message):
             "slap": {"emoji": "😒", "text": "slapped"},
             "lick": {"emoji": "😛", "text": "licked"},
             "kill": {"emoji": "😵", "text": "killed"},
-            "kick": {"emoji": "😠", "text": "kicked"},
             "hug": {"emoji": "🤗", "text": "hugged"},
             "bite": {"emoji": "😈", "text": "bit"},
             "kiss": {"emoji": "😘", "text": "kissed"},
@@ -42,7 +44,7 @@ def animation_command(client, message):
         }
 
         command = message.command[0].lower()
-        api_token = "MTI1MjQ0NTcwNDE2OTk4NDAzMw--.MTcxODY3NjgxMw--.3a4c1d7f53"
+        api_token = Annie
         gif_url = get_animation(api_token, command)
 
         if gif_url:
@@ -53,3 +55,4 @@ def animation_command(client, message):
         
     except Exception as e:
         message.reply_text(f"An unexpected error occurred: {str(e)}")
+
