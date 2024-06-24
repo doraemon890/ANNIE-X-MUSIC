@@ -47,7 +47,7 @@ async def upscale_image(client, message):
         return await aux_message.edit("Failed to download upscaled image, please try again.")
     
     await aux_message.delete()
-    await message.reply_photo(photo=downloaded_image)
+    await message.reply_document(document=downloaded_image)
 
 @app.on_message(filters.command("getdraw", prefixes="/"))
 async def draw_image(client, message):
