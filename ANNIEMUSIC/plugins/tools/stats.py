@@ -124,11 +124,12 @@ async def bot_stats(client, CallbackQuery, _):
 
 @app.on_chat_member_updated()
 async def chat_member_update_handler(client, chat_member_updated: ChatMemberUpdated):
-    if chat_member_updated.new_chat_member.user.id == client.me.id:
+    if chat_member_updated.new_chat_member and chat_member_updated.new_chat_member.user and chat_member_updated.new_chat_member.user.id == client.me.id:
         # Bot was added to a group
         if chat_member_updated.new_chat_member.status in ("member", "administrator"):
             await add_served_chat(chat_member_updated.chat.id)
-    elif chat_member_updated.old_chat_member.user.id == client.me.id:
+    elif chat_member_updated.old_chat_member and chat_member_updated.old_chat_member.user and chat_member_updated.old_chat_member.user.id == client.me.id:
         # Bot was removed from a group
         if chat_member_updated.new_chat_member.status == "left":
             await remove_served_chat(chat_member_updated.chat.id)
+
