@@ -3,50 +3,53 @@ from sys import version as pyver
 
 import psutil
 from pyrogram import __version__ as pyrover
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors import MessageIdInvalid
-from pyrogram.types import InputMediaVideo, Message, ChatMemberUpdated
-from pytgcalls import __version__ as pytgver
+from pyrogram.types import InputMediaVideo, Message
+from pytgcalls.__version__ import __version__ as pytgver
 
 import config
 from ANNIEMUSIC import app
 from ANNIEMUSIC.core.userbot import assistants
 from ANNIEMUSIC.misc import SUDOERS, mongodb
 from ANNIEMUSIC.plugins import ALL_MODULES
-from ANNIEMUSIC.utils.database import get_served_chats, get_served_users, get_sudoers, add_served_chat, remove_served_chat
+from ANNIEMUSIC.utils.database import get_served_chats, get_served_users, get_sudoers
 from ANNIEMUSIC.utils.decorators.language import language, languageCB
 from ANNIEMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
 from config import BANNED_USERS
 
-# Custom filter for banned users
-def not_banned_users_filter(_, __, message):
-    return message.from_user.id not in BANNED_USERS
 
-
-@app.on_message(filters.command(["stats", "gstats"]) & filters.group & filters.create(not_banned_users_filter))
+@app.on_message(filters.command(["stats", "gstats"]) & filters.group & ~BANNED_USERS)
 @language
 async def stats_global(client, message: Message, _):
-    upl = stats_buttons(_, message.from_user.id in SUDOERS)
+    upl = stats_buttons(_, True if message.from_user.id in SUDOERS else False)
     await message.reply_video(
         video=config.STATS_VID_URL,
         caption=_["gstats_2"].format(app.mention),
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("stats_back") & filters.create(not_banned_users_filter))
+
+@app.on_callback_query(filters.regex("stats_back") & ~BANNED_USERS)
 @languageCB
 async def home_stats(client, CallbackQuery, _):
-    upl = stats_buttons(_, CallbackQuery.from_user.id in SUDOERS)
+    upl = stats_buttons(_, True if CallbackQuery.from_user.id in SUDOERS else False)
     await CallbackQuery.edit_message_text(
         text=_["gstats_2"].format(app.mention),
         reply_markup=upl,
     )
 
-@app.on_callback_query(filters.regex("TopOverall") & filters.create(not_banned_users_filter))
+
+@app.on_callback_query(filters.regex("TopOverall") & ~BANNED_USERS)
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
     await CallbackQuery.answer()
     upl = back_stats_buttons(_)
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
     served_chats = len(await get_served_chats())
     served_users = len(await get_served_users())
     text = _["gstats_3"].format(
@@ -68,24 +71,33 @@ async def overall_stats(client, CallbackQuery, _):
             video=config.STATS_VID_URL, caption=text, reply_markup=upl
         )
 
-@app.on_callback_query(filters.regex("bot_stats_sudo") & filters.create(not_banned_users_filter))
+
+@app.on_callback_query(filters.regex("bot_stats_sudo"))
 @languageCB
 async def bot_stats(client, CallbackQuery, _):
     if CallbackQuery.from_user.id not in SUDOERS:
         return await CallbackQuery.answer(_["gstats_4"], show_alert=True)
     upl = back_stats_buttons(_)
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
-    ram = f"{round(psutil.virtual_memory().total / (1024.0 ** 3))} GB"
+    ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " ɢʙ"
     try:
         cpu_freq = psutil.cpu_freq().current
-        cpu_freq = f"{round(cpu_freq / 1000, 2)} GHz" if cpu_freq >= 1000 else f"{round(cpu_freq, 2)} MHz"
+        if cpu_freq >= 1000:
+            cpu_freq = f"{round(cpu_freq / 1000, 2)}ɢʜᴢ"
+        else:
+            cpu_freq = f"{round(cpu_freq, 2)}ᴍʜᴢ"
     except:
-        cpu_freq = "Failed to fetch"
+        cpu_freq = "ғᴀɪʟᴇᴅ ᴛᴏ ғᴇᴛᴄʜ"
     hdd = psutil.disk_usage("/")
-    total = hdd.total / (1024.0 ** 3)
-    used = hdd.used / (1024.0 ** 3)
-    free = hdd.free / (1024.0 ** 3)
+    total = hdd.total / (1024.0**3)
+    used = hdd.used / (1024.0**3)
+    free = hdd.free / (1024.0**3)
     call = await mongodb.command("dbstats")
     datasize = call["dataSize"] / 1024
     storage = call["storageSize"] / 1024
@@ -102,14 +114,14 @@ async def bot_stats(client, CallbackQuery, _):
         pyver.split()[0],
         pyrover,
         pytgver,
-        f"{total:.2f}",
-        f"{used:.2f}",
-        f"{free:.2f}",
+        str(total)[:4],
+        str(used)[:4],
+        str(free)[:4],
         served_chats,
         served_users,
         len(BANNED_USERS),
         len(await get_sudoers()),
-        f"{datasize:.2f}",
+        str(datasize)[:6],
         storage,
         call["collections"],
         call["objects"],
@@ -121,15 +133,3 @@ async def bot_stats(client, CallbackQuery, _):
         await CallbackQuery.message.reply_video(
             video=config.STATS_VID_URL, caption=text, reply_markup=upl
         )
-
-@app.on_chat_member_updated()
-async def chat_member_update_handler(client, chat_member_updated: ChatMemberUpdated):
-    if chat_member_updated.new_chat_member and chat_member_updated.new_chat_member.user and chat_member_updated.new_chat_member.user.id == client.me.id:
-        # Bot was added to a group
-        if chat_member_updated.new_chat_member.status in ("member", "administrator"):
-            await add_served_chat(chat_member_updated.chat.id)
-    elif chat_member_updated.old_chat_member and chat_member_updated.old_chat_member.user and chat_member_updated.old_chat_member.user.id == client.me.id:
-        # Bot was removed from a group
-        if chat_member_updated.new_chat_member.status == "left":
-            await remove_served_chat(chat_member_updated.chat.id)
-
