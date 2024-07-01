@@ -3,7 +3,7 @@ import requests
 from ANNIEMUSIC import app
 
 IPINFO_TOKEN = '434e1cea389a93'
-IPQUALITYSCORE_API_KEY = 'Y0OZMypz71dEF9HxxQd21J2xvqUE0BVS'
+IPQUALITYSCORE_API_KEY = '952ztTq41AxoXam43pStVjVNcEjo1ntQ'
 
 @app.on_message(filters.command(["ip"]))
 def ip_info_and_score(_, message):
