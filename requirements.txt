@@ -59,6 +59,6 @@ telegraph
 tgcrypto
 unidecode
 wget
-yt-dlp
+git+https://github.com/doraemon890/yt-dlp
 youtube-search
 youtube-search-python
