@@ -8,9 +8,10 @@ from pyrogram.types import Message
 from config import YTAPI
 from ANNIEMUSIC.utils.database import is_on_off
 from ANNIEMUSIC.utils.formatters import time_to_seconds
+import yt_dlp
 
 # Initialize YouTube Data API client
-YOUTUBE_API_KEY = 'YTAPI"
+YOUTUBE_API_KEY = YTAPI  # Assuming you have the correct key in config
 youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
 
 
