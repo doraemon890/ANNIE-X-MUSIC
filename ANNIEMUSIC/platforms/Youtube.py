@@ -5,12 +5,12 @@ from typing import Union
 from googleapiclient.discovery import build
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-
+from config import YTAPI
 from ANNIEMUSIC.utils.database import is_on_off
 from ANNIEMUSIC.utils.formatters import time_to_seconds
 
 # Initialize YouTube Data API client
-YOUTUBE_API_KEY = 'YOUR_API_KEY'  # Replace with your YouTube Data API key
+YOUTUBE_API_KEY = 'YTAPI"
 youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
 
 
