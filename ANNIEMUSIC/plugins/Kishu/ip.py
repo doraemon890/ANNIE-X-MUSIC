@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 import requests
 from ANNIEMUSIC import app
 
+# API keys
 IPINFO_TOKEN = 'de9e66ca96b47e'
 IPQUALITYSCORE_API_KEY = '952ztTq41AxoXam43pStVjVNcEjo1ntQ'
 
@@ -31,14 +32,14 @@ def get_ip_info(ip_address):
         if response.status_code == 200:
             data = response.json()
             info = (
-                f"🌐 **ɪᴘ** ➪ {data.get('ip', 'N/A')}\n"
-                f"🏙️ **ᴄɪᴛʏ** ➪ {data.get('city', 'N/A')}\n"
-                f"📍 **ʀᴇɢɪᴏɴ** ➪ {data.get('region', 'N/A')}\n"
-                f"🌍 **ᴄᴏᴜɴᴛʀʏ** ➪ {data.get('country', 'N/A')}\n"
-                f"📌 **ʟᴏᴄᴀᴛɪᴏɴ** ➪ {data.get('loc', 'N/A')}\n"
-                f"🏢 **ᴏʀɢᴀɴɪᴢᴀᴛɪᴏɴ** ➪ {data.get('org', 'N/A')}\n"
-                f"📮 **ᴘᴏsᴛᴀʟ ᴄᴏᴅᴇ** ➪ {data.get('postal', 'N/A')}\n"
-                f"⏰ **ᴛɪᴍᴇᴢᴏɴᴇ** ➪ {data.get('timezone', 'N/A')}"
+                f"•➥**IP** ➪ {data.get('ip', 'N/A')}\n"
+                f"•➥**City** ➪ {data.get('city', 'N/A')}\n"
+                f"•➥**Region** ➪ {data.get('region', 'N/A')}\n"
+                f"•➥**Country** ➪ {data.get('country', 'N/A')}\n"
+                f"•➥**Location** ➪ {data.get('loc', 'N/A')}\n"
+                f"•➥**Organization** ➪ {data.get('org', 'N/A')}\n"
+                f"•➥**Postal Code** ➪ {data.get('postal', 'N/A')}\n"
+                f"•➥**Timezone** ➪ {data.get('timezone', 'N/A')}"
             )
             return info
     except Exception as e:
