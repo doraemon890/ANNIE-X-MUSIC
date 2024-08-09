@@ -5,7 +5,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
-from ANNIEMUSIC import Carbon, YouTube, app
+from ANNIEMUSIC import Carbon, YouTube, app, YTB
 from ANNIEMUSIC.core.call import JARVIS
 from ANNIEMUSIC.misc import db
 from ANNIEMUSIC.utils.database import add_active_video_chat, is_active_chat
@@ -14,7 +14,7 @@ from ANNIEMUSIC.utils.inline import aq_markup, close_markup, stream_markup
 from ANNIEMUSIC.utils.pastebin import ANNIEBIN
 from ANNIEMUSIC.utils.stream.queue import put_queue, put_queue_index
 from ANNIEMUSIC.utils.thumbnails import get_thumb
-
+from youtubesearchpython.__future__ import VideosSearch
 
 async def stream(
     _,
@@ -78,7 +78,12 @@ async def stream(
                         vidid, mystic, video=status, videoid=True
                     )
                 except:
-                    raise AssistantErr(_["play_14"])
+                    try:
+                        file_path, direct = await YTB.download(
+                            vidid, mystic, video=status, videoid=True
+                        )
+                    except:
+                        await mystic.edit_text(_["play_14"])
                 await JARVIS.join_call(
                     chat_id,
                     original_chat_id,
@@ -142,7 +147,12 @@ async def stream(
                 vidid, mystic, videoid=True, video=status
             )
         except:
-            raise AssistantErr(_["play_14"])
+            try:
+                file_path, direct = await YTB.download(
+                    vidid, mystic, videoid=True, video=status
+                )
+            except:
+                await mystic.edit_text(_["play_14"])
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
