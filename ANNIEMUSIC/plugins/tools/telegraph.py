@@ -16,7 +16,6 @@ def ul(_, message):
 
         i.edit(f'Yᴏᴜʀ ʟɪɴᴋ sᴜᴄᴄᴇssғᴜʟ Gᴇɴ {url}')
 
-########____________________________________________________________######
 
 @app.on_message(filters.command(["graph" , "grf"]))
 def ul(_, message):

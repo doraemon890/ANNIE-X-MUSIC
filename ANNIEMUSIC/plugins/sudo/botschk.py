@@ -1,54 +1,56 @@
 import asyncio
-from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
-from dotenv import load_dotenv
-import config
-from ANNIEMUSIC.core.userbot import Userbot
-from ANNIEMUSIC import app
 from datetime import datetime
+from pyrogram import filters
+from ANNIEMUSIC import app
+from ANNIEMUSIC.core.userbot import Userbot
+from config import OWNER_ID
 
-# Assuming Userbot is defined elsewhere
 userbot = Userbot()
 
-last_checked_time = None
+BOT_LIST = [
+    "Ava_The_RoBot",
+    "Strings_Gen_Bot",
+    "TheFlashRobot",
+    "AnnieMusicRobot",
+    "String_Phish_Robot"
+]
 
 @app.on_message(filters.command("botschk") & filters.group)
 async def check_bots_command(client, message):
     global last_checked_time
-    try:
-        # Start the Pyrogram client
+
+    # Check if the user is the owner
+    if message.from_user.id != OWNER_ID:
+        return await message.reply_text("🚫 You are not authorized to use this command.")
+
+    if not userbot.one.is_connected:
         await userbot.one.start()
 
-        # Get current time before sending messages
-        start_time = datetime.now()
+    # Send the photo with the caption
+    processing_msg = await message.reply_photo(
+        photo="https://graph.org/file/e6b215db83839e8edf831.jpg",
+        caption="**ᴄʜᴇᴄᴋɪɴɢ ʙᴏᴛs sᴛᴀᴛs ᴀʟɪᴠᴇ ᴏʀ ᴅᴇᴀᴅ...**"
+    )
 
-        # Extract bot username from command
-        command_parts = message.command
-        if len(command_parts) == 2:
-            bot_username = command_parts[1]
-            response = ""  # Define response variable
-            try:
-                bot = await userbot.one.get_users(bot_username)
-                bot_id = bot.id
-                await asyncio.sleep(0.5)
-                await userbot.one.send_message(bot_id, "/start")
-                await asyncio.sleep(3)
-                # Check if bot responded to /start message
-                async for bot_message in userbot.one.get_chat_history(bot_id, limit=1):
-                    if bot_message.from_user.id == bot_id:
-                        response += f"╭⎋ {bot.mention}\n l\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
-                    else:
-                        response += f"╭⎋ [{bot.mention}](tg://user?id={bot.id})\n l\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
-            except Exception:
-                response += f"╭⎋ {bot_username}\n l\n╰⊚ **ᴇɪᴛʜᴇʀ ʏᴏᴜ ʜᴀᴠᴇ ɢɪᴠᴇɴ ᴡʀᴏɴɢ ᴜsᴇʀɴᴀᴍᴇ ᴏᴛʜᴇʀᴡɪsᴇ ɪ ᴀᴍ ᴜɴᴀʙʟᴇ ᴛᴏ ᴄʜᴇᴄᴋ ᴅᴜᴇ ᴛᴏ ʟɪᴍɪᴛᴀᴛɪᴏɴ. **\n\n"
-            # Update last checked time
-            last_checked_time = start_time.strftime("%Y-%m-%d")
-            await message.reply_text(f"{response}⏲️ ʟᴀsᴛ ᴄʜᴇᴄᴋ: {last_checked_time}")
-        else:
-            await message.reply_text("ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғᴏʀᴍᴀᴛ.\n\nᴘʟᴇᴀsᴇ ᴜsᴇ /botschk Bot_Username\n\nʟɪᴋᴇ :- `/botschk @Annie_X_music_bot`")
-    except Exception as e:
-        await message.reply_text(f"An error occurred: {e}")
-        print(f"Error occurred during /botschk command: {e}")
-    finally:
-        # Stop the Pyrogram client after sending messages
+    start_time = datetime.now()
+
+    response = "**ʙᴏᴛs sᴛᴀᴛᴜs ᴅᴇᴀᴅ ᴏʀ ᴀʟɪᴠᴇ ᴄʜᴇᴄᴋᴇʀ**\n\n"
+
+    for bot_username in BOT_LIST:
+        try:
+            bot = await userbot.one.get_users(bot_username)
+            await asyncio.sleep(0.5)
+            await userbot.one.send_message(bot.id, "/start")
+            await asyncio.sleep(3)
+            
+            async for bot_message in userbot.one.get_chat_history(bot.id, limit=1):
+                status = "ᴏɴʟɪɴᴇ ✨" if bot_message.from_user.id == bot.id else "ᴏғғʟɪɴᴇ ❄"
+                response += f"╭⎋ {bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: {status}**\n\n"
+        except Exception:
+            response += f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n\n"
+    
+    last_checked_time = start_time.strftime("%Y-%m-%d")
+    await processing_msg.edit_caption(f"{response}⏲️ ʟᴀsᴛ ᴄʜᴇᴄᴋ: {last_checked_time}")
+
+    if userbot.one.is_connected:
         await userbot.one.stop()

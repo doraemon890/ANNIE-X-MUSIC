@@ -15,9 +15,6 @@ def text_to_hex(text):
     hex_representation = ' '.join(format(ord(char), 'x') for char in text)
     return hex_representation
 
-
-# YOU KNOW ME VERY WELL...........................
-
 @app.on_message(filters.command("code"))
 def convert_text(_, message):
     if len(message.command) > 1:

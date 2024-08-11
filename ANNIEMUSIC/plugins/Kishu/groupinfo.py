@@ -17,34 +17,31 @@ async def get_group_status(_, message: Message):
         return
     
     total_members = await app.get_chat_members_count(group.id)
-    group_description = group.description
-    premium_acc = banned = deleted_acc = bot = 0  # You should replace these variables with actual counts.
+    group_description = group.description or 'N/A'
+    premium_acc = banned = deleted_acc = bot = 0  
 
     response_text = (
-        f"➖➖➖➖➖➖➖\n"
+        f"▰▰▰▰▰▰▰▰▰\n"
         f"➲ GROUP NAME : {group.title} ✅\n"
         f"➲ GROUP ID : `{group.id}`\n"
         f"➲ TOTAL MEMBERS : {total_members}\n"
-        f"➲ DESCRIPTION : {group_description or 'N/A'}\n"
+        f"➲ DESCRIPTION : `{group_description}`\n"
         f"➲ USERNAME : @{group_username}\n"
-       
-        f"➖➖➖➖➖➖➖"
+        f"▰▰▰▰▰▰▰▰▰"
     )
     
     await message.reply(response_text)
-
-
-
-
 
 
 # Command handler to get group status
 @app.on_message(filters.command("status") & filters.group)
 def group_status(client, message):
     chat = message.chat  # Chat where the command was sent
-    status_text = f"Group ID: {chat.id}\n" \
-                  f"Title: {chat.title}\n" \
-                  f"Type: {chat.type}\n"
+    status_text = (
+        f"Group ID: {chat.id}\n"
+        f"Title: {chat.title}\n"
+        f"Type: {chat.type}\n"
+    )
                   
     if chat.username:  # Not all groups have a username
         status_text += f"Username: @{chat.username}"
@@ -52,6 +49,3 @@ def group_status(client, message):
         status_text += "Username: None"
 
     message.reply_text(status_text)
-
-
-#########

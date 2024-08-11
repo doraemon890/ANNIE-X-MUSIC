@@ -28,6 +28,7 @@ lexica-api
 motor 
 MukeshAPI
 numpy
+nekosbest
 openai==0.28.0
 opencv-python
 pillow==10.3.0

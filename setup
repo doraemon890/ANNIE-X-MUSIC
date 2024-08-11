@@ -106,7 +106,7 @@ pprint "\nOWNER ID:"; color_reset; read ownid
 pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING SESSION: "; color_reset; read string_session
-pprint "\nDEEP AI API: "; color_reset; read deep_ai_api
+pprint "\nDEEP API: "; color_reset; read deep_api
 pprint "\nGPT API: "; color_reset; read gpt_api
 
 
@@ -123,7 +123,7 @@ MONGO_DB_URI = $mongo_db
 LOGGER_ID = $logger
 STRING_SESSION = $string_session
 OWNER_ID = $ownid
-DEEP_AI_API = $deep_ai_api
+DEEP_API = $deep_api
 GPT_API = $gpt_api""" > .env
 clear
 
