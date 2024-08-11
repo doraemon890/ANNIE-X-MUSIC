@@ -1,8 +1,7 @@
+import os
 import re
-import httpx
 import asyncio
 import aiohttp
-import aiofiles
 import requests
 from typing import Union
 
@@ -367,49 +366,114 @@ class YTM:
         songvideo: Union[bool, str] = None,
         format_id: Union[bool, str] = None,
         title: Union[bool, str] = None,
-    ) -> Union[str, tuple]:
-        
-        # Extract video ID
+    ) -> str:
         if videoid:
             vidid = link
         else:
             pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|live_stream\?stream_id=|(?:\/|\?|&)v=)?([^&\n]+)"
             match = re.search(pattern, link)
-            vidid = match.group(1) if match else None
-            if not vidid:
-                raise ValueError("Invalid YouTube URL provided.")
+            vidid = match.group(1)
 
-        # Define the download function
-        async def download_file(url, format):
-            file_path = os.path.join("downloads", f"{vidid}.{format}")
-            async with httpx.AsyncClient(http2=True) as client:
-                response = await client.get(url)
-                response.raise_for_status()  # Check for HTTP errors
-                with open(file_path, 'wb') as file:
-                    file.write(response.content)
-            return file_path
-        
-        # Fetch video/audio streams info
-        response = requests.get(f"https://pipedapi-libre.kavin.rocks/streams/{vidid}").json()
+        async def audio_dl(url):
+            async with aiohttp.ClientSession() as session:
+                async with session.request(
+                    method="GET", url=url, allow_redirects=True
+                ) as response:
+                    file_path = os.path.join("downloads", f"{vidid}.webm")
+                    with open(file_path, "wb") as file:
+                        while True:
+                            chunk = await response.content.read(1024 * 1024 * 100)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+                    return file_path
+
+        async def song_audio_dl(url):
+            async with aiohttp.ClientSession() as session:
+                async with session.request(
+                    method="GET", url=url, allow_redirects=True
+                ) as response:
+                    file_path = os.path.join("downloads", f"{vidid}.mp4")
+                    with open(file_path, "wb") as file:
+                        while True:
+                            chunk = await response.content.read(1024 * 1024 * 1024)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+
+                    file_name, file_extension = os.path.splitext(file_path)
+                    audio_file_path = os.path.join("downloads", f"{file_name}.mp3")
+
+                    cmd = f"ffmpeg -i {file_path} -b:a 192K {audio_file_path}"
+                    process = await asyncio.create_subprocess_shell(
+                        cmd,
+                        shell=True,
+                        stdout=asyncio.subprocess.PIPE,
+                        stderr=asyncio.subprocess.PIPE,
+                    )
+                    stdout, stderr = await process.communicate()
+                    if process.returncode != 0:
+                        print(f"Error: {stderr.decode()}")
+                    os.remove(file_path)
+                    return audio_file_path
+
+                    file.write(chunk)
+                    return file_path
+
+        async def video_dl(url):
+            async with aiohttp.ClientSession() as session:
+                async with session.request(
+                    method="GET", url=url, allow_redirects=True
+                ) as response:
+                    file_path = os.path.join("downloads", f"{vidid}.mp4")
+                    with open(file_path, "wb") as file:
+                        while True:
+                            chunk = await response.content.read(1024 * 1024 * 1024)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+
+                    return file_path
+
+        async def song_video_dl(url):
+            async with aiohttp.ClientSession() as session:
+                async with session.request(
+                    method="GET", url=url, allow_redirects=True
+                ) as response:
+                    file_path = os.path.join("downloads", f"{vidid}.mp4")
+                    with open(file_path, "wb") as file:
+                        while True:
+                            chunk = await response.content.read(1024 * 1024 * 1024)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+
+                    return file_path
+
+        response =  requests.get(f"https://pipedapi-libre.kavin.rocks/streams/{vidid}").json()
         loop = asyncio.get_running_loop()
         
-        # Download video
         if songvideo:
+            
             url = response.get("videoStreams", [])[-1]['url']
-            fpath = await loop.run_in_executor(None, lambda: asyncio.run(download_file(url, "mp4")))
+            fpath = await loop.run_in_executor(None, lambda: asyncio.run(song_video_dl(url)))
             return fpath
             
-        # Download audio
         elif songaudio:
-            return response.get("audioStreams", [])[4]["url"]
-            
-        # Handle video download
+            return response.get("audioStreams", [])[4]["url"]  
+
+        
         elif video:
             url = response.get("videoStreams", [])[-1]['url']
-            downloaded_file = await loop.run_in_executor(None, lambda: asyncio.run(download_file(url, "mp4")))
-            return downloaded_file, True
+            direct = True
+            downloaded_file = await loop.run_in_executor(None, lambda: asyncio.run(video_dl(url)))
+
         
-        # Default to audio
         else:
-            downloaded_file = response.get("audioStreams", [])[4]["url"]
-            return downloaded_file, True
+            direct = True
+            downloaded_file = response.get("audioStreams", [])[4]['url']
+
+        
+        return downloaded_file, direct
+
+        
