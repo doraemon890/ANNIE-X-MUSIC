@@ -2,13 +2,14 @@ import asyncio
 import base64
 import mimetypes
 import os
+from typing import Union, Tuple, List
 from pyrogram import filters, types as t
 from lexica import AsyncClient
 from ANNIEMUSIC import app
 from lexica.constants import languageModels
 
 
-async def chat_completion(prompt, model) -> tuple | str:
+async def chat_completion(prompt: str, model: str) -> Union[Tuple[str, List[str]], str]:
     try:
         model_info = getattr(languageModels, model)
         client = AsyncClient()
@@ -20,7 +21,7 @@ async def chat_completion(prompt, model) -> tuple | str:
         raise Exception(f"API error: {e}")
 
 
-async def gemini_vision(prompt, model, images) -> tuple | str:
+async def gemini_vision(prompt: str, model: str, images: List[str]) -> str:
     image_info = []
     for image in images:
         with open(image, "rb") as image_file:
@@ -40,27 +41,27 @@ async def gemini_vision(prompt, model, images) -> tuple | str:
     return output['content']['parts'][0]['text']
 
 
-def get_media(message):
+def get_media(message: t.Message) -> Union[t.Photo, t.Document, None]:
     """Extract Media"""
     media = None
     if message.media:
         if message.photo:
             media = message.photo
-        elif message.document and message.document.mime_type in ['image/png', 'image/jpg', 'image/jpeg'] \
-                and message.document.file_size < 5242880:
+        elif (message.document and message.document.mime_type in ['image/png', 'image/jpg', 'image/jpeg'] and
+              message.document.file_size < 5242880):
             media = message.document
     elif message.reply_to_message and message.reply_to_message.media:
         if message.reply_to_message.photo:
             media = message.reply_to_message.photo
-        elif message.reply_to_message.document and message.reply_to_message.document.mime_type in ['image/png',
-                                                                                                      'image/jpg',
-                                                                                                      'image/jpeg'] \
-                and message.reply_to_message.document.file_size < 5242880:
+        elif (message.reply_to_message.document and message.reply_to_message.document.mime_type in ['image/png',
+                                                                                                  'image/jpg',
+                                                                                                  'image/jpeg'] and
+              message.reply_to_message.document.file_size < 5242880):
             media = message.reply_to_message.document
     return media
 
 
-def get_text(message):
+def get_text(message: t.Message) -> Union[str, None]:
     """Extract Text From Commands"""
     if message.text is None:
         return None
@@ -95,10 +96,10 @@ async def chat_bots(_, m: t.Message):
             reply_to_message_id=m.message_id
         )
     else:
-        await m.reply_text(output['parts'][0]['text'] if model == "gemini" else output)
+        await m.reply_text(output if model != "gemini" else output['parts'][0]['text'])
 
 
-async def ask_about_image(_, m: t.Message, media_files: list, prompt: str):
+async def ask_about_image(_, m: t.Message, media_files: List[Union[t.Photo, t.Document]], prompt: str):
     images = []
     for media in media_files:
         image = await _.download_media(media.file_id, file_name=f'./downloads/{m.from_user.id}_ask.jpg')
