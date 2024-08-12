@@ -5,7 +5,8 @@ asyncio
 bard
 beautifulsoup4
 bs4
-bing_image_downloader 
+bing_image_downloader
+curl-cffi
 cloudscraper
 deepai
 dnspython
@@ -16,6 +17,7 @@ future
 SafoneAPI
 google-api-python-client
 gitpython
+g4f
 geopy
 gpytranslate
 gtts
@@ -24,10 +26,12 @@ heroku3
 httpx
 img2pdf
 instaloader
+langdetect
+googletrans==4.0.0-rc1
 lexica-api
 motor 
-MukeshAPI
 numpy
+nest_asyncio
 nekosbest
 openai==0.28.0
 opencv-python
