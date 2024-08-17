@@ -4,7 +4,6 @@ from ANNIEMUSIC.core.git import git
 from ANNIEMUSIC.core.userbot import Userbot
 from ANNIEMUSIC.misc import dbb, heroku
 
-from SafoneAPI import SafoneAPI
 from .logging import LOGGER
 
 dirr()
@@ -13,7 +12,6 @@ dbb()
 heroku()
 
 app = JARVIS()
-api = SafoneAPI()
 userbot = Userbot()
 
 
@@ -26,4 +24,3 @@ Spotify = SpotifyAPI()
 Resso = RessoAPI()
 Telegram = TeleAPI()
 YouTube = YouTubeAPI()
-YTB = YTM()

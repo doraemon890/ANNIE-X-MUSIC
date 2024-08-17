@@ -82,7 +82,7 @@ installation(){
 }
 
 clear
-pprint "Welcome to ANNIEMUSIC Setup Installer\n\n"
+pprint "Welcome to Annie Setup Installer\n\n"
 pprint "If you see any error during Installation Process, Please refer to these files for logs: "
 pprint "\nFor node js errors , Checkout nodelog.txt"
 pprint "\nFor pypi packages errors , Checkout pypilog.txt"
@@ -94,7 +94,7 @@ update
 packages
 node
 installation
-pprint "\n\n\n\n\nANNIEMUSIC Installation Completed !" "cgreen"
+pprint "\n\n\n\n\nAnnie Installation Completed !" "cgreen"
 sleep 1
 clear
 
@@ -127,5 +127,5 @@ DEEP_API = $deep_api
 GPT_API = $gpt_api""" > .env
 clear
 
-pprint "\n\n\nThanks for using ANNIEMUSIC installer, your vars have been saved successfully ! \nIf you wanna add more variables add them in your env by : vi .env"
+pprint "\n\n\nThanks for using Annie installer, your vars have been saved successfully ! \nIf you wanna add more variables add them in your env by : vi .env"
 pprint "\n\nNow you can start the bot by : bash start\n\n"

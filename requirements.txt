@@ -14,7 +14,6 @@ emojis
 ffmpeg-python
 Faker
 future
-SafoneAPI
 google-api-python-client
 gitpython
 g4f
@@ -51,12 +50,10 @@ pyshorteners
 pyttsx3
 pytz
 pytube
-ntgcalls==1.1.2
-py-tgcalls==1.2.9
+py-tgcalls==0.9.7
 pyyaml
 qrcode
 requests
-SafoneAPI
 search_engine_parser
 speedtest-cli
 SpeechRecognition
