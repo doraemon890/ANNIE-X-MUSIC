@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from config import BANNED_USERS, adminlist
 from ANNIEMUSIC import app
-from ANNIEMUSIC.core.call import JARVIS
+from ANNIEMUSIC.core.call import StreamController 
 from ANNIEMUSIC.misc import SUDOERS, db
 from ANNIEMUSIC.utils import AdminRightsCheck
 from ANNIEMUSIC.utils.database import is_active_chat, is_nonadmin_chat
@@ -94,7 +94,7 @@ async def manage_callback(client, CallbackQuery, _):
         text=_["admin_32"].format(CallbackQuery.from_user.mention),
     )
     try:
-        await JARVIS.speedup_stream(
+        await StreamController .speedup_stream(
             chat_id,
             file_path,
             speed,

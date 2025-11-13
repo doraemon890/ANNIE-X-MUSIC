@@ -6,7 +6,7 @@ import config
 from ..logging import LOGGER
 
 
-class JARVIS(Client):
+class MusicBotClient(Client):
     def __init__(self):
         super().__init__(
             name="AnnieXMusic",

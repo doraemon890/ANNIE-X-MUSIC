@@ -6,7 +6,7 @@ DOWNLOAD_DIR = os.path.join(BASE_DIR, "downloads")
 COUPLE_DIR = os.path.join(BASE_DIR, "couples")
 CACHE_DIR = os.path.join(BASE_DIR, "cache")
 
-def dirr():
+def StorageManager():
     for file in os.listdir():
         if file.lower().endswith((".jpg", ".jpeg", ".png")):
             os.remove(file)

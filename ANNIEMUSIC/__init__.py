@@ -1,17 +1,17 @@
-from ANNIEMUSIC.core.bot import JARVIS
-from ANNIEMUSIC.core.dir import dirr
+from ANNIEMUSIC.core.bot import MusicBotClient
+from ANNIEMUSIC.core.dir import StorageManager
 from ANNIEMUSIC.core.git import git
 from ANNIEMUSIC.core.userbot import Userbot
 from ANNIEMUSIC.misc import dbb, heroku
 
 from .logging import LOGGER
 
-dirr()
+StorageManager()
 git()
 dbb()
 heroku()
 
-app = JARVIS()
+app = MusicBotClient()
 userbot = Userbot()
 
 

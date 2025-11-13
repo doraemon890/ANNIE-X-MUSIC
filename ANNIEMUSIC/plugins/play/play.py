@@ -10,7 +10,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 import config
 from config import AYU, BANNED_USERS, lyrical
 from ANNIEMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
-from ANNIEMUSIC.core.call import JARVIS
+from ANNIEMUSIC.core.call import StreamController 
 from ANNIEMUSIC.utils import seconds_to_min, time_to_seconds
 from ANNIEMUSIC.utils.channelplay import get_channeplayCB
 from ANNIEMUSIC.utils.decorators.language import languageCB
@@ -358,7 +358,7 @@ async def play_command(
 
         else:
             try:
-                await JARVIS.stream_call(url)
+                await StreamController .stream_call(url)
             except NoActiveGroupCall:
                 await mystic.edit_text(_["black_9"])
                 return await app.send_message(
