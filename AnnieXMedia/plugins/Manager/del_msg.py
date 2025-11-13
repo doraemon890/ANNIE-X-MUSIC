@@ -14,7 +14,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton,
-    CallbackQuery, Message, ChatInviteLink, ChatPrivileges
+    CallbackQuery, Message, ChatInviteLink, ChatAdministratorRights
 )
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
@@ -122,7 +122,7 @@ async def deleteall_callback(client, callback: CallbackQuery):
     try:
         await client.promote_chat_member(
             chat_id, ass_id,
-            privileges=ChatPrivileges(can_delete_messages=True)
+            privileges=ChatAdministratorRights(can_delete_messages=True)
         )
     except ChatAdminRequired:
         await _safe_edit(callback, "Failed to promote assistant: missing promote permission.")
@@ -136,7 +136,7 @@ async def deleteall_callback(client, callback: CallbackQuery):
         deleted_count: int = await assistant.delete_chat_history(chat_id, revoke=True)
         await _safe_edit(callback, f"✅ Deleted {deleted_count} messages successfully.")
         try:
-            await client.promote_chat_member(chat_id, ass_id, privileges=ChatPrivileges())
+            await client.promote_chat_member(chat_id, ass_id, privileges=ChatAdministratorRights())
         except Exception as e:
             log.warning("Assistant demote skipped: %s", e)
         try:
@@ -184,7 +184,7 @@ async def _fallback_batch_delete(client, assistant, callback: CallbackQuery):
         ass_id = (await assistant.get_me()).id
         try:
             try:
-                await client.promote_chat_member(chat_id, ass_id, privileges=ChatPrivileges())
+                await client.promote_chat_member(chat_id, ass_id, privileges=ChatAdministratorRights())
             except Exception as e:
                 log.warning("Assistant demote skipped: %s", e)
             await assistant.leave_chat(chat_id)
