@@ -14,7 +14,7 @@ gpytranslate
 gtts
 heroku3
 httpx[http2]==0.28.1
-kurigram==2.2.13
+kurigram==2.2.14
 lexica-api
 motor
 nekosbest
@@ -40,5 +40,5 @@ telegraph
 tgcrypto
 unidecode
 wget
-yt-dlp==2025.10.22
+yt-dlp[default]==2025.11.12
 git+https://github.com/CertifiedCoders/youtube-search-python

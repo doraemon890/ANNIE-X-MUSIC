@@ -1,5 +1,5 @@
 from pyrogram import filters
-from datetime import datetime
+from datetime import datetime, timezone
 import socket
 import requests
 import whois
@@ -16,7 +16,7 @@ def get_domain_info(domain_name):
 def get_domain_age(creation_date):
     if isinstance(creation_date, list):
         creation_date = creation_date[0]
-    return (datetime.now() - creation_date).days // 365 if creation_date else None
+    return (datetime.now(timezone.utc) - creation_date).days // 365 if creation_date else None
 
 def get_ip_location(ip):
     try:

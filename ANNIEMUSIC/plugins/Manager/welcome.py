@@ -2,7 +2,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import enums, filters
 from pyrogram.types import Message, ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import TopicClosed
+from pyrogram.errors import TopicClosed, PeerIdInvalid, ChannelPrivate, SlowmodeWait
 from ANNIEMUSIC import app
 from ANNIEMUSIC.mongo.welcomedb import is_on, set_state, bump, cool, auto_on
 
@@ -91,14 +91,30 @@ async def welcome(client, update: ChatMemberUpdated):
     valid_old_statuses = (enums.ChatMemberStatus.LEFT, enums.ChatMemberStatus.BANNED)
     if old and (old.status not in valid_old_statuses):
         return
+
+    # ✅ Ensure bot is in the chat before sending messages
+    try:
+        me = await client.get_me()
+        try:
+            await client.get_chat_member(cid, me.id)
+        except (ChannelPrivate, PeerIdInvalid, Exception):
+            return
+    except Exception:
+        pass
+
     if not await is_on(cid):
         if await auto_on(cid):
             try:
                 await client.send_message(cid, "**ᴡᴇʟᴄᴏᴍᴇ ᴍᴇssᴀɢᴇs ʀᴇ-ᴇɴᴀʙʟᴇᴅ.**")
             except TopicClosed:
                 return
+            except (ChannelPrivate, PeerIdInvalid, SlowmodeWait):
+                return
+            except Exception:
+                return
         else:
             return
+
     burst = await bump(cid, TIME_WINDOW)
     if burst >= JOIN_THRESHOLD:
         minutes = _cooldown_minutes(burst, JOIN_THRESHOLD, COOL_MINUTES)
@@ -110,13 +126,33 @@ async def welcome(client, update: ChatMemberUpdated):
             )
         except TopicClosed:
             return
+        except (ChannelPrivate, PeerIdInvalid, SlowmodeWait):
+            return
+        except Exception:
+            return
 
     user = new.user
     avatar = img = None
     try:
-        avatar = await client.download_media(user.photo.big_file_id, file_name=f"downloads/pp_{user.id}.png") if user.photo else FALLBACK_PIC
+        try:
+            if user.photo and getattr(user.photo, 'big_file_id', None):
+                avatar = await client.download_media(user.photo.big_file_id, file_name=f"downloads/pp_{user.id}.png")
+            else:
+                avatar = FALLBACK_PIC
+        except (PeerIdInvalid, ChannelPrivate, SlowmodeWait):
+            return
+        except Exception:
+            avatar = FALLBACK_PIC
+
         img = build_pic(avatar, user.first_name, user.id, user.username or "No Username")
-        members = await client.get_chat_members_count(cid)
+
+        try:
+            members = await client.get_chat_members_count(cid)
+        except (ChannelPrivate, PeerIdInvalid, SlowmodeWait):
+            return
+        except Exception:
+            members = "?"
+
         caption = CAPTION_TXT.format(
             chat_title=update.chat.title,
             mention=user.mention,
@@ -124,6 +160,7 @@ async def welcome(client, update: ChatMemberUpdated):
             uname=user.username or "No Username",
             count=members
         )
+
         try:
             sent = await client.send_photo(
                 cid,
@@ -136,6 +173,8 @@ async def welcome(client, update: ChatMemberUpdated):
             )
         except TopicClosed:
             return
+        except (PeerIdInvalid, ChannelPrivate, SlowmodeWait):
+            return
 
         last_messages.setdefault(cid, []).append(sent)
         if len(last_messages[cid]) > WELCOME_LIMIT:
@@ -144,12 +183,18 @@ async def welcome(client, update: ChatMemberUpdated):
                 await old_msg.delete()
             except:
                 pass
+
     except TopicClosed:
         return
+    except (PeerIdInvalid, ChannelPrivate, SlowmodeWait):
+        return
     except Exception:
+        # fallback: try to send a simple text welcome if everything else failed
         try:
             await client.send_message(cid, f"🎉 Welcome, {user.mention}!")
-        except TopicClosed:
+        except (TopicClosed, ChannelPrivate, PeerIdInvalid, SlowmodeWait):
+            return
+        except Exception:
             return
     finally:
         for f in (avatar, img):

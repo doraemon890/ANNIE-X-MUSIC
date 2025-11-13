@@ -24,9 +24,15 @@ async def sg(client: Client, message: Message):
             parts = message.text.split()
             if len(parts) < 2:
                 return await status_msg.edit("❌ Usage: `/sg` username / id / reply", parse_mode="MARKDOWN")
-            target_user_id = parts[1]
+            
+            target_input = parts[1]
+            
+            if target_input.isdigit():
+                target_user_id = int(target_input)
+            else:
+                user = await client.get_users(target_input)
+                target_user_id = user.id
 
-        user = await client.get_users(target_user_id)
     except Exception as e:
         return await status_msg.edit("❌ Invalid user. Please reply to a user or provide a valid username/id.")
 
@@ -34,7 +40,7 @@ async def sg(client: Client, message: Message):
     sg_bot = random.choice(sangmata_bots)
 
     try:
-        forward_msg = await ubot.send_message(sg_bot, str(user.id))
+        forward_msg = await ubot.send_message(sg_bot, str(target_user_id))
         await forward_msg.delete()
     except Exception as e:
         return await status_msg.edit(f"❌ Failed to contact @`{sg_bot}`\n`{e}`", parse_mode="MARKDOWN")

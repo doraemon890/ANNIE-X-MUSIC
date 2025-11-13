@@ -89,8 +89,9 @@ MONGO_DB_URI=        # Required - MongoDB connection string
 COOKIE_URL=          # Required - YT Cookies url
 
 DEEP_API=            # Optional - Get from https://deepai.org
-API_KEY=             # Optional - External API key for music Download
-API_URL=             # Optional - External API url for music Download
+API_KEY=             # Optional - External API key for song Download
+VIDEO_API_URL=       # Optional - External API url for video Download
+API_URL=             # Optional - External API url for audio Download
 ```
 
 ⚠️ **Never expose raw cookies or tokens in public repos.** Use safe paste services like [Pastebin](https://pastebin.com) or [Batbin](https://batbin.me).
@@ -177,7 +178,7 @@ API_URL=             # Optional - External API url for music Download
         <td>Improves YouTube reliability. Never commit raw cookies.</td>
       </tr>
       <tr>
-        <td><code>DEEP_API</code> / <code>API_KEY</code> / <code>API_URL</code></td>
+        <td><code>DEEP_API</code> / <code>API_KEY</code> / <code>API_URL</code>/ <code>VIDEO_API_URL</code></td>
         <td>Provider of your choice</td>
         <td>Sign up → generate key → paste here</td>
         <td>Optional integrations (AI/extras).</td>
@@ -199,30 +200,33 @@ API_URL=             # Optional - External API url for music Download
 ```bash
 🎵 Deploy AnnieXMusic on VPS
 
-### Step 1: Update & Install Packages
+# Step 1: Update & Install Dependencies
 sudo apt update && sudo apt upgrade -y
-sudo apt install git curl python3-pip python3-venv ffmpeg -y
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
-npm install -g npm
+sudo apt install -y git curl python3-pip python3-venv ffmpeg unzip tmux
 
-### Step 2: Clone Repo
+# Step 2: Install Deno (for yt-dlp) —
+curl -fsSL https://deno.land/install.sh | sh
+# → When prompted: "Edit shell configs to add deno to the PATH? (y/n)" → Type: y
+source ~/.bashrc
+
+# Step 3: Clone & Setup
 git clone https://github.com/CertifiedCoders/AnnieXMusic
 cd AnnieXMusic
 tmux new -s Annie
 
-### Step 3: Setup & Run
+# Inside tmux:
 python3 -m venv venv
 source venv/bin/activate
 pip install -U pip && pip install -r requirements.txt
-bash setup   # Fill environment variables
-bash start   # Start bot
+
+bash setup  # Fill: API_ID, BOT_TOKEN, COOKIE_URL, etc.
+bash start  # Run bot
 
 ### Useful Commands
-tmux detach         # Use Ctrl+B, then D
-tmux attach-session -t Annie # Attach to Running Bot session
-tmux kill-session -t Annie # to kill the running bot session
-rm -rf AnnieXMusic  # Uninstall the repo
+tmux detach                      # Use Ctrl+B, then D
+tmux attach-session -t Annie       # Reattach session
+tmux kill-session -t Annie         # Kill bot session
+rm -rf AnnieXMusic                # Uninstall bot
 ```
 
   </details>
@@ -287,9 +291,6 @@ docker rmi anniexmusic      # Remove image
   </a>
   <a href="https://t.me/CertifiedCoder">
     <img src="https://img.shields.io/badge/Contact_Owner-Telegram-4CAF50?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://youtube.com/@rajnisha3">
-    <img src="https://img.shields.io/badge/Subscribe-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   <a href="https://instagram.com/rajnishthegreat">
     <img src="https://img.shields.io/badge/Follow-Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />

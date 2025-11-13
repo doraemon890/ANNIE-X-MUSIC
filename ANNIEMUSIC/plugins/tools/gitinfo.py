@@ -83,7 +83,7 @@ async def github(_, message: Message):
         blog_disp = f'<a href="{html.escape(blog_raw)}">{blog_disp}</a>'
 
     profile_link = (
-        f'<a href="{html.escape(profile_url)}">[ᴠɪᴇᴡ ᴏɴ ɢɪᴛʜᴜʙ]</a>' if profile_url else "N/A"
+        f'<a href="{html.escape(profile_url)}">ᴠɪᴇᴡ ᴏɴ ɢɪᴛʜᴜʙ</a>' if profile_url else "N/A"
     )
 
     caption = (

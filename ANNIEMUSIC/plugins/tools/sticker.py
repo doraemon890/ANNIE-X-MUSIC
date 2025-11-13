@@ -22,17 +22,6 @@ def _cs_kwargs(is_anim: bool, is_vid: bool) -> dict:
     return kw
 
 
-@app.on_message(filters.command("st") & ~filters.reply)
-async def send_by_id(client, message):
-    if len(message.command) != 2:
-        return await message.reply_text("usage: /st <sticker_id>")
-    sid = message.command[1]
-    try:
-        await client.send_sticker(message.chat.id, sid)
-    except Exception as e:
-        await message.reply_text(f"error: {e}")
-
-
 @app.on_message(filters.command(["stickerid", "stid"]) & filters.reply)
 async def show_ids(_, message):
     st = message.reply_to_message.sticker

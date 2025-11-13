@@ -9,14 +9,14 @@ MAX_SIZE_MB = 50
 MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
 
 
-@app.on_message(filters.command("remove") & filters.reply)
-async def remove_media(_, message: Message):
+@app.on_message(filters.command("extract") & filters.reply)
+async def extract_media(_, message: Message):
     replied = message.reply_to_message
 
     if not (replied and replied.video):
         return await message.reply_text("❌ Please reply to a *video* message.")
     if len(message.command) < 2:
-        return await message.reply_text("ℹ️ Use `/remove audio` or `/remove video`.", quote=True)
+        return await message.reply_text("ℹ️ Use `/extract audio` or `/extract video`.", quote=True)
 
     if replied.video.file_size > MAX_SIZE_BYTES:
         return await message.reply_text(
@@ -54,7 +54,7 @@ async def remove_media(_, message: Message):
             os.remove(output_video)
 
         else:
-            return await message.reply_text("❌ Invalid command. Use `/remove audio` or `/remove video`.")
+            return await message.reply_text("❌ Invalid command. Use `/extract audio` or `/extract video`.")
 
     except Exception as e:
         await message.reply_text(f"❌ Error: {e}")

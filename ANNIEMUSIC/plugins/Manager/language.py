@@ -34,7 +34,7 @@ def languages_keyboard(_):
 
     rows.append(
         [
-            InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data="settingsback_helper"),
+            InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data="SETTINGS_PRIVATE_BACK"),
             InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ]
     )

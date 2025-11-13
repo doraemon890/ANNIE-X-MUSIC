@@ -56,6 +56,11 @@
       "required": false,
       "value": ""
     },
+    "VIDEO_API_URL": {
+      "description": "(Optional) URL of a custom API server used for video downloads or other services.",
+      "required": false,
+      "value": ""
+    },
     "API_KEY": {
       "description": "(Optional) API Key associated with your custom music download server (used with API_URL).",
       "required": false,

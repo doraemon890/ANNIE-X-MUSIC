@@ -3,7 +3,7 @@ import time
 
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import Message
 
 from ANNIEMUSIC import app
 from ANNIEMUSIC.core.call import JARVIS
@@ -19,7 +19,7 @@ rel = {}
 
 # ── /reload, /refresh, /admincache ──
 @app.on_message(
-    filters.command(["admincache", "reload", "refresh"], prefixes=["/", "!", "%", ",", ".", "@", "#", ""])
+    filters.command(["admincache", "reload", "refresh"], prefixes=["/", "!","."])
     & filters.group
     & ~BANNED_USERS
 )

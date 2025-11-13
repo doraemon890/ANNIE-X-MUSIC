@@ -15,44 +15,55 @@ from ANNIEMUSIC.misc import SUDOERS, mongodb
 from ANNIEMUSIC.plugins import ALL_MODULES
 from ANNIEMUSIC.utils.database import get_served_chats, get_served_users, get_sudoers
 from ANNIEMUSIC.utils.decorators.language import language, languageCB
-from ANNIEMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
+from ANNIEMUSIC.utils.inline.stats import (
+    build_stats_keyboard,
+    build_back_keyboard,
+    StatsCallbacks,
+)
 from config import BANNED_USERS
+
+
+async def _edit_media_or_reply_with_video(cbq, caption: str, reply_markup):
+    media = InputMediaVideo(media=config.STATS_VID_URL, caption=caption)
+    try:
+        await cbq.edit_message_media(media=media, reply_markup=reply_markup)
+    except MessageIdInvalid:
+        await cbq.message.reply_video(
+            video=config.STATS_VID_URL, caption=caption, reply_markup=reply_markup
+        )
 
 
 @app.on_message(filters.command(["stats", "gstats"]) & ~BANNED_USERS)
 @language
-async def stats_global(client, message: Message, _):
-    upl = stats_buttons(_, True if message.from_user.id in SUDOERS else False)
+async def open_stats(client, message: Message, _):
+    is_sudo = message.from_user and (message.from_user.id in SUDOERS)
+    keyboard = build_stats_keyboard(_, is_sudo)
     await message.reply_video(
         video=config.STATS_VID_URL,
         caption=_["gstats_2"].format(app.mention),
-        reply_markup=upl,
+        reply_markup=keyboard,
     )
 
 
-@app.on_callback_query(filters.regex("stats_back") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex(f"^{StatsCallbacks.BACK}$") & ~BANNED_USERS)
 @languageCB
-async def home_stats(client, CallbackQuery, _):
-    upl = stats_buttons(_, True if CallbackQuery.from_user.id in SUDOERS else False)
-    await CallbackQuery.edit_message_text(
-        text=_["gstats_2"].format(app.mention),
-        reply_markup=upl,
+async def handle_back_to_stats(client, callback_query, _):
+    is_sudo = callback_query.from_user and (callback_query.from_user.id in SUDOERS)
+    keyboard = build_stats_keyboard(_, is_sudo)
+    await callback_query.edit_message_text(
+        text=_["gstats_2"].format(app.mention), reply_markup=keyboard
     )
 
 
-@app.on_callback_query(filters.regex("TopOverall") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex(f"^{StatsCallbacks.SHOW_OVERVIEW}$") & ~BANNED_USERS)
 @languageCB
-async def overall_stats(client, CallbackQuery, _):
-    await CallbackQuery.answer()
-    upl = back_stats_buttons(_)
-    try:
-        await CallbackQuery.answer()
-    except:
-        pass
-    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
+async def handle_show_overview(client, callback_query, _):
+    await callback_query.answer()
+    back_keyboard = build_back_keyboard(_)
+    await callback_query.edit_message_text(_["gstats_1"].format(app.mention))
     served_chats = len(await get_served_chats())
     served_users = len(await get_served_users())
-    text = _["gstats_3"].format(
+    caption = _["gstats_3"].format(
         app.mention,
         len(assistants),
         len(BANNED_USERS),
@@ -63,73 +74,63 @@ async def overall_stats(client, CallbackQuery, _):
         config.AUTO_LEAVING_ASSISTANT,
         config.DURATION_LIMIT_MIN,
     )
-    med = InputMediaVideo(media=config.STATS_VID_URL, caption=text)
-    try:
-        await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
-    except MessageIdInvalid:
-        await CallbackQuery.message.reply_video(
-            video=config.STATS_VID_URL, caption=text, reply_markup=upl
-        )
+    await _edit_media_or_reply_with_video(callback_query, caption, back_keyboard)
 
 
-@app.on_callback_query(filters.regex("bot_stats_sudo"))
+@app.on_callback_query(filters.regex(f"^{StatsCallbacks.SHOW_BOT_STATS}$") & ~BANNED_USERS)
 @languageCB
-async def bot_stats(client, CallbackQuery, _):
-    if CallbackQuery.from_user.id not in SUDOERS:
-        return await CallbackQuery.answer(_["gstats_4"], show_alert=True)
-    upl = back_stats_buttons(_)
+async def handle_show_bot_stats(client, callback_query, _):
+    if callback_query.from_user.id not in SUDOERS:
+        return await callback_query.answer(_["gstats_4"], show_alert=True)
+    back_keyboard = build_back_keyboard(_)
     try:
-        await CallbackQuery.answer()
-    except:
+        await callback_query.answer()
+    except Exception:
         pass
-    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
-    p_core = psutil.cpu_count(logical=False)
-    t_core = psutil.cpu_count(logical=True)
-    ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " ɢʙ"
+    await callback_query.edit_message_text(_["gstats_1"].format(app.mention))
+    physical_cores = psutil.cpu_count(logical=False)
+    total_cores = psutil.cpu_count(logical=True)
+    ram_total_gb = f"{round(psutil.virtual_memory().total / (1024.0 ** 3))} ɢʙ"
     try:
-        cpu_freq = psutil.cpu_freq().current
-        if cpu_freq >= 1000:
-            cpu_freq = f"{round(cpu_freq / 1000, 2)}ɢʜᴢ"
+        freq_current = psutil.cpu_freq().current
+        if freq_current >= 1000:
+            cpu_freq = f"{round(freq_current / 1000, 2)}ɢʜᴢ"
         else:
-            cpu_freq = f"{round(cpu_freq, 2)}ᴍʜᴢ"
-    except:
+            cpu_freq = f"{round(freq_current, 2)}ᴍʜᴢ"
+    except Exception:
         cpu_freq = "ғᴀɪʟᴇᴅ ᴛᴏ ғᴇᴛᴄʜ"
-    hdd = psutil.disk_usage("/")
-    total = hdd.total / (1024.0**3)
-    used = hdd.used / (1024.0**3)
-    free = hdd.free / (1024.0**3)
-    call = await mongodb.command("dbstats")
-    datasize = call["dataSize"] / 1024
-    storage = call["storageSize"] / 1024
+    disk = psutil.disk_usage("/")
+    disk_total = str(disk.total / (1024.0 ** 3))[:4]
+    disk_used = str(disk.used / (1024.0 ** 3))[:4]
+    disk_free = str(disk.free / (1024.0 ** 3))[:4]
+    db_stats = await mongodb.command("dbstats")
+    data_size_kb = str(db_stats["dataSize"] / 1024)[:6]
+    storage_kb = db_stats["storageSize"] / 1024
+    collections = db_stats["collections"]
+    objects = db_stats["objects"]
     served_chats = len(await get_served_chats())
     served_users = len(await get_served_users())
-    text = _["gstats_5"].format(
+    caption = _["gstats_5"].format(
         app.mention,
         len(ALL_MODULES),
         platform.system(),
-        ram,
-        p_core,
-        t_core,
+        ram_total_gb,
+        physical_cores,
+        total_cores,
         cpu_freq,
         pyver.split()[0],
         pyrover,
         pytgver,
-        str(total)[:4],
-        str(used)[:4],
-        str(free)[:4],
+        disk_total,
+        disk_used,
+        disk_free,
         served_chats,
         served_users,
         len(BANNED_USERS),
         len(await get_sudoers()),
-        str(datasize)[:6],
-        storage,
-        call["collections"],
-        call["objects"],
+        data_size_kb,
+        storage_kb,
+        collections,
+        objects,
     )
-    med = InputMediaVideo(media=config.STATS_VID_URL, caption=text)
-    try:
-        await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
-    except MessageIdInvalid:
-        await CallbackQuery.message.reply_video(
-            video=config.STATS_VID_URL, caption=text, reply_markup=upl
-        )
+    await _edit_media_or_reply_with_video(callback_query, caption, back_keyboard)

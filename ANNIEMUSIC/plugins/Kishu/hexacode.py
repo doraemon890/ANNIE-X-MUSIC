@@ -23,7 +23,7 @@ async def encode_text(_, message):
 
         response_text = (
             f"𝗜𝗻𝗽𝘂𝘁 𝗧𝗲𝘅𝘁 ➪\n{input_text}\n\n"
-            f"𝗛𝗲𝘅 𝗥𝗲𝗽𝗿𝗲𝘀𝗲𝗻𝘁𝗮𝘁𝗶𝗼𝗻 ➪\n{hex_representation}\n\n"
+            f"𝗛𝗲𝘅 𝗥𝗲𝗽𝗿𝗲𝘀𝗲𝗻𝘁𝗮𝘁𝗶𝗼𝗻 ➪\n`{hex_representation}`\n\n"
             f"𝗕𝗬 ➪ @{BOT_USERNAME}"
         )
 
@@ -40,7 +40,7 @@ async def decode_hex(_, message):
 
         response_text = (
             f"𝗛𝗲𝘅 𝗜𝗻𝗽𝘂𝘁 ➪\n{hex_input}\n\n"
-            f"𝗗𝗲𝗰𝗼𝗱𝗲𝗱 𝗧𝗲𝘅𝘁 ➪\n{decoded_text}\n\n"
+            f"𝗗𝗲𝗰𝗼𝗱𝗲𝗱 𝗧𝗲𝘅𝘁 ➪\n`{decoded_text}`\n\n"
             f"𝗕𝗬 ➪ @{BOT_USERNAME}"
         )
 

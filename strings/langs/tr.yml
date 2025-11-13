@@ -337,11 +337,3 @@ gban_9 : "» {0} için global ban kaldırıldı.\n\n{1} sohbette engeli kaldır�
 gban_10 : "» Bottan global olarak engellenmiş kullanıcı yok."
 gban_11 : "» Global olarak engellenmiş kullanıcılar listesi getiriliyor..."
 gban_12 : "🙂 <b>Global olarak engellenmiş kullanıcılar :</b>\n\n"
-
-SG_B_1 : "• buraya tıkla •"
-SG_B_2 : "🎧 Ses 🎧"
-SG_B_3 : "🎥 Video 🎥"
-
-song_1 : "Yalnızca özel sohbette YouTube'dan müzik veya video indirebilirsiniz. Lütfen benimle özelden konuşmayı başlat."
-song_2 : "**Kullanım:**\n\n/song [şarkı adı] veya [youtube bağlantısı]"
-song_3 : "Canlı bağlantı algılandı. Canlı YouTube videolarını indiremiyorum."
