@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -U pip && \
     pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-CMD ["python3", "-m", "ANNIEMUSIC"]
+CMD ["python3", "-m", "AnnieXMedia"]
