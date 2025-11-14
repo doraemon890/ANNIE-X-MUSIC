@@ -16,7 +16,7 @@ from typing import Optional
 
 from pyrogram import filters, enums
 from pyrogram.errors import ChatAdminRequired, UserAdminInvalid
-from pyrogram.types import ChatPrivileges, Message
+from pyrogram.types import ChatAdministratorRights, Message
 
 from AnnieXMedia import app
 from AnnieXMedia.utils.decorator import admin_required
@@ -26,7 +26,7 @@ from AnnieXMedia.utils.permissions import extract_user_and_title, mention, parse
 # ────────────────────────────────────────────────────────────
 # Privilege presets
 # ────────────────────────────────────────────────────────────
-_LIMITED_PRIVS = ChatPrivileges(
+_LIMITED_PRIVS = ChatAdministratorRights(
     can_change_info=False,
     can_delete_messages=True,
     can_invite_users=True,
@@ -38,7 +38,7 @@ _LIMITED_PRIVS = ChatPrivileges(
     is_anonymous=False,
 )
 
-_FULL_PRIVS = ChatPrivileges(
+_FULL_PRIVS = ChatAdministratorRights(
     can_manage_chat=True,
     can_change_info=True,
     can_delete_messages=True,
@@ -50,7 +50,7 @@ _FULL_PRIVS = ChatPrivileges(
     is_anonymous=False,
 )
 
-_DEMOTE_PRIVS = ChatPrivileges(
+_DEMOTE_PRIVS = ChatAdministratorRights(
     can_change_info=False,
     can_delete_messages=False,
     can_invite_users=False,

@@ -2,6 +2,7 @@ import asyncio
 import os
 from math import ceil
 from typing import Dict, List, Tuple
+import tempfile
 
 import edge_tts
 from pyrogram import Client, filters
@@ -10,29 +11,22 @@ from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMa
 
 from AnnieXMedia import app
 
-# ---------------------------------------------------------------------------
-# Global caches & constants
-# ---------------------------------------------------------------------------
 _voice_sessions: Dict[Tuple[int, int], str] = {}
 _voices: List[dict] = []
 _languages: List[str] = []
 _VOICES_LOCK = asyncio.Lock()
 
-PER_ROW = 4          # 4 buttons per row
-PER_PAGE = 16        # 4 × 4 grid per page
-TMP_DIR = "/tmp"   # location for temporary audio / text files
+PER_ROW = 4
+PER_PAGE = 16
+TMP_DIR = tempfile.gettempdir()
 
-# ---------------------------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------------------------
 async def _init_voices() -> None:
-    """Populate the global voice cache exactly once (with coroutine safety)."""
     global _voices, _languages
-    if _voices:  # already cached
+    if _voices:
         return
 
     async with _VOICES_LOCK:
-        if _voices:  # may have been populated while waiting for the lock
+        if _voices:
             return
 
         raw = await edge_tts.list_voices()
@@ -48,7 +42,6 @@ async def _init_voices() -> None:
 
 
 def _paginate(items: List[str], page: int) -> Tuple[List[str], int]:
-    """Return the slice for *page* (1-based) and the total number of pages."""
     total = len(items)
     pages = max(1, ceil(total / PER_PAGE))
     page = max(1, min(page, pages))
@@ -62,10 +55,11 @@ def _build_keyboard(
     extra: Dict[str, str],
     page: int,
 ) -> InlineKeyboardMarkup:
-    """Build an inline keyboard for the current *step* with navigation."""
+    if not items:
+        return InlineKeyboardMarkup([])
+
     page_items, total_pages = _paginate(items, page)
 
-    # item buttons
     rows: List[List[InlineKeyboardButton]] = []
     for i in range(0, len(page_items), PER_ROW):
         chunk = page_items[i : i + PER_ROW]
@@ -82,7 +76,6 @@ def _build_keyboard(
             ]
         )
 
-    # navigation row
     nav: List[InlineKeyboardButton] = []
     if page > 1:
         nav.append(
@@ -115,21 +108,19 @@ def _session_key(chat_id: int, user_id: int) -> Tuple[int, int]:
 
 
 def _cleanup(path: str) -> None:
-    if os.path.exists(path):
-        os.remove(path)
+    if path and os.path.exists(path):
+        try:
+            os.remove(path)
+        except OSError:
+            pass
 
 
 async def _synthesize(voice: str, text: str, out_path: str) -> None:
-    """Generate an MP3 file using edge-TTS."""
     comm = edge_tts.Communicate(text=text, voice=voice)
     await comm.save(out_path)
 
-# ---------------------------------------------------------------------------
-# Commands
-# ---------------------------------------------------------------------------
 @app.on_message(filters.command("voices"))
 async def cmd_voices(client: Client, message: Message):
-    """Start interactive TTS selection."""
     if len(message.command) < 2:
         return await message.reply_text(
             "❌ Please provide the text to convert.\n\nExample: `/voices Hello world`",
@@ -138,7 +129,7 @@ async def cmd_voices(client: Client, message: Message):
 
     await _init_voices()
 
-    text = message.text.split(" ", 1)[1]
+    text = " ".join(message.command[1:])
     _voice_sessions[_session_key(message.chat.id, message.from_user.id)] = text
 
     kb = _build_keyboard(_languages, step="lang", extra={}, page=1)
@@ -151,7 +142,6 @@ async def cmd_voices(client: Client, message: Message):
 
 @app.on_message(filters.command("tts"))
 async def cmd_tts(client: Client, message: Message):
-    """Direct `/tts <voice> <text>` command."""
     if len(message.command) < 3:
         return await message.reply_text(
             "❌ Usage:\n`/tts <voice_model> <text>`\nAlternatively try `/voices` for guided selection.",
@@ -161,7 +151,7 @@ async def cmd_tts(client: Client, message: Message):
     await _init_voices()
 
     voice = message.command[1]
-    text = message.text.split(" ", 2)[2]
+    text = " ".join(message.command[2:])
 
     if not any(v["short_name"] == voice for v in _voices):
         return await message.reply_text(
@@ -169,7 +159,9 @@ async def cmd_tts(client: Client, message: Message):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    tmp = os.path.join(TMP_DIR, f"tts_{message.from_user.id}.mp3")
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
+        tmp = tmp_file.name
+
     try:
         await client.send_chat_action(message.chat.id, ChatAction.RECORD_AUDIO)
         await _synthesize(voice, text, tmp)
@@ -182,16 +174,14 @@ async def cmd_tts(client: Client, message: Message):
             reply_to_message_id=message.id,
             parse_mode=ParseMode.MARKDOWN,
         )
-    except Exception as exc:  # noqa: BLE001
-        print(f"[TTS DIRECT ERROR] {exc}")
-        await message.reply_text("⚠️ Failed to generate speech.")
+    except Exception as exc:
+        await message.reply_text(f"⚠️ Failed to generate speech: {exc}")
     finally:
         _cleanup(tmp)
 
 
 @app.on_callback_query(filters.regex(r"^tts:"))
 async def cb_tts(client: Client, callback: CallbackQuery):
-    """Inline-keyboard callback handler for the /voices workflow."""
     data = callback.data[4:]
     parts = dict(p.split("=", 1) for p in data.split("|") if "=" in p)
     step = parts.get("s")
@@ -206,17 +196,16 @@ async def cb_tts(client: Client, callback: CallbackQuery):
             "⚠️ Session expired. Send `/voices` again.", show_alert=True
         )
 
-    # -------------------- language level --------------------
     if step == "lang":
-        if "v" not in parts:  # show languages
+        if "v" not in parts:
             kb = _build_keyboard(_languages, "lang", {}, page)
-            return await callback.message.edit_text(
+            return await callback.edit_message_text(
                 "🌐 **Step 1:** Select a language",
                 reply_markup=kb,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
-        lang = parts["v"]  # language chosen → regions
+        lang = parts["v"]
         regions = sorted(
             {
                 v["locale"].split("-", 1)[1]
@@ -225,17 +214,16 @@ async def cb_tts(client: Client, callback: CallbackQuery):
             }
         )
         kb = _build_keyboard(regions, "region", {"l": lang}, 1)
-        return await callback.message.edit_text(
+        return await callback.edit_message_text(
             "🌍 **Step 2:** Select a region",
             reply_markup=kb,
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    # -------------------- region level --------------------
     if step == "region":
         lang = parts["l"]
 
-        if "v" not in parts:  # show regions
+        if "v" not in parts:
             regions = sorted(
                 {
                     v["locale"].split("-", 1)[1]
@@ -244,41 +232,40 @@ async def cb_tts(client: Client, callback: CallbackQuery):
                 }
             )
             kb = _build_keyboard(regions, "region", {"l": lang}, page)
-            return await callback.message.edit_text(
+            return await callback.edit_message_text(
                 "🌍 **Step 2:** Select a region",
                 reply_markup=kb,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
-        # region chosen → show models
         region = parts["v"]
         locale = f"{lang}-{region}"
         models = sorted([v["short_name"] for v in _voices if v["locale"] == locale])
         kb = _build_keyboard(models, "model", {"l": lang, "r": region}, 1)
-        return await callback.message.edit_text(
+        return await callback.edit_message_text(
             "🔊 **Step 3:** Choose a voice model",
             reply_markup=kb,
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    # -------------------- model level --------------------
     if step == "model":
         lang = parts["l"]
         region = parts["r"]
 
-        if "v" not in parts:  # show models
+        if "v" not in parts:
             locale = f"{lang}-{region}"
             models = sorted([v["short_name"] for v in _voices if v["locale"] == locale])
             kb = _build_keyboard(models, "model", {"l": lang, "r": region}, page)
-            return await callback.message.edit_text(
+            return await callback.edit_message_text(
                 "🔊 **Step 3:** Choose a voice model",
                 reply_markup=kb,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
-        # model chosen → synthesize
         voice = parts["v"]
-        tmp = os.path.join(TMP_DIR, f"tts_{callback.from_user.id}.mp3")
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
+            tmp = tmp_file.name
+
         try:
             await client.send_chat_action(callback.message.chat.id, ChatAction.RECORD_AUDIO)
             await _synthesize(voice, text, tmp)
@@ -288,33 +275,34 @@ async def cb_tts(client: Client, callback: CallbackQuery):
                 chat_id=callback.message.chat.id,
                 audio=tmp,
                 caption=f"🗣️ `{voice}`",
-                reply_to_message_id=callback.message.id,
+                reply_to_message_id=callback.message.reply_to_message.id if callback.message.reply_to_message else callback.message.id,
                 parse_mode=ParseMode.MARKDOWN,
             )
-        except Exception as exc:  # noqa: BLE001
-            print(f"[TTS CALLBACK ERROR] {exc}")
-            await callback.message.reply_text(f"⚠️ Generation failed:\n`{exc}`")
+            await callback.edit_message_text("✅ Audio generated successfully!")
+        except Exception as exc:
+            await callback.message.reply_text(f"⚠️ Generation failed: {exc}")
         finally:
             _cleanup(tmp)
             _voice_sessions.pop(key, None)
         return await callback.answer()
 
-    # ------------------------------------------------------------------
-    # Unknown action
     await callback.answer("🤔 Unknown action. Send /voices again.", show_alert=True)
 
 
 @app.on_message(filters.command("voiceall"))
 async def cmd_voiceall(client: Client, message: Message):
-    """Send a text file listing all voices."""
     await _init_voices()
 
+    sorted_voices = sorted(_voices, key=lambda v: v["short_name"])
     lines = [
-        f"{v['short_name']} — {v['locale']} ({v['gender']})" for v in _voices
+        f"{v['short_name']} — {v['locale']} ({v['gender']})" for v in sorted_voices
     ]
-    path = os.path.join(TMP_DIR, f"voices_{message.from_user.id}.txt")
-    with open(path, "w", encoding="utf-8") as fp:
-        fp.write("\n".join(lines))
+    
+    with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as tmp_file:
+        path = tmp_file.name
+        tmp_file.write("\n".join(lines).encode("utf-8"))
 
-    await message.reply_document(document=path, caption="📋 List of all available voices")
-    _cleanup(path)
+    try:
+        await message.reply_document(document=path, caption="📋 List of all available voices")
+    finally:
+        _cleanup(path)
