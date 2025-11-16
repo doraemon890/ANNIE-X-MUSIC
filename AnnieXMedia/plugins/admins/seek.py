@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from AnnieXMedia import YouTube, app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.misc import db
 from AnnieXMedia.utils import AdminRightsCheck, seconds_to_min
 from AnnieXMedia.utils.inline import close_markup
@@ -56,7 +56,7 @@ async def seek_comm(cli, message: Message, _, chat_id):
     if "index_" in file_path:
         file_path = playing[0]["vidid"]
     try:
-        await StreamController .seek_stream(
+        await StreamController.seek_stream(
             chat_id,
             file_path,
             seconds_to_min(to_seek),

@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from config import BANNED_USERS, adminlist
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.misc import SUDOERS, db
 from AnnieXMedia.utils import AdminRightsCheck
 from AnnieXMedia.utils.database import is_active_chat, is_nonadmin_chat
@@ -94,7 +94,7 @@ async def manage_callback(client, CallbackQuery, _):
         text=_["admin_32"].format(CallbackQuery.from_user.mention),
     )
     try:
-        await StreamController .speedup_stream(
+        await StreamController.speedup_stream(
             chat_id,
             file_path,
             speed,

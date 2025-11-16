@@ -5,7 +5,7 @@ from pyrogram.enums import ChatType
 
 import config
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController , autoend
+from AnnieXMedia.core.call import StreamController, autoend
 from AnnieXMedia.utils.database import get_client, is_active_chat, is_autoend
 
 
@@ -59,7 +59,7 @@ async def auto_end():
                     continue
                 autoend[chat_id] = {}
                 try:
-                    await StreamController .stop_stream(chat_id)
+                    await StreamController.stop_stream(chat_id)
                 except:
                     continue
                 try:

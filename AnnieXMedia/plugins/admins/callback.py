@@ -18,7 +18,7 @@ from config import (
 )
 from strings import get_string
 from AnnieXMedia import YouTube, app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.misc import SUDOERS, db
 from AnnieXMedia.utils.database import (
     get_active_chats,
@@ -150,7 +150,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_1"], show_alert=True)
         await callback.answer()
         await music_off(chat_id)
-        await StreamController .pause_stream(chat_id)
+        await StreamController.pause_stream(chat_id)
         await callback.message.reply_text(_["admin_2"].format(user_mention), reply_markup=close_markup(_))
 
     elif command == "Resume":
@@ -158,12 +158,12 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_3"], show_alert=True)
         await callback.answer()
         await music_on(chat_id)
-        await StreamController .resume_stream(chat_id)
+        await StreamController.resume_stream(chat_id)
         await callback.message.reply_text(_["admin_4"].format(user_mention), reply_markup=close_markup(_))
 
     elif command in ["Stop", "End"]:
         await callback.answer()
-        await StreamController .stop_stream(chat_id)
+        await StreamController.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await callback.message.reply_text(_["admin_5"].format(user_mention), reply_markup=close_markup(_))
         await callback.message.delete()
@@ -173,7 +173,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_45"], show_alert=True)
         await callback.answer()
         await mute_on(chat_id)
-        await StreamController .mute_stream(chat_id)
+        await StreamController.mute_stream(chat_id)
         await callback.message.reply_text(_["admin_46"].format(user_mention))
 
     elif command == "Unmute":
@@ -181,7 +181,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_47"], show_alert=True)
         await callback.answer()
         await mute_off(chat_id)
-        await StreamController .unmute_stream(chat_id)
+        await StreamController.unmute_stream(chat_id)
         await callback.message.reply_text(_["admin_48"].format(user_mention))
 
     elif command == "Loop":
@@ -230,7 +230,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
                     _["admin_6"].format(user_mention, callback.message.chat.title),
                     reply_markup=close_markup(_)
                 )
-                return await StreamController .stop_stream(chat_id)
+                return await StreamController.stop_stream(chat_id)
         except Exception:
             try:
                 await callback.edit_message_text(text_msg)
@@ -238,7 +238,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
                     _["admin_6"].format(user_mention, callback.message.chat.title),
                     reply_markup=close_markup(_)
                 )
-                return await StreamController .stop_stream(chat_id)
+                return await StreamController.stop_stream(chat_id)
             except Exception:
                 return
     else:
@@ -277,7 +277,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
         except Exception:
             image = None
         try:
-            await StreamController .skip_stream(chat_id, new_link, video=status, image=image)
+            await StreamController.skip_stream(chat_id, new_link, video=status, image=image)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         buttons = stream_markup(_, chat_id)
@@ -302,7 +302,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
         except Exception:
             image = None
         try:
-            await StreamController .skip_stream(chat_id, file_path, video=status, image=image)
+            await StreamController.skip_stream(chat_id, file_path, video=status, image=image)
         except Exception:
             return await mystic.edit_text(_["call_6"])
         buttons = stream_markup(_, chat_id)
@@ -319,7 +319,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
 
     elif "index_" in queued:
         try:
-            await StreamController .skip_stream(chat_id, videoid, video=status)
+            await StreamController.skip_stream(chat_id, videoid, video=status)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         buttons = stream_markup(_, chat_id)
@@ -341,7 +341,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
             except Exception:
                 image = None
         try:
-            await StreamController .skip_stream(chat_id, queued, video=status, image=image)
+            await StreamController.skip_stream(chat_id, queued, video=status, image=image)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         if videoid == "telegram":
@@ -414,7 +414,7 @@ async def handle_seek(callback: CallbackQuery, _, chat_id: int, command: str, us
         if n == 0:
             return await mystic.edit_text(_["admin_22"])
     try:
-        await StreamController .seek_stream(
+        await StreamController.seek_stream(
             chat_id,
             file_path,
             seconds_to_min(to_seek),

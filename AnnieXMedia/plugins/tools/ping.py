@@ -4,7 +4,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from config import *
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.utils import bot_sys_stats
 from AnnieXMedia.utils.decorators.language import language
 from AnnieXMedia.utils.inline import supp_markup
@@ -19,7 +19,7 @@ async def ping_com(client, message: Message, _):
         video=PING_VID_URL,
         caption=_["ping_1"].format(app.mention),
     )
-    pytgping = await StreamController .ping()
+    pytgping = await StreamController.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     await response.edit_text(

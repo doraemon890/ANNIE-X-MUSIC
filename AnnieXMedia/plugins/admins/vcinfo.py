@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from config import BANNED_USERS
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.utils.database import group_assistant
 from AnnieXMedia.utils.admin_filters import admin_filter
 
@@ -12,7 +12,7 @@ from AnnieXMedia.utils.admin_filters import admin_filter
 async def vc_info(client, message: Message):
     chat_id = message.chat.id
     try:
-        assistant = await group_assistant(StreamController , chat_id)
+        assistant = await group_assistant(StreamController, chat_id)
         participants = await assistant.get_participants(chat_id)
 
         if not participants:

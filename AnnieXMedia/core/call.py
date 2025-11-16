@@ -521,4 +521,4 @@ class Call:
             assistant.on_update()(unified_update_handler)
 
 
-StreamController  = Call()
+StreamController = Call()

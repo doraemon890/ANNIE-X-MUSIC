@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.utils.database import set_loop
 from AnnieXMedia.utils.decorators import AdminRightsCheck
 from AnnieXMedia.utils.inline import close_markup
@@ -16,7 +16,7 @@ from config import BANNED_USERS
 async def stop_music(cli, message: Message, _, chat_id):
     if not len(message.command) == 1:
         return
-    await StreamController .stop_stream(chat_id)
+    await StreamController.stop_stream(chat_id)
     await set_loop(chat_id, 0)
     await message.reply_text(
         _["admin_5"].format(message.from_user.mention), reply_markup=close_markup(_)

@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardMarkup
 
 import config
 from AnnieXMedia import Carbon, YouTube, app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.misc import db
 from AnnieXMedia.utils.database import add_active_video_chat, is_active_chat
 from AnnieXMedia.utils.exceptions import AssistantErr
@@ -38,7 +38,7 @@ async def stream(
     is_video = bool(video)
 
     if forceplay:
-        await StreamController .force_stop_stream(chat_id)
+        await StreamController.force_stop_stream(chat_id)
 
     if streamtype == "playlist":
         msg = f"{_['play_19']}\n\n"
@@ -88,7 +88,7 @@ async def stream(
                 if not file_path:
                     raise AssistantErr(_["play_14"])
 
-                await StreamController .join_call(
+                await StreamController.join_call(
                     chat_id,
                     original_chat_id,
                     file_path,
@@ -182,7 +182,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await StreamController .join_call(
+            await StreamController.join_call(
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -246,7 +246,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await StreamController .join_call(chat_id, original_chat_id, file_path, video=False)
+            await StreamController.join_call(chat_id, original_chat_id, file_path, video=False)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -301,7 +301,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await StreamController .join_call(chat_id, original_chat_id, file_path, video=is_video)
+            await StreamController.join_call(chat_id, original_chat_id, file_path, video=is_video)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -361,7 +361,7 @@ async def stream(
             if not file_path:
                 raise AssistantErr(_["play_14"])
 
-            await StreamController .join_call(
+            await StreamController.join_call(
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -421,7 +421,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await StreamController .join_call(
+            await StreamController.join_call(
                 chat_id,
                 original_chat_id,
                 link,

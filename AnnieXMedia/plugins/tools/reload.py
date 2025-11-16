@@ -6,7 +6,7 @@ from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import Message
 
 from AnnieXMedia import app
-from AnnieXMedia.core.call import StreamController 
+from AnnieXMedia.core.call import StreamController
 from AnnieXMedia.misc import db
 from AnnieXMedia.utils.database import get_assistant, get_authuser_names, get_cmode
 from AnnieXMedia.utils.decorators import AdminActual, language
@@ -55,7 +55,7 @@ async def restart_bot(client, message: Message, _):
 
     try:
         db[message.chat.id] = []
-        await StreamController .force_stop_stream(message.chat.id)
+        await StreamController.force_stop_stream(message.chat.id)
     except:
         pass
 
@@ -72,7 +72,7 @@ async def restart_bot(client, message: Message, _):
             userbot = await get_assistant(chat_id)
             await userbot.resolve_peer(got.username or chat_id)
             db[chat_id] = []
-            await StreamController .force_stop_stream(chat_id)
+            await StreamController.force_stop_stream(chat_id)
         except:
             pass
 
