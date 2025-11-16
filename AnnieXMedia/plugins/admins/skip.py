@@ -64,7 +64,8 @@ async def skip(cli, message: Message, _, chat_id):
         check = db.get(chat_id)
         popped = None
         try:
-            popped = check.pop(0)
+            if check:
+                popped = check.pop(0)
             if popped:
                 await auto_clean(popped)
             if not check:
@@ -89,6 +90,10 @@ async def skip(cli, message: Message, _, chat_id):
                 return await StreamController .stop_stream(chat_id)
             except:
                 return
+    
+    if not check:
+        return
+    
     queued = check[0]["file"]
     title = (check[0]["title"]).title()
     user = check[0]["by"]
