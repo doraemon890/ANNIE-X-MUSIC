@@ -73,7 +73,13 @@ async def safe_send(func, *args, **kwargs):
 async def toggle(client, m: Message):
     if len(m.command) != 2:
         return await m.reply_text("**Usage:**\n⦿/welcome [on|off]\n➤ Annie Special Welcome.....")
-    u = await client.get_chat_member(m.chat.id, m.from_user.id)
+    user_id = m.from_user.id if m.from_user else (m.sender_chat.id if m.sender_chat else None)
+    if not user_id:
+        return
+    try:
+        u = await client.get_chat_member(m.chat.id, user_id)
+    except:
+        return
     if u.status not in (enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER):
         return await m.reply_text("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴄʜᴀɴɢᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ sᴛᴀᴛᴜs!**")
     flag = m.command[1].lower()
@@ -98,7 +104,13 @@ async def welcome(client, update: ChatMemberUpdated):
     if old and old.status == enums.ChatMemberStatus.MEMBER:
         return
 
-    me = await client.get_me()
+    if not hasattr(client, "cached_me"):
+        try:
+            client.cached_me = await client.get_me()
+        except:
+            return
+    me = client.cached_me
+
     try:
         await client.get_chat_member(cid, me.id)
     except:
@@ -145,15 +157,16 @@ async def welcome(client, update: ChatMemberUpdated):
         caption=caption,
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(BTN_VIEW, url=f"tg://openmessage?user_id={user.id}")],
-            [InlineKeyboardButton(BTN_ADD, url=f"https://t.me/{client.username}?startgroup=true")],
+            [InlineKeyboardButton(BTN_ADD, url=f"https://t.me/{me.username}?startgroup=true")],
         ])
     )
 
-    last_messages.setdefault(cid, []).append(sent)
-    if len(last_messages[cid]) > WELCOME_LIMIT:
-        old_msg = last_messages[cid].pop(0)
-        if old_msg:
-            await safe_send(old_msg.delete)
+    if sent:
+        last_messages.setdefault(cid, []).append(sent)
+        if len(last_messages[cid]) > WELCOME_LIMIT:
+            old_msg = last_messages[cid].pop(0)
+            if old_msg:
+                await safe_send(old_msg.delete)
 
     async def cleanup(path):
         if path and os.path.exists(path) and not os.path.abspath(path).startswith(os.path.abspath("AnnieXMedia/assets")):
