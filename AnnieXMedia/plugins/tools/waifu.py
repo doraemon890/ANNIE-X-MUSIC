@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import requests
 from pyrogram import filters
 from pyrogram.types import Message

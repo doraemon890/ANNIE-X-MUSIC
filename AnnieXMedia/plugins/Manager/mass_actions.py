@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 """
 -------------------------------------------------------------------------
 Mass/group administration commands with owner‑only confirmation:

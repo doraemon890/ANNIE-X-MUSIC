@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from AnnieXMedia import app
 from config import SUPPORT_CHAT
 from AnnieXMedia.misc import SUDOERS

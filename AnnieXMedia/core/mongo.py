@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import MONGO_DB_URI
 from ..logging import LOGGER

@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from io import BytesIO
 from pyrogram import Client, filters
 from pyrogram.types import Message

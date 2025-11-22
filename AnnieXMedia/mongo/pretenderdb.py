@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from AnnieXMedia.core.mongo import mongodb
 
 impdb = mongodb["pretender"]

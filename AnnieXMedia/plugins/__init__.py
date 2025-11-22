@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import glob
 from os.path import dirname, isfile
 

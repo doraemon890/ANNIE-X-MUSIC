@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import os
 import asyncio
 from PIL import Image

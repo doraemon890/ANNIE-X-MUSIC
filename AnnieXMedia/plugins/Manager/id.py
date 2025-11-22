@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message

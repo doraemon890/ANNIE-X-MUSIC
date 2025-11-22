@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from .Apple import AppleAPI
 from .Carbon import CarbonAPI
 from .Resso import RessoAPI

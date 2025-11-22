@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import requests
 import os
 from pyrogram import Client, filters, enums

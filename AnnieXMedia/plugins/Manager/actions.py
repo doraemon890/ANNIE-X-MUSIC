@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 """
 -------------------------------------------------------------------------
 Single-user moderation commands with complete edge-case handling.

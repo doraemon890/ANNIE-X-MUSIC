@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from pyrogram import filters
 import random
 from AnnieXMedia import app

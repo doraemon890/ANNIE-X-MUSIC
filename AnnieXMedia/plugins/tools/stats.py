@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import platform
 from sys import version as pyver
 

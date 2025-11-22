@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from pyrogram.enums import ParseMode
 
 from AnnieXMedia import app

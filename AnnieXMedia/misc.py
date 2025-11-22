@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import socket
 import time
 import heroku3

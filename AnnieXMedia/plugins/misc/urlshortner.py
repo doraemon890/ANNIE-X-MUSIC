@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton as ikb, InlineKeyboardMarkup as ikm, Message
 from pyrogram.enums import ChatAction, ParseMode

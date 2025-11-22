@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import random
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message

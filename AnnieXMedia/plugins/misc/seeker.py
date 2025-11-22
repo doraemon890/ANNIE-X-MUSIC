@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import asyncio
 
 from AnnieXMedia.misc import db

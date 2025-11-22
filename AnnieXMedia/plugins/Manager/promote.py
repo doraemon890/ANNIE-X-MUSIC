@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 """
 -------------------------------------------------------------------------
 Promotion and demotion commands with edge‑case handling and time‑bound promotions.

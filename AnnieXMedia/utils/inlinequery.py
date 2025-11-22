@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 answer = []

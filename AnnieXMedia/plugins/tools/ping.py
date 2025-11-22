@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from datetime import datetime
 
 from pyrogram import filters

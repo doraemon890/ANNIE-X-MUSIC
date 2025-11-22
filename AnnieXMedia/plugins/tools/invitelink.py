@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import os
 from pyrogram import Client, filters
 from pyrogram.types import Message

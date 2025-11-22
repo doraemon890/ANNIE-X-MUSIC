@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 import sys
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus

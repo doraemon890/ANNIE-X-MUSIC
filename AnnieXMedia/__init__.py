@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from AnnieXMedia.core.bot import MusicBotClient
 from AnnieXMedia.core.dir import StorageManager
 from AnnieXMedia.core.git import git

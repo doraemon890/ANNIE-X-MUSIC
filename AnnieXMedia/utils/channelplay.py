@@ -1,3 +1,4 @@
+﻿# Authored By Certified Coders © 2025
 from AnnieXMedia import app
 from AnnieXMedia.utils.database import get_cmode
 
