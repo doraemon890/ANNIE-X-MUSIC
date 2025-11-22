@@ -37,4 +37,4 @@
 
 ᴀᴠᴀ ʀᴏʙᴏᴛ ɪs ʟɪᴄᴇɴsᴇᴅ ᴜɴᴅᴇʀ ᴛʜᴇ [ᴍɪᴛ ʟɪᴄᴇɴsᴇ](https://github.com/CertifiedCoders/AnnieXMusic/blob/master/LICENSE).
 
-© 2024 - 2025 [ᴅᴇᴠ](https://github.com/CertifiedCoders), ᴀʟʟ ʀɪɢʜᴛs ʀᴇsᴇʀᴠᴇᴅ
+© 2024 - 2025 [ᴅᴇᴠ](https://github.com/CertifiedCoders), ᴀʟʟ ʀɪɢʜᴛs ʀᴇsᴇʀᴠᴇᴅ.
