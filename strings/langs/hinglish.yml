@@ -86,10 +86,6 @@ admin_41 : "{0} ne loop **{1}** baar ke liye on kiya. Ab yeh gaana **{1}** baar 
 admin_42 : "Queue mein kuch bhi nahi hai shuffle karne ko."
 admin_43 : "Shuffle nahi ho paya.\n\nQueue dekh: /queue"
 admin_44 : "**{0} ne queue shuffle kar di**\n\nShuffled queue dekh: /queue"
-admin_45 : "Music already mute hai."
-admin_46 : "Voicechat mute kar diya {0} ne!"
-admin_47 : "Music already unmute hai."
-admin_48 : "Voicechat unmute kar diya {0} ne!"
 
 start_1 : "{0} zinda hai baby.\n\n<b>Uptime:</b> {1}"
 start_2 : "Arre {0}!\nMain hu {1}\n\nMere paas bohot saare mast features hai – music, image generate, translate, ban-kick-mute, welcome aur bohot kuch!\nCommands button daba ke dekh le!\n\nDeveloper: [Certified Coder](https://t.me/CertifiedCoder)"

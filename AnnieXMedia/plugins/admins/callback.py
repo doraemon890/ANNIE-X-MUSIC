@@ -1,9 +1,7 @@
 import asyncio
 import random
-
 from pyrogram import filters
-from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 from config import (
     BANNED_USERS,
     lyrical,
@@ -12,27 +10,19 @@ from config import (
     SUPPORT_CHAT,
     TELEGRAM_AUDIO_URL,
     TELEGRAM_VIDEO_URL,
-    adminlist,
-    confirmer,
-    votemode,
 )
 from strings import get_string
 from AnnieXMedia import YouTube, app
 from AnnieXMedia.core.call import StreamController
-from AnnieXMedia.misc import SUDOERS, db
+from AnnieXMedia.misc import db
 from AnnieXMedia.utils.database import (
     get_active_chats,
     get_assistant,
     get_lang,
-    get_upvote_count,
     is_active_chat,
     is_music_playing,
-    is_muted,
-    is_nonadmin_chat,
     music_off,
     music_on,
-    mute_off,
-    mute_on,
     set_loop,
 )
 from AnnieXMedia.utils.decorators import ActualAdminCB, languageCB
@@ -43,7 +33,6 @@ from AnnieXMedia.utils.thumbnails import get_thumb
 
 
 checker = {}
-upvoters = {}
 
 
 def parse_chat_info(chat_info: str):
@@ -51,55 +40,6 @@ def parse_chat_info(chat_info: str):
         parts = chat_info.split("_")
         return int(parts[0]), parts[1]
     return int(chat_info), None
-
-
-async def handle_upvote(callback: CallbackQuery, chat_id: int, counter, _):
-    message_id = callback.message.id
-
-    votemode.setdefault(chat_id, {}).setdefault(message_id, 0)
-    upvoters.setdefault(chat_id, {}).setdefault(message_id, [])
-
-    user_id = callback.from_user.id
-    if user_id in upvoters[chat_id][message_id]:
-        upvoters[chat_id][message_id].remove(user_id)
-        votemode[chat_id][message_id] -= 1
-    else:
-        upvoters[chat_id][message_id].append(user_id)
-        votemode[chat_id][message_id] += 1
-
-    required_upvotes = await get_upvote_count(chat_id)
-    current_upvotes = int(votemode[chat_id][message_id])
-    if current_upvotes >= required_upvotes:
-        votemode[chat_id][message_id] = required_upvotes
-        try:
-            stored = confirmer[chat_id][message_id]
-            current = db[chat_id][0]
-        except Exception:
-            return await callback.edit_message_text("ғᴀɪʟᴇᴅ.")
-        try:
-            if current["vidid"] != stored["vidid"] or current["file"] != stored["file"]:
-                return await callback.edit_message_text(_["admin_35"])
-        except Exception:
-            return await callback.edit_message_text(_["admin_36"])
-        try:
-            await callback.edit_message_text(_["admin_37"].format(required_upvotes))
-        except Exception:
-            pass
-        return counter if counter is not None else "UpVote", "ᴜᴘᴠᴏᴛᴇs"
-    else:
-        if user_id in upvoters[chat_id][message_id]:
-            await callback.answer(_["admin_38"], show_alert=True)
-        else:
-            await callback.answer(_["admin_39"], show_alert=True)
-        markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton(
-                text=f"👍 {current_upvotes}",
-                callback_data=f"ADMIN  UpVote|{chat_id}_{counter if counter is not None else chat_id}"
-            )]
-        ])
-        await callback.answer(_["admin_40"], show_alert=True)
-        await callback.edit_message_reply_markup(reply_markup=markup)
-        return None, None
 
 
 @app.on_callback_query(filters.regex("unban_assistant"))
@@ -119,32 +59,16 @@ async def unban_assistant(_, callback: CallbackQuery):
         )
 
 
-@app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("stream_admin") & ~BANNED_USERS)
 @languageCB
 async def manage_callback(client, callback: CallbackQuery, _):
     data = callback.data.strip().split(None, 1)[1]
     command, chat_info = data.split("|", 1)
     chat_id, counter = parse_chat_info(chat_info)
-
     if not await is_active_chat(chat_id):
         return await callback.answer(_["general_5"], show_alert=True)
-
     user_mention = callback.from_user.mention
-
-    if command == "UpVote":
-        new_command, new_mention = await handle_upvote(callback, chat_id, counter, _)
-        if new_command is None:
-            return
-        command = new_command
-        user_mention = new_mention
-    else:
-        if not await is_nonadmin_chat(callback.message.chat.id) and callback.from_user.id not in SUDOERS:
-            admins = adminlist.get(callback.message.chat.id)
-            if not admins:
-                return await callback.answer(_["admin_13"], show_alert=True)
-            if callback.from_user.id not in admins:
-                return await callback.answer(_["admin_14"], show_alert=True)
-
+    
     if command == "Pause":
         if not await is_music_playing(chat_id):
             return await callback.answer(_["admin_1"], show_alert=True)
@@ -168,22 +92,6 @@ async def manage_callback(client, callback: CallbackQuery, _):
         await callback.message.reply_text(_["admin_5"].format(user_mention), reply_markup=close_markup(_))
         await callback.message.delete()
 
-    elif command == "Mute":
-        if await is_muted(chat_id):
-            return await callback.answer(_["admin_45"], show_alert=True)
-        await callback.answer()
-        await mute_on(chat_id)
-        await StreamController.mute_stream(chat_id)
-        await callback.message.reply_text(_["admin_46"].format(user_mention))
-
-    elif command == "Unmute":
-        if not await is_muted(chat_id):
-            return await callback.answer(_["admin_47"], show_alert=True)
-        await callback.answer()
-        await mute_off(chat_id)
-        await StreamController.unmute_stream(chat_id)
-        await callback.message.reply_text(_["admin_48"].format(user_mention))
-
     elif command == "Loop":
         await callback.answer()
         await set_loop(chat_id, 3)
@@ -197,7 +105,6 @@ async def manage_callback(client, callback: CallbackQuery, _):
             popped = playlist.pop(0)
         except Exception:
             return await callback.answer(_["admin_43"], show_alert=True)
-
         if not playlist:
             playlist.insert(0, popped)
             return await callback.answer(_["admin_43"], show_alert=True)
@@ -215,7 +122,8 @@ async def manage_callback(client, callback: CallbackQuery, _):
 
 async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: str, user_mention: str):
     playlist = db.get(chat_id)
-    if not playlist:
+
+    if not playlist or len(playlist) == 0:
         return await callback.answer(_["queue_2"], show_alert=True)
 
     if command == "Skip":
@@ -232,21 +140,18 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
                 )
                 return await StreamController.stop_stream(chat_id)
         except Exception:
-            try:
-                await callback.edit_message_text(text_msg)
-                await callback.message.reply_text(
-                    _["admin_6"].format(user_mention, callback.message.chat.title),
-                    reply_markup=close_markup(_)
-                )
-                return await StreamController.stop_stream(chat_id)
-            except Exception:
-                return
+            await callback.edit_message_text(text_msg)
+            await callback.message.reply_text(
+                _["admin_6"].format(user_mention, callback.message.chat.title),
+                reply_markup=close_markup(_)
+            )
+            return await StreamController.stop_stream(chat_id)
     else:
-        text_msg = f"➻ sᴛʀᴇᴀᴍ ʀᴇ-ᴘʟᴀʏᴇᴅ 🎄\n│ \n└ʙʏ : {user_mention} 🥀"
+        text_msg = f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {user_mention} 🥀"
 
     await callback.answer()
 
-    if not playlist:
+    if len(playlist) == 0:
         return await callback.answer(_["queue_2"], show_alert=True)
 
     current_track = playlist[0]
@@ -377,7 +282,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
 
 async def handle_seek(callback: CallbackQuery, _, chat_id: int, command: str, user_mention: str):
     playing = db.get(chat_id)
-    if not playing:
+    if not playing or len(playing) == 0:
         return await callback.answer(_["queue_2"], show_alert=True)
     duration_seconds = int(playing[0]["seconds"])
     if duration_seconds == 0:
@@ -406,7 +311,6 @@ async def handle_seek(callback: CallbackQuery, _, chat_id: int, command: str, us
                 show_alert=True
             )
         to_seek = duration_played + duration_to_skip + 1
-
     await callback.answer()
     mystic = await callback.message.reply_text(_["admin_24"])
     if "vid_" in file_path:
@@ -469,10 +373,10 @@ async def markup_timer():
             except Exception:
                 continue
 
+
 asyncio.create_task(markup_timer())
 
 
-# ── Close Button Callback ──
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
 async def close_menu(_, query: CallbackQuery):
     try:
@@ -483,19 +387,16 @@ async def close_menu(_, query: CallbackQuery):
         await msg.delete()
     except:
         pass
-    
 
-# ── Stop Download Callback ──
+
 @app.on_callback_query(filters.regex("stop_downloading") & ~BANNED_USERS)
 @ActualAdminCB
 async def stop_download(_, query: CallbackQuery, _lang):
     task = lyrical.get(query.message.id)
     if not task:
         return await query.answer(_lang["tg_4"], show_alert=True)
-
     if task.done() or task.cancelled():
         return await query.answer(_lang["tg_5"], show_alert=True)
-
     try:
         task.cancel()
         lyrical.pop(query.message.id, None)

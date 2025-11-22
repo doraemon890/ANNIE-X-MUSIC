@@ -9,7 +9,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
+from youtubesearchpython.__future__ import VideosSearch, Playlist
 
 from AnnieXMedia.utils.cookie_handler import COOKIE_PATH
 from AnnieXMedia.utils.database import is_on_off
@@ -120,9 +120,9 @@ class YouTubeAPI:
             entities = (msg.entities or []) + (msg.caption_entities or [])
             for ent in entities:
                 if ent.type == MessageEntityType.URL:
-                    return text[ent.offset: ent.offset + ent.length]
+                    return text[ent.offset: ent.offset + ent.length].split("&si")[0]
                 if ent.type == MessageEntityType.TEXT_LINK:
-                    return ent.url
+                    return ent.url.split("&si")[0]
         return None
 
     async def _ensure_watch_url(self, maybe_query_or_url: str) -> Optional[str]:
@@ -175,7 +175,7 @@ class YouTubeAPI:
         ds = int(time_to_seconds(dt)) if dt else 0
         thumb = (
             info.get("thumbnail")
-            or info.get("thumbnails", [{}])[0].get("url", "")
+            or info.get("thumbnails", [{}])[-1].get("url", "")
         ).split("?")[0]
 
         return info.get("title", ""), dt, ds, thumb, info.get("id", "")
@@ -195,7 +195,7 @@ class YouTubeAPI:
         info = await self._fetch_video_info(self._prepare_link(link, videoid))
         return (
             info.get("thumbnail")
-            or info.get("thumbnails", [{}])[0].get("url", "")
+            or info.get("thumbnails", [{}])[-1].get("url", "")
         ).split("?")[0] if info else ""
 
     @capture_internal_err
@@ -236,7 +236,7 @@ class YouTubeAPI:
 
         thumb = (
             info.get("thumbnail")
-            or info.get("thumbnails", [{}])[0].get("url", "")
+            or info.get("thumbnails", [{}])[-1].get("url", "")
         ).split("?")[0]
 
         details = {
@@ -273,6 +273,14 @@ class YouTubeAPI:
         if videoid:
             link = self.playlist_url + str(videoid)
         link = self._prepare_link(link).split("&")[0]
+
+        try:
+            plist = await Playlist.get(link)
+            items = [video.get("id") for video in plist.get("videos", [])[:limit] if video.get("id")]
+            if items:
+                return items
+        except Exception:
+            pass
 
         stdout, _ = await _exec_proc(
             "yt-dlp",
@@ -353,7 +361,7 @@ class YouTubeAPI:
         return (
             r.get("title", ""),
             r.get("duration"),
-            r.get("thumbnails", [{}])[0].get("url", "").split("?")[0],
+            r.get("thumbnails", [{}])[-1].get("url", "").split("?")[0],
             r.get("id", ""),
         )
 

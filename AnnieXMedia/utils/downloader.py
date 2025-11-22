@@ -11,7 +11,7 @@ from aiohttp import TCPConnector
 from yt_dlp import YoutubeDL
 
 from AnnieXMedia.core.dir import CACHE_DIR, DOWNLOAD_DIR
-from AnnieXMedia.utils.cookie_handler import COOKIE_PATH
+from AnnieXMedia.utils.cookie_handler import COOKIE_PATH as _COOKIES_FILE
 from AnnieXMedia.utils.tuning import CHUNK_SIZE, SEM
 from config import API_KEY, API_URL, VIDEO_API_URL
 from AnnieXMedia.logging import LOGGER
@@ -20,22 +20,11 @@ LOGGER = LOGGER(__name__)
 
 USE_AUDIO_API = bool(API_URL and API_KEY)
 USE_VIDEO_API = bool(VIDEO_API_URL and API_KEY)
-_COOKIES_FILE = str(COOKIE_PATH)
 _inflight: Dict[str, asyncio.Future] = {}
 _inflight_lock = asyncio.Lock()
 _session: Optional[aiohttp.ClientSession] = None
 _session_lock = asyncio.Lock()
 YOUTUBE_ID_RE = re.compile(r"^[a-zA-Z0-9_-]{11}$")
-
-
-class _SilentLogger:
-    def debug(self, msg: str) -> None: ...
-    def info(self, msg: str) -> None: ...
-    def warning(self, msg: str) -> None: ...
-    def error(self, msg: str) -> None: ...
-
-
-_YDL_LOGGER = _SilentLogger()
 
 
 def log_download_source(title: str, source: str) -> None:
@@ -91,7 +80,7 @@ def get_ytdlp_base_opts() -> Dict[str, object]:
         "fragment_retries": 1,
         "cachedir": str(CACHE_DIR),
         "ignoreerrors": True,
-        "logger": _YDL_LOGGER,
+        "merge_output_format": "mp4"
     }
     if cookiefile := get_cookie_file():
         opts["cookiefile"] = cookiefile
@@ -158,7 +147,7 @@ async def api_download_audio(link: str) -> Optional[str]:
                 if status != "done":
                     return None
                 dl_url = data.get("link")
-                fmt = str(data.get("format", "mp3")).lower()
+                fmt = data.get("format", "webm")
                 out_path = f"{DOWNLOAD_DIR}/{vid}.{fmt}"
                 return await download_file(dl_url, out_path)
     except Exception:
@@ -186,7 +175,7 @@ async def api_download_video(link: str) -> Optional[str]:
                 if status != "done":
                     return None
                 dl_url = data.get("link")
-                fmt = str(data.get("format", "mp4")).lower()
+                fmt = data.get("format", "mp4")
                 out_path = f"{DOWNLOAD_DIR}/{vid}.{fmt}"
                 return await download_file(dl_url, out_path)
     except Exception:
@@ -289,7 +278,7 @@ async def yt_dlp_download(link: str, type: str, title: str = "") -> Optional[str
         async def run():
             ytdlp_task = asyncio.create_task(
                 run_with_semaphore(
-                    loop.run_in_executor(None, download_with_ytdlp_sync, link, "bestaudio/best")
+                    loop.run_in_executor(None, download_with_ytdlp_sync, link, "bestaudio[ext=webm][acodec=opus]")
                 )
             )
             api_task = asyncio.create_task(api_download_audio(link)) if USE_AUDIO_API else None
@@ -302,13 +291,13 @@ async def yt_dlp_download(link: str, type: str, title: str = "") -> Optional[str
 
         return await deduplicate_download(key, run)
 
-    if type == "video":
+    elif type == "video":
         key = f"video:{link}"
 
         async def run():
             ytdlp_task = asyncio.create_task(
                 run_with_semaphore(
-                    loop.run_in_executor(None, download_with_ytdlp_sync, link, "best[height<=?720]/best")
+                    loop.run_in_executor(None, download_with_ytdlp_sync, link, "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio)")
                 )
             )
             api_task = asyncio.create_task(api_download_video(link)) if USE_VIDEO_API else None

@@ -103,7 +103,7 @@ AYUV = [
 
 # ── Runtime structures ─────────────────────────────────────────────────────────
 BANNED_USERS = filters.user()
-adminlist, lyrical, votemode, autoclean, confirmer = {}, {}, {}, [], {}
+adminlist, lyrical, autoclean, confirmer = {}, {}, [], {}
 
 # ── Minimal validation ─────────────────────────────────────────────────────────
 if SUPPORT_CHANNEL and not re.match(r"^https?://", SUPPORT_CHANNEL):
