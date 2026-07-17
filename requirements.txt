@@ -1,4 +1,4 @@
-aiofiles
+Aiofiles
 aiohttp
 apscheduler
 asyncio
@@ -40,5 +40,5 @@ telegraph
 pytgcrypto
 unidecode
 wget
-yt-dlp[default]==2025.12.8
-git+https://github.com/CertifiedCoders/youtube-search-python
+yt-dlp[default]
+youtube-search-python
